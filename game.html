@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EvoCraft - Spielen</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/game.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="game-body">
+    <!-- Header -->
+    <header class="header game-header">
+        <nav class="nav">
+            <div class="nav-logo">
+                <img src="assets/logo.svg" alt="EvoCraft" class="logo">
+                <span class="logo-text">EvoCraft</span>
+            </div>
+            <div class="game-controls">
+                <button class="control-btn" id="save-btn">💾 Speichern</button>
+                <button class="control-btn" id="sound-btn">🔊 Sound</button>
+                <button class="control-btn" id="fullscreen-btn">⛶ Vollbild</button>
+                <a href="index.html" class="control-btn">← Zurück</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Game Interface -->
+    <main class="game-main">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3>Aktuell verfügbar</h3>
+                <div class="elements-grid" id="available-elements">
+                    <div class="element" data-element="fire">🔥 Feuer</div>
+                    <div class="element" data-element="water">💧 Wasser</div>
+                    <div class="element" data-element="earth">🌍 Erde</div>
+                    <div class="element" data-element="air">💨 Luft</div>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>Epoche wählen</h3>
+                <select class="epoch-select" id="epoch-select">
+                    <option value="primordial">Urzeit</option>
+                    <option value="stone">Steinzeit</option>
+                    <option value="bronze">Bronzezeit (🔒)</option>
+                    <option value="iron">Eisenzeit (🔒)</option>
+                </select>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>Fortschritt</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 15%"></div>
+                </div>
+                <p class="progress-text">4 von 28 Items entdeckt</p>
+            </div>
+        </aside>
+
+        <!-- Game Canvas -->
+        <div class="game-canvas">
+            <div class="crafting-area" id="crafting-area">
+                <div class="drop-zone" id="drop-zone-1">
+                    <span class="drop-hint">Element 1 hier ablegen</span>
+                </div>
+                <div class="combine-symbol">+</div>
+                <div class="drop-zone" id="drop-zone-2">
+                    <span class="drop-hint">Element 2 hier ablegen</span>
+                </div>
+                <div class="combine-button">
+                    <button id="combine-btn" disabled>Kombinieren</button>
+                </div>
+                <div class="result-area" id="result-area">
+                    <div class="result-placeholder">
+                        <span>Ergebnis erscheint hier</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventory Panel -->
+        <aside class="inventory-panel">
+            <div class="sidebar-section">
+                <h3>Inventar</h3>
+                <div class="inventory-grid" id="inventory">
+                    <div class="inventory-slot empty">
+                        <span>Leer</span>
+                    </div>
+                    <div class="inventory-slot empty">
+                        <span>Leer</span>
+                    </div>
+                    <div class="inventory-slot empty">
+                        <span>Leer</span>
+                    </div>
+                    <div class="inventory-slot empty">
+                        <span>Leer</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>Hinweise</h3>
+                <div class="hints" id="hints">
+                    <p>🔥 + 💧 = ?</p>
+                    <p>Versuche verschiedene Kombinationen!</p>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>Letzte Entdeckung</h3>
+                <div class="last-discovery" id="last-discovery">
+                    <div class="discovery-item">
+                        <span class="discovery-icon">❓</span>
+                        <span class="discovery-name">Noch keine Entdeckung</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Timeline -->
+    <footer class="timeline">
+        <div class="timeline-content">
+            <div class="timeline-epoch active">
+                <span class="epoch-icon">🌋</span>
+                <span class="epoch-name">Urzeit</span>
+            </div>
+            <div class="timeline-epoch locked">
+                <span class="epoch-icon">🗿</span>
+                <span class="epoch-name">Steinzeit</span>
+            </div>
+            <div class="timeline-epoch locked">
+                <span class="epoch-icon">⚔️</span>
+                <span class="epoch-name">Bronzezeit</span>
+            </div>
+            <div class="timeline-epoch locked">
+                <span class="epoch-icon">🏛️</span>
+                <span class="epoch-name">Eisenzeit</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/game.js"></script>
+</body>
+</html>
