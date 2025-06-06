@@ -1,17 +1,12 @@
-/* Game-spezifische Styles */
+/* Game-spezifische Styles mit neuer Farbpalette */
 .game-body {
-    background: linear-gradient(135deg, #1e3a8a 0%, #1f2937 100%);
-    min-height: 100vh;
+    background: var(--bg-primary);
     overflow: hidden;
 }
 
 .game-header {
-    background: rgba(31, 41, 55, 0.95);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.game-header .logo-text {
-    color: var(--white);
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .game-controls {
@@ -21,39 +16,118 @@
 }
 
 .control-btn {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--white);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--accent-primary);
+    color: var(--bg-primary);
+    border: none;
     padding: 8px 16px;
     border-radius: var(--radius-md);
-    text-decoration: none;
-    cursor: pointer;
-    transition: var(--transition-fast);
     font-size: 0.9rem;
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    text-decoration: none;
+    display: inline-block;
 }
 
 .control-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
 }
 
-/* Game Layout */
+/* Wartungsmeldung */
+.maintenance-notice {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.maintenance-content {
+    text-align: center;
+    max-width: 600px;
+    padding: 40px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-xl);
+}
+
+.maintenance-icon {
+    font-size: 4rem;
+    margin-bottom: 24px;
+    filter: drop-shadow(0 0 20px rgba(255, 159, 28, 0.5));
+}
+
+.maintenance-content h2 {
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 16px;
+}
+
+.maintenance-content p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 32px;
+    line-height: 1.6;
+}
+
+.maintenance-progress {
+    background: var(--bg-primary);
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+}
+
+.maintenance-progress .progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-hover);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.maintenance-progress .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px rgba(0, 212, 122, 0.5);
+}
+
+.maintenance-progress .progress-text {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-medium);
+}
+
+/* Game Interface (versteckt während Wartung) */
 .game-main {
     display: grid;
-    grid-template-columns: 280px 1fr 280px;
-    height: calc(100vh - 80px);
-    margin-top: 80px;
-    gap: 20px;
-    padding: 20px;
+    grid-template-columns: 300px 1fr 300px;
+    height: calc(100vh - 72px);
+    margin-top: 72px;
+    gap: 0;
 }
 
-/* Sidebar */
-.sidebar {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border-radius: var(--radius-xl);
-    padding: 24px;
+.sidebar, .inventory-panel {
+    background: var(--bg-secondary);
+    padding: 20px;
     overflow-y: auto;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid var(--border-color);
+}
+
+.inventory-panel {
+    border-right: none;
+    border-left: 1px solid var(--border-color);
 }
 
 .sidebar-section {
@@ -61,10 +135,12 @@
 }
 
 .sidebar-section h3 {
-    color: var(--white);
+    color: var(--text-primary);
     font-size: 1.1rem;
     font-weight: var(--font-weight-semibold);
     margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .elements-grid {
@@ -74,130 +150,132 @@
 }
 
 .element {
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid transparent;
+    background: var(--bg-primary);
     padding: 12px 8px;
-    text-align: center;
     border-radius: var(--radius-md);
-    cursor: grab;
-    transition: var(--transition-fast);
-    color: var(--white);
+    text-align: center;
     font-size: 0.9rem;
-    user-select: none;
+    color: var(--text-primary);
+    cursor: grab;
+    transition: var(--transition-normal);
+    border: 1px solid var(--border-color);
 }
 
 .element:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: var(--neon-green);
+    background: var(--bg-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
-.element:active {
-    cursor: grabbing;
-    transform: scale(0.95);
+.element.pulsing {
+    animation: elementPulse 2s ease-in-out infinite;
 }
 
-.epoch-select {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--white);
-    padding: 12px;
-    border-radius: var(--radius-md);
-    cursor: pointer;
+@keyframes elementPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
 }
 
-.progress-bar {
-    width: 100%;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 8px;
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--neon-green), var(--bronze));
-    border-radius: 4px;
-    transition: width 0.5s ease;
-}
-
-.progress-text {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.9rem;
-}
-
-/* Game Canvas */
 .game-canvas {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border-radius: var(--radius-xl);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-primary);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
 }
 
+.cosmic-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(0, 212, 122, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(87, 154, 255, 0.1) 0%, transparent 50%);
+    animation: cosmicFlow 10s linear infinite;
+}
+
+@keyframes cosmicFlow {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.1); }
+}
+
 .crafting-area {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    grid-template-rows: 1fr auto 1fr;
-    gap: 40px;
-    align-items: center;
-    justify-items: center;
-    width: 100%;
-    max-width: 600px;
+    z-index: 10;
+    text-align: center;
     padding: 40px;
+    background: rgba(28, 28, 34, 0.8);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
+}
+
+.crafting-title h2 {
+    color: var(--text-primary);
+    font-size: 1.8rem;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 32px;
+}
+
+.drop-zones-container {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 32px;
 }
 
 .drop-zone {
-    grid-row: 1;
     width: 120px;
     height: 120px;
-    border: 3px dashed rgba(255, 255, 255, 0.3);
-    border-radius: var(--radius-xl);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-lg);
     display: flex;
     align-items: center;
     justify-content: center;
+    background: var(--bg-primary);
     transition: var(--transition-normal);
     position: relative;
 }
 
-.drop-zone.drag-over {
-    border-color: var(--neon-green);
-    background: rgba(16, 185, 129, 0.1);
-}
-
-.drop-zone.filled {
-    border-color: var(--neon-green);
-    background: rgba(16, 185, 129, 0.2);
+.drop-zone:hover {
+    border-color: var(--accent-primary);
+    background: rgba(0, 212, 122, 0.05);
 }
 
 .drop-hint {
-    color: rgba(255, 255, 255, 0.6);
-    text-align: center;
+    color: var(--text-secondary);
     font-size: 0.9rem;
-    padding: 8px;
+    font-weight: var(--font-weight-medium);
 }
 
 .combine-symbol {
-    grid-row: 1;
-    grid-column: 2;
-    color: var(--white);
     font-size: 2rem;
-    font-weight: var(--font-weight-bold);
+    color: var(--accent-primary);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--accent-primary);
+    position: relative;
 }
 
-.combine-button {
-    grid-row: 2;
-    grid-column: 1 / -1;
+.combine-symbol.pulsing {
+    animation: combinePulse 1.5s ease-in-out infinite;
 }
 
-.combine-button button {
-    background: var(--neon-green);
-    color: var(--white);
+@keyframes combinePulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 212, 122, 0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0, 212, 122, 0); }
+}
+
+.experiment-btn {
+    background: var(--accent-primary);
+    color: var(--bg-primary);
     border: none;
     padding: 16px 32px;
     border-radius: var(--radius-lg);
@@ -205,104 +283,37 @@
     font-weight: var(--font-weight-semibold);
     cursor: pointer;
     transition: var(--transition-normal);
-    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
 }
 
-.combine-button button:disabled {
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.5);
+.experiment-btn:disabled {
+    background: var(--bg-hover);
+    color: var(--text-secondary);
     cursor: not-allowed;
 }
 
-.combine-button button:not(:disabled):hover {
-    background: #059669;
+.experiment-btn:not(:disabled):hover {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
     transform: translateY(-2px);
-    box-shadow: var(--shadow-xl);
+    box-shadow: var(--shadow-glow);
 }
 
 .result-area {
-    grid-row: 3;
-    grid-column: 1 / -1;
-    width: 160px;
-    height: 160px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: var(--radius-xl);
+    margin-top: 32px;
+    min-height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.05);
 }
 
 .result-placeholder {
-    color: rgba(255, 255, 255, 0.6);
-    text-align: center;
-    font-size: 0.9rem;
-}
-
-/* Inventory Panel */
-.inventory-panel {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border-radius: var(--radius-xl);
-    padding: 24px;
-    overflow-y: auto;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.inventory-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-}
-
-.inventory-slot {
-    aspect-ratio: 1;
-    border: 2px dashed rgba(255, 255, 255, 0.2);
-    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-style: italic;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.8rem;
-    text-align: center;
-    transition: var(--transition-fast);
-}
-
-.inventory-slot.filled {
-    border-color: var(--bronze);
-    background: rgba(205, 127, 50, 0.2);
-    color: var(--white);
-}
-
-.hints {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.9rem;
-    line-height: 1.6;
-}
-
-.hints p {
-    margin-bottom: 8px;
-}
-
-.last-discovery {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: var(--radius-md);
-    padding: 16px;
-}
-
-.discovery-item {
-    display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 12px;
-    color: var(--white);
-}
-
-.discovery-icon {
-    font-size: 1.5rem;
-}
-
-.discovery-name {
-    font-size: 0.9rem;
 }
 
 /* Timeline */
@@ -311,16 +322,16 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(31, 41, 55, 0.95);
-    backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
     padding: 16px 0;
+    z-index: 100;
 }
 
 .timeline-content {
     display: flex;
     justify-content: center;
-    gap: 60px;
+    gap: 40px;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
@@ -332,21 +343,23 @@
     align-items: center;
     gap: 8px;
     cursor: pointer;
-    transition: var(--transition-fast);
-    opacity: 0.6;
+    transition: var(--transition-normal);
+    padding: 12px;
+    border-radius: var(--radius-md);
 }
 
 .timeline-epoch.active {
-    opacity: 1;
+    background: rgba(0, 212, 122, 0.1);
+    color: var(--accent-primary);
 }
 
 .timeline-epoch.locked {
-    opacity: 0.3;
+    opacity: 0.5;
     cursor: not-allowed;
 }
 
 .timeline-epoch:not(.locked):hover {
-    opacity: 1;
+    background: var(--bg-hover);
     transform: translateY(-2px);
 }
 
@@ -355,74 +368,55 @@
 }
 
 .epoch-name {
-    color: var(--white);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-    .game-main {
-        grid-template-columns: 240px 1fr 240px;
-    }
+.timeline-epoch.active .epoch-name {
+    color: var(--accent-primary);
 }
 
+/* Responsive Design für Game */
 @media (max-width: 1024px) {
     .game-main {
         grid-template-columns: 1fr;
         grid-template-rows: auto 1fr auto;
-        height: auto;
-        min-height: calc(100vh - 140px);
     }
     
-    .sidebar,
-    .inventory-panel {
-        margin: 0;
-    }
-    
-    .crafting-area {
-        padding: 20px;
-        gap: 20px;
-    }
-    
-    .drop-zone {
-        width: 100px;
-        height: 100px;
-    }
-    
-    .result-area {
-        width: 120px;
-        height: 120px;
+    .sidebar, .inventory-panel {
+        border-right: none;
+        border-left: none;
+        border-bottom: 1px solid var(--border-color);
     }
     
     .timeline-content {
-        gap: 30px;
+        gap: 20px;
+    }
+    
+    .timeline-epoch {
+        padding: 8px;
     }
 }
 
 @media (max-width: 768px) {
-    .game-controls {
-        gap: 8px;
+    .maintenance-content {
+        margin: 20px;
+        padding: 30px;
     }
     
-    .control-btn {
-        padding: 6px 12px;
-        font-size: 0.8rem;
+    .maintenance-content h2 {
+        font-size: 1.5rem;
     }
     
-    .elements-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .inventory-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .timeline-content {
+    .drop-zones-container {
+        flex-direction: column;
         gap: 20px;
     }
     
-    .epoch-name {
-        font-size: 0.8rem;
+    .timeline-content {
+        gap: 12px;
+        overflow-x: auto;
+        justify-content: flex-start;
     }
 }
