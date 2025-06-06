@@ -29,8 +29,23 @@
         </nav>
     </header>
 
-    <!-- Game Interface -->
-    <main class="game-main">
+    <!-- Wartungsmeldung -->
+    <div class="maintenance-notice">
+        <div class="maintenance-content">
+            <div class="maintenance-icon">🔧</div>
+            <h2>Aus Wartungszwecken nicht verfügbar</h2>
+            <p>Das Spiel wird gerade weiterentwickelt und ist temporär nicht spielbar. Schaue bald wieder vorbei!</p>
+            <div class="maintenance-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 75%"></div>
+                </div>
+                <span class="progress-text">Entwicklungsfortschritt: 75%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Interface (versteckt während Wartung) -->
+    <main class="game-main" style="display: none;">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-section">
@@ -163,7 +178,7 @@
     </main>
 
     <!-- Evolution Timeline -->
-    <footer class="timeline">
+    <footer class="timeline" style="display: none;">
         <div class="timeline-background"></div>
         <div class="timeline-content">
             <div class="timeline-epoch active" data-epoch="primordial">
@@ -201,4 +216,4 @@
 
     <script src="scripts/game.js"></script>
 </body>
-</html>
+                        </html>
