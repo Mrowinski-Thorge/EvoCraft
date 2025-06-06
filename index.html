@@ -1,1 +1,172 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EvoCraft - Vom Nichts zur Zivilisation</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-logo">
+                <img src="assets/logo.svg" alt="EvoCraft" class="logo">
+                <span class="logo-text">EvoCraft</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Start</a></li>
+                <li><a href="game.html" class="nav-link">Spiel</a></li>
+                <li><a href="epochs.html" class="nav-link">Epochen</a></li>
+                <li><a href="faq.html" class="nav-link">FAQ</a></li>
+                <li><a href="contact.html" class="nav-link">Kontakt</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
 
+    <!-- Hero Section -->
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-background">
+                <div class="stars"></div>
+                <div class="galaxy"></div>
+            </div>
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="title-line">Vom Nichts</span>
+                    <span class="title-line">zur Zivilisation</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Erschaffe deine eigene Welt durch die Macht des Craftings. 
+                    Kombiniere Elemente, entwickle Technologien und führe die Menschheit durch alle Zeitalter.
+                </p>
+                <button class="cta-button" onclick="window.location.href='game.html'">
+                    <span>Spiel starten</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">Was ist EvoCraft?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🧪</div>
+                        <h3>Intuitives Crafting</h3>
+                        <p>Kombiniere Grundelemente durch einfache Drag & Drop Mechaniken. Entdecke über 500 einzigartige Kombinationen.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⏳</div>
+                        <h3>Epochen durchleben</h3>
+                        <p>Von der Steinzeit bis zur Raumfahrt - erlebe die Evolution der Menschheit in 12 detaillierten Zeitaltern.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏆</div>
+                        <h3>Fortschritt verfolgen</h3>
+                        <p>Verfolge deine Entdeckungen, schalte neue Epochen frei und sammle seltene Achievements.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How it Works -->
+        <section class="how-it-works">
+            <div class="container">
+                <h2 class="section-title">Wie funktioniert es?</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Elemente wählen</h3>
+                        <p>Beginne mit den vier Grundelementen: Feuer, Wasser, Erde und Luft.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Kombinieren</h3>
+                        <p>Ziehe Elemente zusammen und entdecke neue Materialien und Technologien.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Entwickeln</h3>
+                        <p>Nutze deine Entdeckungen, um komplexere Items zu erschaffen und neue Epochen freizuschalten.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Preview -->
+        <section class="preview">
+            <div class="container">
+                <h2 class="section-title">Vorschau</h2>
+                <div class="preview-content">
+                    <div class="preview-image">
+                        <img src="assets/game-preview.png" alt="EvoCraft Spielvorschau">
+                    </div>
+                    <div class="preview-text">
+                        <h3>Entdecke unendliche Möglichkeiten</h3>
+                        <ul>
+                            <li>Über 500 einzigartige Items zum Entdecken</li>
+                            <li>12 historische Epochen von der Steinzeit bis zur Zukunft</li>
+                            <li>Intuitive Touch- und Maus-Steuerung</li>
+                            <li>Automatisches Speichern deines Fortschritts</li>
+                            <li>Responsive Design für alle Geräte</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="assets/logo.svg" alt="EvoCraft" class="footer-logo">
+                    <p>Erschaffe deine eigene Welt</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-group">
+                        <h4>Spiel</h4>
+                        <a href="game.html">Spielen</a>
+                        <a href="epochs.html">Epochen</a>
+                        <a href="faq.html">Hilfe</a>
+                    </div>
+                    <div class="footer-group">
+                        <h4>Rechtliches</h4>
+                        <a href="privacy.html">Datenschutz</a>
+                        <a href="imprint.html">Impressum</a>
+                    </div>
+                    <div class="footer-group">
+                        <h4>Entwicklung</h4>
+                        <a href="https://github.com/Mrowinski-Thorge/EvoCraft" target="_blank">GitHub</a>
+                        <a href="contact.html">Kontakt</a>
+                    </div>
+                </div>
+                <div class="footer-language">
+                    <select class="language-select">
+                        <option value="de">Deutsch</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 EvoCraft. Alle Rechte vorbehalten.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/main.js"></script>
+</body>
+</html>
