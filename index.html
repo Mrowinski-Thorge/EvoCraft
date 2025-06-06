@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolution Craft - Von der Steinzeit in die Zukunft</title>
+    <style>
+        /* Apple-inspiriertes Design */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f2f2f7;
+            color: #1c1c1e;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .epoch-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .epoch-name {
+            font-size: 20px;
+            font-weight: 500;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-container {
+            width: 100%;
+            max-width: 300px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: white;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Hauptcontainer */
+        .main-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            height: calc(100vh - 150px);
+            gap: 20px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #1c1c1e;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            background: #f2f2f7;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            background: #e5e5ea;
+            transform: scale(1.02);
+        }
+
+        .element-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .element-item {
+            background: #f2f2f7;
+            padding: 15px;
+            border-radius: 12px;
+            cursor: grab;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+        }
+
+        .element-item:hover {
+            background: #e5e5ea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .element-item.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .element-icon {
+            font-size: 24px;
+        }
+
+        /* Crafting Area */
+        .crafting-area {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            position: relative;
+        }
+
+        .drop-zone {
+            display: grid;
+            grid-template-columns: repeat(2, 150px);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .drop-slot {
+            width: 150px;
+            height: 150px;
+            background: #f2f2f7;
+            border: 3px dashed #c7c7cc;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .drop-slot.drag-over {
+            background: #e5e5ea;
+            border-color: #007aff;
+            transform: scale(1.05);
+        }
+
+        .drop-slot .element-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .drop-slot .element-name {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .craft-button {
+            background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
+        }
+
+        .craft-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+        }
+
+        .craft-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Neue Entdeckung Animation */
+        .discovery-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            text-align: center;
+            animation: bounceIn 0.5s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            60% { transform: translate(-50%, -50%) scale(1.2); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .discovery-icon {
+            font-size: 72px;
+            margin-bottom: 20px;
+        }
+
+        .discovery-name {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1c1c1e;
+            margin-bottom: 10px;
+        }
+
+        .discovery-description {
+            font-size: 18px;
+            color: #8e8e93;
+        }
+
+        /* Epochen-Farben */
+        .epoch-stone { background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%); }
+        .epoch-ancient { background: linear-gradient(135deg, #DAA520 0%, #FFD700 100%); }
+        .epoch-medieval { background: linear-gradient(135deg, #4B0082 0%, #8B008B 100%); }
+        .epoch-industrial { background: linear-gradient(135deg, #708090 0%, #2F4F4F 100%); }
+        .epoch-future { background: linear-gradient(135deg, #00CED1 0%, #4169E1 100%); }
+
+        /* Reset Button */
+        .reset-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #ff3b30;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .reset-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(255, 59, 48, 0.3);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            .sidebar {
+                order: 2;
+                max-height: 300px;
+            }
+
+            .crafting-area {
+                order: 1;
+                min-height: 300px;
+            }
+
+            .drop-zone {
+                grid-template-columns: repeat(2, 120px);
+                gap: 20px;
+            }
+
+            .drop-slot {
+                width: 120px;
+                height: 120px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tooltip.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>🌍 Evolution Craft</h1>
+        <div class="epoch-info">
+            <div class="epoch-name" id="epochName">Steinzeit</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">0 / 50 Entdeckungen</div>
+        </div>
+    </div>
+
+    <!-- Hauptcontainer -->
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>📜 Entdeckte Elemente</h2>
+            <input type="text" class="search-box" placeholder="Element suchen..." id="searchBox">
+            <div class="element-list" id="elementList"></div>
+        </div>
+
+        <!-- Crafting Area -->
+        <div class="crafting-area">
+            <div class="drop-zone">
+                <div class="drop-slot" id="slot1" data-slot="1">
+                    <span style="color: #c7c7cc;">Element 1</span>
+                </div>
+                <div class="drop-slot" id="slot2" data-slot="2">
+                    <span style="color: #c7c7cc;">Element 2</span>
+                </div>
+            </div>
+            <button class="craft-button" id="craftButton" disabled>Kombinieren</button>
+        </div>
+    </div>
+
+    <!-- Reset Button -->
+    <button class="reset-button" onclick="resetGame()">🔄 Spiel zurücksetzen</button>
+
+    <!-- Tooltip -->
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Game Data
+        const epochs = {
+            stone: {
+                name: 'Steinzeit',
+                color: 'epoch-stone',
+                elements: {
+                    // Basis-Elemente (4)
+                    'Stein': { icon: '🪨', description: 'Grundbaustein der Steinzeit', base: true },
+                    'Feuer': { icon: '🔥', description: 'Die erste große Entdeckung', base: true },
+                    'Holz': { icon: '🪵', description: 'Material aus Bäumen', base: true },
+                    'Wasser': { icon: '💧', description: 'Quelle des Lebens', base: true },
+                    
+                    // Kombinationen (46)
+                    'Werkzeug': { icon: '🔨', description: 'Erstes Werkzeug der Menschheit' },
+                    'Fackel': { icon: '🔦', description: 'Licht in der Dunkelheit' },
+                    'Schleifstein': { icon: '⚪', description: 'Zum Schärfen von Werkzeugen' },
+                    'Asche': { icon: '🌫️', description: 'Überreste des Feuers' },
+                    'Dampf': { icon: '💨', description: 'Heißer Wasserdampf' },
+                    'Lehm': { icon: '🟫', description: 'Formbare Erde' },
+                    'Kohle': { icon: '⚫', description: 'Verbranntes Holz' },
+                    'Speer': { icon: '🏹', description: 'Jagdwaffe' },
+                    'Rad': { icon: '⭕', description: 'Revolutionäre Erfindung' },
+                    'Keramik': { icon: '🏺', description: 'Gebrannter Ton' },
+                    'Seil': { icon: '🪢', description: 'Geflochtene Fasern' },
+                    'Bogen': { icon: '🏹', description: 'Fernwaffe' },
+                    'Messer': { icon: '🔪', description: 'Schneidewerkzeug' },
+                    'Hütte': { icon: '🛖', description: 'Erste Behausung' },
+                    'Boot': { icon: '🛶', description: 'Wassertransport' },
+                    'Angelhaken': { icon: '🪝', description: 'Zum Fischen' },
+                    'Netz': { icon: '🕸️', description: 'Zum Fangen' },
+                    'Farbe': { icon: '🎨', description: 'Für Höhlenmalerei' },
+                    'Kleidung': { icon: '👕', description: 'Schutz vor Kälte' },
+                    'Schmuck': { icon: '📿', description: 'Erste Verzierung' },
+                    'Musikinstrument': { icon: '🥁', description: 'Trommel aus Tierhaut' },
+                    'Landwirtschaft': { icon: '🌾', description: 'Beginn des Ackerbaus' },
+                    'Tier': { icon: '🦌', description: 'Wilde Tiere' },
+                    'Jagd': { icon: '🏹', description: 'Nahrungsbeschaffung' },
+                    'Lagerfeuer': { icon: '🏕️', description: 'Wärmequelle' },
+                    'Höhle': { icon: '🕳️', description: 'Natürlicher Unterschlupf' },
+                    'Malerei': { icon: '🖼️', description: 'Erste Kunst' },
+                    'Sprache': { icon: '💬', description: 'Kommunikation' },
+                    'Stamm': { icon: '👥', description: 'Erste Gemeinschaft' },
+                    'Ritual': { icon: '🕯️', description: 'Spirituelle Handlung' },
+                    'Medizin': { icon: '🌿', description: 'Heilkräuter' },
+                    'Kalender': { icon: '📅', description: 'Zeitmessung' },
+                    'Handel': { icon: '🤝', description: 'Tauschgeschäft' },
+                    'Brücke': { icon: '🌉', description: 'Überquerung' },
+                    'Zaun': { icon: '🚧', description: 'Abgrenzung' },
+                    'Falle': { icon: '🪤', description: 'Für die Jagd' },
+                    'Korb': { icon: '🧺', description: 'Zum Transport' },
+                    'Nadel': { icon: '🪡', description: 'Zum Nähen' },
+                    'Hammer': { icon: '🔨', description: 'Schlagwerkzeug' },
+                    'Pfeil': { icon: '➡️', description: 'Geschoss' },
+                    'Schild': { icon: '🛡️', description: 'Schutz' },
+                    'Knochen': { icon: '🦴', description: 'Tierknochen' },
+                    'Fell': { icon: '🦺', description: 'Tierhaut' },
+                    'Fleisch': { icon: '🥩', description: 'Nahrung' },
+                    'Beeren': { icon: '🫐', description: 'Wildfrüchte' },
+                    'Nüsse': { icon: '🌰', description: 'Nahrung' },
+                    'Honig': { icon: '🍯', description: 'Süße Nahrung' },
+                    'Salz': { icon: '🧂', description: 'Konservierung' },
+                    'Rauch': { icon: '💨', description: 'Zum Räuchern' },
+                    'Topf': { icon: '🍲', description: 'Kochgefäß' }
+                }
+            },
+            ancient: {
+                name: 'Antike',
+                color: 'epoch-ancient',
+                elements: {
+                    // Weitere Epochen können hier ergänzt werden
+                }
+            }
+        };
+
+        const recipes = {
+            // Steinzeit Rezepte (50 Kombinationen)
+            'Stein,Holz': 'Werkzeug',
+            'Holz,Stein': 'Werkzeug',
+            'Feuer,Holz': 'Fackel',
+            'Holz,Feuer': 'Fackel',
+            'Stein,Wasser': 'Schleifstein',
+            'Wasser,Stein': 'Schleifstein',
+            'Feuer,Feuer': 'Asche',
+            'Feuer,Wasser': 'Dampf',
+            'Wasser,Feuer': 'Dampf',
+            'Wasser,Stein': 'Lehm',
+            'Stein,Wasser': 'Lehm',
+            'Feuer,Holz': 'Kohle',
+            'Holz,Werkzeug': 'Speer',
+            'Werkzeug,Holz': 'Speer',
+            'Stein,Stein': 'Rad',
+            'Lehm,Feuer': 'Keramik',
+            'Feuer,Lehm': 'Keramik',
+            'Holz,Holz': 'Seil',
+            'Seil,Holz': 'Bogen',
+            'Holz,Seil': 'Bogen',
+            'Stein,Werkzeug': 'Messer',
+            'Werkzeug,Stein': 'Messer',
+            'Holz,Lehm': 'Hütte',
+            'Lehm,Holz': 'Hütte',
+            'Holz,Wasser': 'Boot',
+            'Wasser,Holz': 'Boot',
+            'Knochen,Werkzeug': 'Angelhaken',
+            'Werkzeug,Knochen': 'Angelhaken',
+            'Seil,Seil': 'Netz',
+            'Stein,Wasser': 'Farbe',
+            'Fell,Werkzeug': 'Kleidung',
+            'Werkzeug,Fell': 'Kleidung',
+            'Stein,Seil': 'Schmuck',
+            'Seil,Stein': 'Schmuck',
+            'Fell,Holz': 'Musikinstrument',
+            'Holz,Fell': 'Musikinstrument',
+            'Werkzeug,Wasser': 'Landwirtschaft',
+            'Wasser,Werkzeug': 'Landwirtschaft',
+            'Holz,Fleisch': 'Tier',
+            'Fleisch,Holz': 'Tier',
+            'Speer,Tier': 'Jagd',
+            'Tier,Speer': 'Jagd',
+            'Feuer,Holz': 'Lagerfeuer',
+            'Stein,Stein': 'Höhle',
+            'Farbe,Höhle': 'Malerei',
+            'Höhle,Farbe': 'Malerei',
+            'Feuer,Dampf': 'Sprache',
+            'Dampf,Feuer': 'Sprache',
+            'Hütte,Hütte': 'Stamm',
+            'Feuer,Sprache': 'Ritual',
+            'Sprache,Feuer': 'Ritual',
+            'Beeren,Wasser': 'Medizin',
+            'Wasser,Beeren': 'Medizin',
+            'Stein,Sprache': 'Kalender',
+            'Sprache,Stein': 'Kalender',
+            'Werkzeug,Sprache': 'Handel',
+            'Sprache,Werkzeug': 'Handel',
+            'Holz,Wasser': 'Brücke',
+            'Holz,Stein': 'Zaun',
+            'Seil,Holz': 'Falle',
+            'Seil,Seil': 'Korb',
+            'Knochen,Werkzeug': 'Nadel',
+            'Stein,Holz': 'Hammer',
+            'Holz,Messer': 'Pfeil',
+            'Messer,Holz': 'Pfeil',
+            'Holz,Fell': 'Schild',
+            'Fell,Holz': 'Schild',
+            'Tier,Werkzeug': 'Knochen',
+            'Werkzeug,Tier': 'Knochen',
+            'Tier,Messer': 'Fell',
+            'Messer,Tier': 'Fell',
+            'Tier,Feuer': 'Fleisch',
+            'Feuer,Tier': 'Fleisch',
+            'Holz,Wasser': 'Beeren',
+            'Stein,Holz': 'Nüsse',
+            'Beeren,Feuer': 'Honig',
+            'Feuer,Beeren': 'Honig',
+            'Wasser,Feuer': 'Salz',
+            'Feuer,Holz': 'Rauch',
+            'Keramik,Feuer': 'Topf',
+            'Feuer,Keramik': 'Topf'
+        };
+
+        // Game State
+        let gameState = {
+            currentEpoch: 'stone',
+            discoveredElements: [],
+            slot1: null,
+            slot2: null
+        };
+
+        // Load game state from localStorage
+        function loadGame() {
+            const saved = localStorage.getItem('evolutionCraftState');
+            if (saved) {
+                gameState = JSON.parse(saved);
+                // Ensure base elements are always discovered
+                const baseElements = Object.entries(epochs.stone.elements)
+                    .filter(([_, data]) => data.base)
+                    .map(([name, _]) => name);
+                baseElements.forEach(element => {
+                    if (!gameState.discoveredElements.includes(element)) {
+                        gameState.discoveredElements.push(element);
+                    }
+                });
+            } else {
+                // Initialize with base elements
+                gameState.discoveredElements = Object.entries(epochs.stone.elements)
+                    .filter(([_, data]) => data.base)
+                    .map(([name, _]) => name);
+            }
+            updateUI();
+        }
+
+        // Save game state to localStorage
+        function saveGame() {
+            localStorage.setItem('evolutionCraftState', JSON.stringify(gameState));
+        }
+
+        // Update UI
+        function updateUI() {
+            updateElementList();
+            updateProgress();
+            updateSlots();
+        }
+
+        // Update element list in sidebar
+        function updateElementList() {
+            const elementList = document.getElementById('elementList');
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            elementList.innerHTML = '';
+
+            const currentEpochElements = epochs[gameState.currentEpoch].elements;
+            
+            gameState.discoveredElements
+                .filter(element => element.toLowerCase().includes(searchTerm))
+                .forEach(elementName => {
+                    if (currentEpochElements[elementName]) {
+                        const elementData = currentEpochElements[elementName];
+                        const div = document.createElement('div');
+                        div.className = 'element-item';
+                        div.draggable = true;
+                        div.innerHTML = `
+                            <span class="element-icon">${elementData.icon}</span>
+                            <span>${elementName}</span>
+                        `;
+                        div.dataset.element = elementName;
+                        
+                        // Drag events
+                        div.addEventListener('dragstart', handleDragStart);
+                        div.addEventListener('dragend', handleDragEnd);
+                        
+                        // Touch events for mobile
+                        div.addEventListener('touchstart', handleTouchStart, {passive: false});
+                        div.addEventListener('touchmove', handleTouchMove, {passive: false});
+                        div.addEventListener('touchend', handleTouchEnd);
+                        
+                        elementList.appendChild(div);
+                    }
+                });
+        }
+
+        // Update progress
+        function updateProgress() {
+            const totalElements = Object.keys(epochs[gameState.currentEpoch].elements).length;
+            const discovered = gameState.discoveredElements.length;
+            const percentage = (discovered / totalElements) * 100;
+            
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${discovered} / ${totalElements} Entdeckungen`;
+            document.getElementById('epochName').textContent = epochs[gameState.currentEpoch].name;
+        }
+
+        // Update slots
+        function updateSlots() {
+            updateSlot(1, gameState.slot1);
+            updateSlot(2, gameState.slot2);
+            
+            const craftButton = document.getElementById('craftButton');
+            craftButton.disabled = !gameState.slot1 || !gameState.slot2;
+        }
+
+        function updateSlot(slotNumber, elementName) {
+            const slot = document.getElementById(`slot${slotNumber}`);
+            if (elementName && epochs[gameState.currentEpoch].elements[elementName]) {
+                const elementData = epochs[gameState.currentEpoch].elements[elementName];
+                slot.innerHTML = `
+                    <span class="element-icon">${elementData.icon}</span>
+                    <span class="element-name">${elementName}</span>
+                `;
+            } else {
+                slot.innerHTML = `<span style="color: #c7c7cc;">Element ${slotNumber}</span>`;
+            }
+        }
+
+        // Drag and Drop handlers
+        let draggedElement = null;
+
+        function handleDragStart(e) {
+            draggedElement = e.target.dataset.element;
+            e.target.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'copy';
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        // Touch support for mobile
+        let touchItem = null;
+        let touchOffset = {x: 0, y: 0};
+
+        function handleTouchStart(e) {
+            touchItem = e.target.closest('.element-item');
+            if (!touchItem) return;
+            
+            const touch = e.touches[0];
+            touchOffset.x = touch.clientX - touchItem.offsetLeft;
+            touchOffset.y = touch.clientY - touchItem.offsetTop;
+            
+            touchItem.style.position = 'fixed';
+            touchItem.style.zIndex = '1000';
+            touchItem.style.pointerEvents = 'none';
+            
+            draggedElement = touchItem.dataset.element;
+        }
+
+        function handleTouchMove(e) {
+            if (!touchItem) return;
+            e.preventDefault();
+            
+            const touch = e.touches[0];
+            touchItem.style.left = (touch.clientX - touchOffset.x) + 'px';
+            touchItem.style.top = (touch.clientY - touchOffset.y) + 'px';
+        }
+
+        function handleTouchEnd(e) {
+            if (!touchItem) return;
+            
+            const touch = e.changedTouches[0];
+            const element = document.elementFromPoint(touch.clientX, touch.clientY);
+            const dropSlot = element?.closest('.drop-slot');
+            
+            if (dropSlot) {
+                const slotNumber = parseInt(dropSlot.dataset.slot);
+                gameState[`slot${slotNumber}`] = draggedElement;
+                updateSlots();
+                saveGame();
+            }
+            
+            touchItem.style.position = '';
+            touchItem.style.zIndex = '';
+            touchItem.style.pointerEvents = '';
+            touchItem.style.left = '';
+            touchItem.style.top = '';
+            touchItem = null;
+        }
+
+        // Drop zone handlers
+        document.querySelectorAll('.drop-slot').forEach(slot => {
+            slot.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                slot.classList.add('drag-over');
+            });
+            
+            slot.addEventListener('dragleave', () => {
+                slot.classList.remove('drag-over');
+            });
+            
+            slot.addEventListener('drop', (e) => {
+                e.preventDefault();
+                slot.classList.remove('drag-over');
+                
+                const slotNumber = parseInt(slot.dataset.slot);
+                gameState[`slot${slotNumber}`] = draggedElement;
+                updateSlots();
+                saveGame();
+            });
+            
+            // Click to remove element
+            slot.addEventListener('click', () => {
+                const slotNumber = parseInt(slot.dataset.slot);
+                gameState[`slot${slotNumber}`] = null;
+                updateSlots();
+                saveGame();
+            });
+        });
+
+        // Craft button handler
+        document.getElementById('craftButton').addEventListener('click', () => {
+            if (!gameState.slot1 || !gameState.slot2) return;
+            
+            const key1 = `${gameState.slot1},${gameState.slot2}`;
+            const key2 = `${gameState.slot2},${gameState.slot1}`;
+            
+            let result = recipes[key1] || recipes[key2];
+            
+            if (result && !gameState.discoveredElements.includes(result)) {
+                gameState.discoveredElements.push(result);
+                showDiscovery(result);
+                updateUI();
+                saveGame();
+                
+                // Clear slots after successful craft
+                gameState.slot1 = null;
+                gameState.slot2 = null;
+                updateSlots();
+            } else if (result) {
+                // Already discovered
+                showTooltip('Du hast dieses Element bereits entdeckt!');
+            } else {
+                // No recipe
+                showTooltip('Diese Kombination ergibt nichts!');
+            }
+        });
+
+        // Show discovery animation
+        function showDiscovery(elementName) {
+            const elementData = epochs[gameState.currentEpoch].elements[elementName];
+            const div = document.createElement('div');
+            div.className = 'discovery-animation';
+            div.innerHTML = `
+                <div class="discovery-icon">${elementData.icon}</div>
+                <div class="discovery-name">${elementName}</div>
+                <div class="discovery-description">${elementData.description}</div>
+            `;
+            document.body.appendChild(div);
+            
+            setTimeout(() => {
+                div.remove();
+            }, 3000);
+        }
+
+        // Show tooltip
+        function showTooltip(message) {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.textContent = message;
+            tooltip.classList.add('show');
+            
+            // Position tooltip at center
+            tooltip.style.left = '50%';
+            tooltip.style.top = '50%';
+            tooltip.style.transform = 'translate(-50%, -50%)';
+            
+            setTimeout(() => {
+                tooltip.classList.remove('show');
+            }, 2000);
+        }
+
+        // Search functionality
+        document.getElementById('searchBox').addEventListener('input', updateElementList);
+
+        // Reset game
+        function resetGame() {
+            if (confirm('Möchtest du wirklich alle Fortschritte zurücksetzen?')) {
+                localStorage.removeItem('evolutionCraftState');
+                gameState = {
+                    currentEpoch: 'stone',
+                    discoveredElements: Object.entries(epochs.stone.elements)
+                        .filter(([_, data]) => data.base)
+                        .map(([name, _]) => name),
+                    slot1: null,
+                    slot2: null
+                };
+                updateUI();
+                saveGame();
+            }
+        }
+
+        // Initialize game
+        loadGame();
+    </script>
+</body>
+</html>
