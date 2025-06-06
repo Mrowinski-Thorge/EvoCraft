@@ -7,13 +7,17 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/game.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
 </head>
 <body class="game-body">
     <!-- Header -->
     <header class="header game-header">
         <nav class="nav">
             <div class="nav-logo">
-                <img src="assets/logo.svg" alt="EvoCraft" class="logo">
+                <div class="logo-container">
+                    <span class="logo">🧪</span>
+                    <div class="dna-helix"></div>
+                </div>
                 <span class="logo-text">EvoCraft</span>
             </div>
             <div class="game-controls">
@@ -30,50 +34,83 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-section">
-                <h3>Aktuell verfügbar</h3>
+                <h3>Verfügbare Elemente</h3>
                 <div class="elements-grid" id="available-elements">
-                    <div class="element" data-element="fire">🔥 Feuer</div>
-                    <div class="element" data-element="water">💧 Wasser</div>
-                    <div class="element" data-element="earth">🌍 Erde</div>
-                    <div class="element" data-element="air">💨 Luft</div>
+                    <div class="element pulsing" data-element="fire" draggable="true">🔥 Feuer</div>
+                    <div class="element pulsing" data-element="water" draggable="true">💧 Wasser</div>
+                    <div class="element pulsing" data-element="earth" draggable="true">🌍 Erde</div>
+                    <div class="element pulsing" data-element="air" draggable="true">💨 Luft</div>
                 </div>
             </div>
             
             <div class="sidebar-section">
-                <h3>Epoche wählen</h3>
-                <select class="epoch-select" id="epoch-select">
-                    <option value="primordial">Urzeit</option>
-                    <option value="stone">Steinzeit</option>
-                    <option value="bronze">Bronzezeit (🔒)</option>
-                    <option value="iron">Eisenzeit (🔒)</option>
-                </select>
+                <h3>Aktuelle Epoche</h3>
+                <div class="current-epoch">
+                    <div class="epoch-display">
+                        <span class="epoch-icon">🌋</span>
+                        <span class="epoch-name">Urzeit</span>
+                    </div>
+                    <select class="epoch-select" id="epoch-select">
+                        <option value="primordial">🌋 Urzeit</option>
+                        <option value="stone" disabled>🗿 Steinzeit (🔒)</option>
+                        <option value="bronze" disabled>⚔️ Bronzezeit (🔒)</option>
+                        <option value="iron" disabled>🏛️ Eisenzeit (🔒)</option>
+                    </select>
+                </div>
             </div>
             
             <div class="sidebar-section">
                 <h3>Fortschritt</h3>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: 15%"></div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                        <div class="progress-glow"></div>
+                    </div>
+                    <p class="progress-text">0 von 20 Items entdeckt</p>
+                    <div class="achievement-hints">
+                        <p>🎯 Nächstes Ziel: 5 Items für Steinzeit</p>
+                    </div>
                 </div>
-                <p class="progress-text">4 von 28 Items entdeckt</p>
             </div>
         </aside>
 
         <!-- Game Canvas -->
         <div class="game-canvas">
+            <div class="cosmic-background"></div>
             <div class="crafting-area" id="crafting-area">
-                <div class="drop-zone" id="drop-zone-1">
-                    <span class="drop-hint">Element 1 hier ablegen</span>
+                <div class="crafting-title">
+                    <h2>Experimentierbereich</h2>
+                    <div class="dna-particles"></div>
                 </div>
-                <div class="combine-symbol">+</div>
-                <div class="drop-zone" id="drop-zone-2">
-                    <span class="drop-hint">Element 2 hier ablegen</span>
+                
+                <div class="drop-zones-container">
+                    <div class="drop-zone floating" id="drop-zone-1">
+                        <span class="drop-hint">Element 1</span>
+                        <div class="zone-glow"></div>
+                    </div>
+                    
+                    <div class="combine-symbol pulsing">
+                        <div class="symbol-bg">+</div>
+                        <div class="energy-rings"></div>
+                    </div>
+                    
+                    <div class="drop-zone floating" id="drop-zone-2">
+                        <span class="drop-hint">Element 2</span>
+                        <div class="zone-glow"></div>
+                    </div>
                 </div>
+                
                 <div class="combine-button">
-                    <button id="combine-btn" disabled>Kombinieren</button>
+                    <button id="combine-btn" disabled class="experiment-btn">
+                        <span>Experimentieren</span>
+                        <div class="btn-particles"></div>
+                    </button>
                 </div>
+                
                 <div class="result-area" id="result-area">
                     <div class="result-placeholder">
-                        <span>Ergebnis erscheint hier</span>
+                        <div class="dna-helix-large"></div>
+                        <span>Ergebnis der Evolution</span>
                     </div>
                 </div>
             </div>
@@ -82,61 +119,82 @@
         <!-- Inventory Panel -->
         <aside class="inventory-panel">
             <div class="sidebar-section">
-                <h3>Inventar</h3>
+                <h3>Entdeckungen</h3>
+                <div class="discoveries-counter">
+                    <span class="counter-number">0</span>
+                    <span class="counter-label">Items entdeckt</span>
+                </div>
                 <div class="inventory-grid" id="inventory">
-                    <div class="inventory-slot empty">
-                        <span>Leer</span>
+                    <!-- Dynamisch gefüllt durch JavaScript -->
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>Wissenschaftliche Hinweise</h3>
+                <div class="hints scientific-panel" id="hints">
+                    <div class="hint-item">
+                        <span class="hint-icon">💡</span>
+                        <span>Probiere 🔥 + 💧 für Dampf</span>
                     </div>
-                    <div class="inventory-slot empty">
-                        <span>Leer</span>
+                    <div class="hint-item">
+                        <span class="hint-icon">🌟</span>
+                        <span>Grundelemente können erstaunliches erschaffen</span>
                     </div>
-                    <div class="inventory-slot empty">
-                        <span>Leer</span>
-                    </div>
-                    <div class="inventory-slot empty">
-                        <span>Leer</span>
+                    <div class="hint-item">
+                        <span class="hint-icon">🧬</span>
+                        <span>Jede Kombination folgt Naturgesetzen</span>
                     </div>
                 </div>
             </div>
             
             <div class="sidebar-section">
-                <h3>Hinweise</h3>
-                <div class="hints" id="hints">
-                    <p>🔥 + 💧 = ?</p>
-                    <p>Versuche verschiedene Kombinationen!</p>
-                </div>
-            </div>
-            
-            <div class="sidebar-section">
-                <h3>Letzte Entdeckung</h3>
+                <h3>Neueste Entdeckung</h3>
                 <div class="last-discovery" id="last-discovery">
                     <div class="discovery-item">
                         <span class="discovery-icon">❓</span>
-                        <span class="discovery-name">Noch keine Entdeckung</span>
+                        <div class="discovery-info">
+                            <span class="discovery-name">Noch keine Entdeckung</span>
+                            <span class="discovery-date">Beginne zu experimentieren!</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </aside>
     </main>
 
-    <!-- Timeline -->
+    <!-- Evolution Timeline -->
     <footer class="timeline">
+        <div class="timeline-background"></div>
         <div class="timeline-content">
-            <div class="timeline-epoch active">
+            <div class="timeline-epoch active" data-epoch="primordial">
                 <span class="epoch-icon">🌋</span>
                 <span class="epoch-name">Urzeit</span>
+                <div class="epoch-glow"></div>
             </div>
-            <div class="timeline-epoch locked">
+            <div class="timeline-epoch locked" data-epoch="stone">
                 <span class="epoch-icon">🗿</span>
                 <span class="epoch-name">Steinzeit</span>
+                <div class="epoch-glow"></div>
             </div>
-            <div class="timeline-epoch locked">
+            <div class="timeline-epoch locked" data-epoch="bronze">
                 <span class="epoch-icon">⚔️</span>
                 <span class="epoch-name">Bronzezeit</span>
+                <div class="epoch-glow"></div>
             </div>
-            <div class="timeline-epoch locked">
+            <div class="timeline-epoch locked" data-epoch="iron">
                 <span class="epoch-icon">🏛️</span>
                 <span class="epoch-name">Eisenzeit</span>
+                <div class="epoch-glow"></div>
+            </div>
+            <div class="timeline-epoch locked" data-epoch="medieval">
+                <span class="epoch-icon">🏰</span>
+                <span class="epoch-name">Mittelalter</span>
+                <div class="epoch-glow"></div>
+            </div>
+            <div class="timeline-epoch locked" data-epoch="renaissance">
+                <span class="epoch-icon">🚢</span>
+                <span class="epoch-name">Renaissance</span>
+                <div class="epoch-glow"></div>
             </div>
         </div>
     </footer>
