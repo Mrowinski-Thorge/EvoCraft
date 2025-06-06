@@ -8,21 +8,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <nav class="nav">
             <div class="nav-logo">
-                <img src="assets/logo.svg" alt="EvoCraft" class="logo">
+                <div class="logo-container">
+                    <span class="logo">🧪</span>
+                    <div class="dna-helix"></div>
+                </div>
                 <span class="logo-text">EvoCraft</span>
             </div>
             <ul class="nav-menu">
                 <li><a href="#home" class="nav-link active">Start</a></li>
                 <li><a href="game.html" class="nav-link">Spiel</a></li>
-                <li><a href="epochs.html" class="nav-link">Epochen</a></li>
-                <li><a href="faq.html" class="nav-link">FAQ</a></li>
-                <li><a href="contact.html" class="nav-link">Kontakt</a></li>
+                <li><a href="#epochs" class="nav-link">Epochen</a></li>
+                <li><a href="#faq" class="nav-link">FAQ</a></li>
+                <li><a href="#contact" class="nav-link">Kontakt</a></li>
             </ul>
             <div class="nav-toggle">
                 <span></span>
@@ -36,46 +40,58 @@
     <main>
         <section class="hero" id="home">
             <div class="hero-background">
-                <div class="stars"></div>
-                <div class="galaxy"></div>
+                <div class="floating-particles"></div>
+                <div class="evolution-timeline"></div>
+                <div class="cosmic-dust"></div>
             </div>
             <div class="hero-content">
-                <h1 class="hero-title">
-                    <span class="title-line">Vom Nichts</span>
-                    <span class="title-line">zur Zivilisation</span>
-                </h1>
-                <p class="hero-subtitle">
-                    Erschaffe deine eigene Welt durch die Macht des Craftings. 
-                    Kombiniere Elemente, entwickle Technologien und führe die Menschheit durch alle Zeitalter.
-                </p>
-                <button class="cta-button" onclick="window.location.href='game.html'">
-                    <span>Spiel starten</span>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
+                <div class="hero-image">
+                    <img src="assets/images/evolution-hero.jpg" alt="Evolution durch alle Zeitalter - Von der Steinzeit bis zur KI" class="evolution-image">
+                    <div class="image-glow"></div>
+                </div>
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        <span class="title-line glow-text">Vom Nichts</span>
+                        <span class="title-line glow-text">zur Zivilisation</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Erschaffe deine eigene Welt durch die Macht des Craftings. 
+                        Kombiniere Elemente, entwickle Technologien und führe die Menschheit durch alle Zeitalter der Evolution.
+                    </p>
+                    <button class="cta-button pulsing" onclick="window.location.href='game.html'">
+                        <span class="button-text">Spiel starten</span>
+                        <div class="button-particles"></div>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" class="arrow-icon">
+                            <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </section>
 
+        <!-- Rest of the content stays the same -->
         <!-- Features Section -->
         <section class="features">
             <div class="container">
-                <h2 class="section-title">Was ist EvoCraft?</h2>
+                <h2 class="section-title glow-text">Was ist EvoCraft?</h2>
                 <div class="features-grid">
-                    <div class="feature-card">
+                    <div class="feature-card floating">
                         <div class="feature-icon">🧪</div>
+                        <div class="dna-strand"></div>
                         <h3>Intuitives Crafting</h3>
-                        <p>Kombiniere Grundelemente durch einfache Drag & Drop Mechaniken. Entdecke über 500 einzigartige Kombinationen.</p>
+                        <p>Kombiniere Grundelemente durch einfache Drag & Drop Mechaniken. Entdecke über 500 einzigartige Kombinationen und schaffe neue Welten.</p>
                     </div>
-                    <div class="feature-card">
+                    <div class="feature-card floating">
                         <div class="feature-icon">⏳</div>
+                        <div class="evolution-spiral"></div>
                         <h3>Epochen durchleben</h3>
-                        <p>Von der Steinzeit bis zur Raumfahrt - erlebe die Evolution der Menschheit in 12 detaillierten Zeitaltern.</p>
+                        <p>Von der Steinzeit bis zur Raumfahrt - erlebe die Evolution der Menschheit in 12 detaillierten Zeitaltern der Entwicklung.</p>
                     </div>
-                    <div class="feature-card">
+                    <div class="feature-card floating">
                         <div class="feature-icon">🏆</div>
+                        <div class="progress-spiral"></div>
                         <h3>Fortschritt verfolgen</h3>
-                        <p>Verfolge deine Entdeckungen, schalte neue Epochen frei und sammle seltene Achievements.</p>
+                        <p>Verfolge deine Entdeckungen, schalte neue Epochen frei und sammle seltene Achievements auf deiner Reise durch die Zeit.</p>
                     </div>
                 </div>
             </div>
@@ -84,44 +100,111 @@
         <!-- How it Works -->
         <section class="how-it-works">
             <div class="container">
-                <h2 class="section-title">Wie funktioniert es?</h2>
+                <h2 class="section-title glow-text">Wie funktioniert es?</h2>
                 <div class="steps">
                     <div class="step">
-                        <div class="step-number">1</div>
+                        <div class="step-number pulsing">1</div>
+                        <div class="step-connector"></div>
                         <h3>Elemente wählen</h3>
-                        <p>Beginne mit den vier Grundelementen: Feuer, Wasser, Erde und Luft.</p>
+                        <p>Beginne mit den vier Grundelementen: Feuer, Wasser, Erde und Luft. Jedes Element hat seine eigene Energie.</p>
                     </div>
                     <div class="step">
-                        <div class="step-number">2</div>
+                        <div class="step-number pulsing">2</div>
+                        <div class="step-connector"></div>
                         <h3>Kombinieren</h3>
-                        <p>Ziehe Elemente zusammen und entdecke neue Materialien und Technologien.</p>
+                        <p>Ziehe Elemente zusammen und entdecke neue Materialien und Technologien durch wissenschaftliche Experimente.</p>
                     </div>
                     <div class="step">
-                        <div class="step-number">3</div>
+                        <div class="step-number pulsing">3</div>
                         <h3>Entwickeln</h3>
-                        <p>Nutze deine Entdeckungen, um komplexere Items zu erschaffen und neue Epochen freizuschalten.</p>
+                        <p>Nutze deine Entdeckungen, um komplexere Items zu erschaffen und neue Epochen der Zivilisation freizuschalten.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Preview -->
-        <section class="preview">
+        <!-- Epochs Section -->
+        <section class="preview" id="epochs">
             <div class="container">
-                <h2 class="section-title">Vorschau</h2>
-                <div class="preview-content">
-                    <div class="preview-image">
-                        <img src="assets/game-preview.png" alt="EvoCraft Spielvorschau">
+                <h2 class="section-title glow-text">Epochen der Evolution</h2>
+                <div class="epochs-grid">
+                    <div class="epoch-card active">
+                        <div class="epoch-icon">🌋</div>
+                        <h3>Urzeit</h3>
+                        <p>Die Grundelemente entstehen</p>
+                        <div class="epoch-progress">4/8 Items</div>
                     </div>
-                    <div class="preview-text">
-                        <h3>Entdecke unendliche Möglichkeiten</h3>
-                        <ul>
-                            <li>Über 500 einzigartige Items zum Entdecken</li>
-                            <li>12 historische Epochen von der Steinzeit bis zur Zukunft</li>
-                            <li>Intuitive Touch- und Maus-Steuerung</li>
-                            <li>Automatisches Speichern deines Fortschritts</li>
-                            <li>Responsive Design für alle Geräte</li>
-                        </ul>
+                    <div class="epoch-card locked">
+                        <div class="epoch-icon">🗿</div>
+                        <h3>Steinzeit</h3>
+                        <p>Erste Werkzeuge entwickeln</p>
+                        <div class="epoch-progress">0/12 Items</div>
+                    </div>
+                    <div class="epoch-card locked">
+                        <div class="epoch-icon">⚔️</div>
+                        <h3>Bronzezeit</h3>
+                        <p>Metallverarbeitung</p>
+                        <div class="epoch-progress">0/15 Items</div>
+                    </div>
+                    <div class="epoch-card locked">
+                        <div class="epoch-icon">🏛️</div>
+                        <h3>Eisenzeit</h3>
+                        <p>Zivilisation entsteht</p>
+                        <div class="epoch-progress">0/20 Items</div>
+                    </div>
+                    <div class="epoch-card locked">
+                        <div class="epoch-icon">🏰</div>
+                        <h3>Mittelalter</h3>
+                        <p>Handwerk und Handel</p>
+                        <div class="epoch-progress">0/25 Items</div>
+                    </div>
+                    <div class="epoch-card locked">
+                        <div class="epoch-icon">🚢</div>
+                        <h3>Renaissance</h3>
+                        <p>Große Entdeckungen</p>
+                        <div class="epoch-progress">0/30 Items</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq" id="faq">
+            <div class="container">
+                <h2 class="section-title glow-text">Häufige Fragen</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3>Wie funktioniert das Crafting?</h3>
+                        <p>Ziehe einfach zwei Elemente in die Kombinationsfelder und drücke "Kombinieren". Entdecke durch Experimentieren neue Items!</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Wie viele Items gibt es?</h3>
+                        <p>Über 500 einzigartige Items warten darauf, von dir entdeckt zu werden - von einfachen Elementen bis zu komplexen Technologien.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Wird mein Fortschritt gespeichert?</h3>
+                        <p>Ja! Dein Fortschritt wird automatisch im Browser gespeichert. Du kannst auch manuell speichern.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact" id="contact">
+            <div class="container">
+                <h2 class="section-title glow-text">Kontakt</h2>
+                <div class="contact-content">
+                    <p>Hast du Fragen, Vorschläge oder Feedback zu EvoCraft?</p>
+                    <div class="contact-links">
+                        <a href="mailto:EvoCraft@proton.me" class="contact-link">
+                            📧 E-Mail senden
+                        </a>
+                        <a href="https://github.com/Mrowinski-Thorge/EvoCraft" class="contact-link">
+                            🔗 GitHub Repository
+                        </a>
+                        <a href="https://github.com/Mrowinski-Thorge/EvoCraft/issues" class="contact-link">
+                            🐛 Bug melden
+                        </a>
                     </div>
                 </div>
             </div>
@@ -133,15 +216,15 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <img src="assets/logo.svg" alt="EvoCraft" class="footer-logo">
+                    <span class="footer-logo">🧪</span>
                     <p>Erschaffe deine eigene Welt</p>
                 </div>
                 <div class="footer-links">
                     <div class="footer-group">
                         <h4>Spiel</h4>
                         <a href="game.html">Spielen</a>
-                        <a href="epochs.html">Epochen</a>
-                        <a href="faq.html">Hilfe</a>
+                        <a href="#epochs">Epochen</a>
+                        <a href="#faq">Hilfe</a>
                     </div>
                     <div class="footer-group">
                         <h4>Rechtliches</h4>
@@ -151,7 +234,7 @@
                     <div class="footer-group">
                         <h4>Entwicklung</h4>
                         <a href="https://github.com/Mrowinski-Thorge/EvoCraft" target="_blank">GitHub</a>
-                        <a href="contact.html">Kontakt</a>
+                        <a href="mailto:EvoCraft@proton.me">Kontakt</a>
                     </div>
                 </div>
                 <div class="footer-language">
@@ -162,7 +245,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 EvoCraft. Alle Rechte vorbehalten.</p>
+                <p>&copy; 2025 EvoCraft by Thorge Mrowinski. Open Source Projekt.</p>
             </div>
         </div>
     </footer>
