@@ -16,8 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Rest des JavaScript-Codes bleibt unverändert...
     // WIEDERHOLBARE OBSERVER FÜR ANIMATIONEN
+    
+    // Standard Observer für die meisten Sektionen
     const standardObserverOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px 50px 0px'
@@ -85,6 +86,71 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // NAVIGATION ACTIVE STATE HANDLER
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section[id]');
+    
+    function updateActiveNavLink() {
+        const scrollPosition = window.scrollY + 150;
+        let activeSection = null;
+        
+        // Entferne alle aktiven Klassen FORCIERT
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            link.style.removeProperty('color');
+            link.style.removeProperty('background');
+            link.style.removeProperty('box-shadow');
+            link.style.removeProperty('border');
+        });
+        
+        // Finde die aktuelle Sektion
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionBottom = sectionTop + section.offsetHeight;
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                activeSection = section.getAttribute('id');
+            }
+        });
+        
+        // Spezielle Behandlung für Kontakt-Sektion auf Desktop
+        const contactSection = document.querySelector('#contact');
+        if (contactSection && window.innerWidth >= 1025) {
+            const contactTop = contactSection.offsetTop - 200;
+            const contactBottom = contactTop + contactSection.offsetHeight;
+            
+            if (scrollPosition >= contactTop && scrollPosition < contactBottom) {
+                activeSection = 'contact';
+            }
+        }
+        
+        // Aktiviere nur den entsprechenden Link mit FORCE
+        if (activeSection) {
+            navLinks.forEach(link => {
+                const linkTarget = link.getAttribute('href').substring(1);
+                if (linkTarget === activeSection) {
+                    link.classList.add('active');
+                    // Force die Styles
+                    setTimeout(() => {
+                        link.classList.add('active');
+                    }, 10);
+                }
+            });
+        }
+        
+        // Fallback: Wenn ganz oben, aktiviere "Start"
+        if (scrollPosition < 200) {
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === '#home') {
+                    link.classList.add('active');
+                    setTimeout(() => {
+                        link.classList.add('active');
+                    }, 10);
+                }
+            });
+        }
+    }
+
     // SCROLL-EVENT-LISTENER
     let ticking = false;
     
@@ -92,6 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!ticking) {
             requestAnimationFrame(() => {
                 updateHeader();
+                updateActiveNavLink();
                 ticking = false;
             });
             ticking = true;
@@ -102,6 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initial calls
     updateHeader();
+    updateActiveNavLink();
 
     // TOUCH HORIZONTAL SCROLL PREVENTION
     let startX = 0;
