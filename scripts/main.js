@@ -36,13 +36,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Standard Observer für die meisten Sektionen
     const standardObserverOptions = {
         threshold: 0.05,
-        rootMargin: '0px 0px 30px 0px'
+        rootMargin: '0px 0px 25px 0px'
     };
     
     // Spezieller Observer für Contact-Sektion (früher)
     const contactObserverOptions = {
         threshold: 0.02, // Noch niedriger
-        rootMargin: '0px 0px 100px 0px' // Doppelt so früh
+        rootMargin: '0px 0px 60px 0px' // Doppelt so früh
     };
     
     const standardObserver = new IntersectionObserver((entries) => {
