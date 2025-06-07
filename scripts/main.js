@@ -1,23 +1,48 @@
 // EvoCraft Website Main JavaScript
 document.addEventListener('DOMContentLoaded', function() {
-    // Navigation Mobile Toggle
+    // MOBILE NAVIGATION TOGGLE - VERBESSERT
     const navToggle = document.querySelector('.nav-toggle');
     const navMenu = document.querySelector('.nav-menu');
     
     if (navToggle && navMenu) {
-        navToggle.addEventListener('click', function() {
+        // Toggle Menu
+        navToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Toggle clicked'); // Debug
+            
             navMenu.classList.toggle('active');
+            navToggle.classList.toggle('active');
+            
+            // Verhindert Body-Scroll wenn Menu offen
+            if (navMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
         });
         
         // Close mobile menu when clicking on a link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
+                navToggle.classList.remove('active');
+                document.body.style.overflow = '';
             });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                navMenu.classList.remove('active');
+                navToggle.classList.remove('active');
+                document.body.style.overflow = '';
+            }
         });
     }
     
-    // VEREINFACHTER LINK-HANDLER - BEHÄLT SCROLL-POSITION BEI ZURÜCK-NAVIGATION
+    // VEREINFACHTER LINK-HANDLER
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -50,8 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                // ENTFERNT: observer.unobserve(entry.target); 
-                // Jetzt können Animationen bei jedem Besuch neu abgespielt werden
             }
         });
     }, standardObserverOptions);
@@ -60,8 +83,6 @@ document.addEventListener('DOMContentLoaded', function() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                // ENTFERNT: observer.unobserve(entry.target);
-                // Jetzt können Animationen bei jedem Besuch neu abgespielt werden
             }
         });
     }, contactObserverOptions);
@@ -110,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', updateHeader);
     window.addEventListener('resize', updateHeader);
     
-    // ACTIVE LINK TRACKING
+    // VERBESSERTE ACTIVE LINK TRACKING
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
     
@@ -118,8 +139,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const scrollPosition = window.scrollY + 150;
         let activeSection = null;
         
-        // Entferne alle aktiven Klassen
-        navLinks.forEach(link => link.classList.remove('active'));
+        // Entferne alle aktiven Klassen FORCIERT
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            link.style.removeProperty('color');
+            link.style.removeProperty('background');
+            link.style.removeProperty('box-shadow');
+            link.style.removeProperty('border');
+        });
         
         // Finde die aktuelle Sektion
         sections.forEach(section => {
@@ -142,12 +169,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Aktiviere nur den entsprechenden Link
+        // Aktiviere nur den entsprechenden Link mit FORCE
         if (activeSection) {
             navLinks.forEach(link => {
                 const linkTarget = link.getAttribute('href').substring(1);
                 if (linkTarget === activeSection) {
                     link.classList.add('active');
+                    // Force die Styles
+                    setTimeout(() => {
+                        link.classList.add('active');
+                    }, 10);
                 }
             });
         }
@@ -157,6 +188,9 @@ document.addEventListener('DOMContentLoaded', function() {
             navLinks.forEach(link => {
                 if (link.getAttribute('href') === '#home') {
                     link.classList.add('active');
+                    setTimeout(() => {
+                        link.classList.add('active');
+                    }, 10);
                 }
             });
         }
