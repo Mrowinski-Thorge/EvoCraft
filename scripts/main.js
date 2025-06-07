@@ -1,46 +1,5 @@
 // EvoCraft Website Main JavaScript
 document.addEventListener('DOMContentLoaded', function() {
-    // MOBILE NAVIGATION TOGGLE - VERBESSERT
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    if (navToggle && navMenu) {
-        // Toggle Menu
-        navToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            console.log('Toggle clicked'); // Debug
-            
-            navMenu.classList.toggle('active');
-            navToggle.classList.toggle('active');
-            
-            // Verhindert Body-Scroll wenn Menu offen
-            if (navMenu.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
-        });
-        
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                navToggle.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
-                navMenu.classList.remove('active');
-                navToggle.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-    }
     
     // VEREINFACHTER LINK-HANDLER
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -56,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
+
     // WIEDERHOLBARE OBSERVER FÜR ANIMATIONEN
     
     // Standard Observer für die meisten Sektionen
@@ -111,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
-    
+
     // Header background on scroll
     const header = document.querySelector('.header');
     
@@ -126,14 +85,10 @@ document.addEventListener('DOMContentLoaded', function() {
             header.style.backdropFilter = 'blur(10px)';
         }
     }
-    
-    updateHeader();
-    window.addEventListener('scroll', updateHeader);
-    window.addEventListener('resize', updateHeader);
-    
-    // VERBESSERTE ACTIVE LINK TRACKING
+
+    // NAVIGATION ACTIVE STATE HANDLER
+    const navLinks = document.querySelectorAll('.nav-link');
     const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
     
     function updateActiveNavLink() {
         const scrollPosition = window.scrollY + 150;
@@ -195,20 +150,30 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+
+    // SCROLL-EVENT-LISTENER
+    let ticking = false;
     
-    // Throttle function
-    let scrollTimeout;
-    window.addEventListener('scroll', () => {
-        if (scrollTimeout) {
-            clearTimeout(scrollTimeout);
+    function onScroll() {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                updateHeader();
+                updateActiveNavLink();
+                ticking = false;
+            });
+            ticking = true;
         }
-        scrollTimeout = setTimeout(updateActiveNavLink, 10);
-    });
+    }
     
+    window.addEventListener('scroll', onScroll);
+    
+    // Initial calls
+    updateHeader();
     updateActiveNavLink();
-    
-    // VERHINDERT HORIZONTALES SCROLLEN DURCH TOUCH-GESTEN
+
+    // TOUCH HORIZONTAL SCROLL PREVENTION
     let startX = 0;
+    
     document.addEventListener('touchstart', function(e) {
         startX = e.touches[0].clientX;
     });
@@ -222,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
         }
     }, { passive: false });
-    
+
     // Button hover effects with ripple
     document.querySelectorAll('.cta-button, .contact-link').forEach(button => {
         button.addEventListener('click', function(e) {
@@ -239,33 +204,20 @@ document.addEventListener('DOMContentLoaded', function() {
             
             ripple.style.position = 'absolute';
             ripple.style.borderRadius = '50%';
-            ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+            ripple.style.background = 'rgba(255, 255, 255, 0.6)';
             ripple.style.transform = 'scale(0)';
             ripple.style.animation = 'ripple 0.6s linear';
             ripple.style.pointerEvents = 'none';
             
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
             this.appendChild(ripple);
             
             setTimeout(() => {
-                ripple.remove();
+                if (ripple.parentNode) {
+                    ripple.parentNode.removeChild(ripple);
+                }
             }, 600);
         });
     });
-    
-    // Add ripple animation CSS
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes ripple {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
-        }
-        
-        .cta-button, .contact-link {
-            position: relative;
-            overflow: hidden;
-        }
-    `;
-    document.head.appendChild(style);
 });
