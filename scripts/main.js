@@ -17,20 +17,39 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Smooth scrolling for navigation links - VERBESSERTER TOUCH-SUPPORT
+    // BESSERER MOBILE FOOTER LINK SUPPORT
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        // Touch- und Click-Events für bessere Mobile-Unterstützung
-        ['click', 'touchstart'].forEach(eventType => {
-            anchor.addEventListener(eventType, function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
+        // Nur einen Event-Listener pro Element
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                // Kleine Verzögerung für bessere Mobile-Performance
+                setTimeout(() => {
                     target.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
                     });
-                }
-            });
+                }, 50);
+            }
+        });
+        
+        // Zusätzlicher Touch-Support für Mobile
+        anchor.addEventListener('touchend', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                setTimeout(() => {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 50);
+            }
         });
     });
     
@@ -103,17 +122,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Bei Resize ausführen (für Layout-Änderungen)
     window.addEventListener('resize', updateHeader);
     
-    // VERBESSERTE ACTIVE LINK TRACKING
+    // KOMPLETT ÜBERARBEITETE ACTIVE LINK TRACKING
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
     
     function updateActiveNavLink() {
-        const scrollPosition = window.scrollY + 150; // Größerer Offset für bessere Erkennung
+        const scrollPosition = window.scrollY + 150;
         let activeSection = null;
+        
+        // ENTFERNE ZUERST ALLE AKTIVEN KLASSEN - FIX FÜR DAS PROBLEM
+        navLinks.forEach(link => link.classList.remove('active'));
         
         // Finde die aktuelle Sektion
         sections.forEach(section => {
-            const sectionTop = section.offsetTop - 100; // Offset für Header
+            const sectionTop = section.offsetTop - 100;
             const sectionBottom = sectionTop + section.offsetHeight;
             
             if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
@@ -124,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Spezielle Behandlung für Kontakt-Sektion auf Desktop
         const contactSection = document.querySelector('#contact');
         if (contactSection && window.innerWidth >= 1025) {
-            const contactTop = contactSection.offsetTop - 200; // Frühere Erkennung auf Desktop
+            const contactTop = contactSection.offsetTop - 200;
             const contactBottom = contactTop + contactSection.offsetHeight;
             
             if (scrollPosition >= contactTop && scrollPosition < contactBottom) {
@@ -132,19 +154,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Update nav links
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            const linkTarget = link.getAttribute('href').substring(1); // Remove #
-            if (linkTarget === activeSection) {
-                link.classList.add('active');
-            }
-        });
+        // Aktiviere nur den entsprechenden Link
+        if (activeSection) {
+            navLinks.forEach(link => {
+                const linkTarget = link.getAttribute('href').substring(1);
+                if (linkTarget === activeSection) {
+                    link.classList.add('active');
+                }
+            });
+        }
         
         // Fallback: Wenn ganz oben, aktiviere "Start"
         if (scrollPosition < 200) {
             navLinks.forEach(link => {
-                link.classList.remove('active');
                 if (link.getAttribute('href') === '#home') {
                     link.classList.add('active');
                 }
