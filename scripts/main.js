@@ -17,32 +17,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Smooth scrolling for navigation links
+    // Smooth scrolling for navigation links - VERBESSERTER TOUCH-SUPPORT
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
+        // Touch- und Click-Events für bessere Mobile-Unterstützung
+        ['click', 'touchstart'].forEach(eventType => {
+            anchor.addEventListener(eventType, function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
         });
     });
     
     // VERSCHIEDENE OBSERVER FÜR VERSCHIEDENE SEKTIONEN
     
-    // Standard Observer für die meisten Sektionen
+    // Standard Observer für die meisten Sektionen - ETWAS SPÄTER
     const standardObserverOptions = {
-        threshold: 0.05,
-        rootMargin: '0px 0px 15px 0px'
+        threshold: 0.1,
+        rootMargin: '0px 0px 50px 0px' // Animationen kommen etwas später
     };
     
-    // Spezieller Observer für Contact-Sektion (früher)
+    // Spezieller Observer für Contact-Sektion
     const contactObserverOptions = {
-        threshold: 0.02, // Noch niedriger
-        rootMargin: '0px 0px 40px 0px' // Doppelt so früh
+        threshold: 0.05,
+        rootMargin: '0px 0px 150px 0px' // Kontakt bleibt früher
     };
     
     const standardObserver = new IntersectionObserver((entries) => {
@@ -100,30 +103,66 @@ document.addEventListener('DOMContentLoaded', function() {
     // Bei Resize ausführen (für Layout-Änderungen)
     window.addEventListener('resize', updateHeader);
     
-    // Add active class to nav links based on scroll position
+    // VERBESSERTE ACTIVE LINK TRACKING
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
     
     function updateActiveNavLink() {
-        const scrollPosition = window.scrollY + 100;
+        const scrollPosition = window.scrollY + 150; // Größerer Offset für bessere Erkennung
+        let activeSection = null;
         
+        // Finde die aktuelle Sektion
         sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            const sectionId = section.getAttribute('id');
+            const sectionTop = section.offsetTop - 100; // Offset für Header
+            const sectionBottom = sectionTop + section.offsetHeight;
             
-            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${sectionId}`) {
-                        link.classList.add('active');
-                    }
-                });
+            if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                activeSection = section.getAttribute('id');
             }
         });
+        
+        // Spezielle Behandlung für Kontakt-Sektion auf Desktop
+        const contactSection = document.querySelector('#contact');
+        if (contactSection && window.innerWidth >= 1025) {
+            const contactTop = contactSection.offsetTop - 200; // Frühere Erkennung auf Desktop
+            const contactBottom = contactTop + contactSection.offsetHeight;
+            
+            if (scrollPosition >= contactTop && scrollPosition < contactBottom) {
+                activeSection = 'contact';
+            }
+        }
+        
+        // Update nav links
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            const linkTarget = link.getAttribute('href').substring(1); // Remove #
+            if (linkTarget === activeSection) {
+                link.classList.add('active');
+            }
+        });
+        
+        // Fallback: Wenn ganz oben, aktiviere "Start"
+        if (scrollPosition < 200) {
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#home') {
+                    link.classList.add('active');
+                }
+            });
+        }
     }
     
-    window.addEventListener('scroll', updateActiveNavLink);
+    // Throttle function für bessere Performance
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+        }
+        scrollTimeout = setTimeout(updateActiveNavLink, 10);
+    });
+    
+    // Initial call
+    updateActiveNavLink();
     
     // Button hover effects with ripple
     document.querySelectorAll('.cta-button, .contact-link').forEach(button => {
