@@ -65,7 +65,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    background: var(--nav-bg);
+    background: var(--nav-bg) !important;
     border-bottom: 1px solid var(--border-color);
     z-index: 1000;
     transition: var(--transition-normal);
@@ -556,7 +556,7 @@ body {
         top: 72px;
         left: 0;
         right: 0;
-        background: var(--nav-bg);
+        background: var(--nav-bg) !important;
         flex-direction: column;
         padding: 20px;
         border-top: 1px solid var(--border-color);
@@ -570,9 +570,9 @@ body {
         display: flex;
     }
     
-    /* Hero-Bild auf Mobile: nur rechter Teil sichtbar (mittig/rechts fokussiert) */
+    /* Hero-Bild auf Mobile: linke Seite komplett sichtbar */
     .hero-background-image {
-        object-position: 65% center;
+        object-position: left center;
     }
     
     .hero-title {
