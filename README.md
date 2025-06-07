@@ -37,7 +37,7 @@ Besuche [thorge.github.io/EvoCraft](https://thorge.github.io/EvoCraft) um sofort
 
 ## 🤝 Mitwirken
 
-Beiträge sind willkommen! Bitte lies die [CONTRIBUTING.md](docs/CONTRIBUTING.md) für Details.
+Beiträge sind willkommen! Bitte lies die [Anforderungen](CONTRIBUTING.md) für Details.
 
 ## 📧 Kontakt
 
