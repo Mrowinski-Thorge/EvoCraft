@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(card);
     });
     
-    // Header Scroll Effect
+    // Header Scroll Effect - NEUE FARBE VERWENDEN
     const header = document.querySelector('.header');
     let lastScrollY = window.scrollY;
     
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// CSS für Animationen hinzufügen
+// CSS für Animationen hinzufügen - MIT NEUEN FARBEN
 const animationStyles = `
     .feature-card {
         opacity: 0;
@@ -87,8 +87,9 @@ const animationStyles = `
     }
     
     .header.scrolled {
-        background: rgba(255, 255, 255, 0.98);
-        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        background: #1A1A1E !important;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        border-bottom: 1px solid #2A2A2E;
     }
     
     @media (max-width: 768px) {
@@ -97,7 +98,7 @@ const animationStyles = `
             top: 72px;
             left: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.98);
+            background: #1A1A1E !important;
             backdrop-filter: blur(20px);
             flex-direction: column;
             padding: 20px;
@@ -105,7 +106,8 @@ const animationStyles = `
             opacity: 0;
             transition: transform 0.3s ease-out, opacity 0.3s ease-out;
             z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+            border-top: 1px solid #2A2A2E;
         }
         
         .nav-menu.active {
