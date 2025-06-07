@@ -316,15 +316,15 @@ body {
     transition: var(--transition-normal);
     box-shadow: var(--shadow-lg);
     opacity: 0;
-    animation: scaleIn 1s ease-out 0.9s forwards; /* Button bekommt neue Animation */
+    animation: fadeInUp 1s ease-out 0.9s forwards; /* Zurück zur ursprünglichen Animation */
     position: relative;
     overflow: hidden;
-    transform: translateY(10vh); /* Button nach unten verschoben */
+    transform: none; /* Button wieder auf ursprünglicher Position */
 }
 
 .cta-button:hover {
     background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-    transform: translateY(10vh) translateY(-2px); /* Hover-Effect angepasst */
+    transform: translateY(-2px); /* Hover-Effect zurück auf normal */
     box-shadow: var(--shadow-xl), var(--shadow-glow);
 }
 
@@ -349,7 +349,51 @@ body {
     box-shadow: var(--shadow-glow);
 }
 
-/* Sections mit neuen Animationen */
+/* Scroll-Animation System */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.animate-on-scroll[data-animation="slideInLeft"].visible {
+    transform: translateX(0);
+}
+
+.animate-on-scroll[data-animation="slideInLeft"] {
+    transform: translateX(-50px);
+}
+
+.animate-on-scroll[data-animation="slideInRight"].visible {
+    transform: translateX(0);
+}
+
+.animate-on-scroll[data-animation="slideInRight"] {
+    transform: translateX(50px);
+}
+
+.animate-on-scroll[data-animation="scaleIn"].visible {
+    transform: scale(1);
+}
+
+.animate-on-scroll[data-animation="scaleIn"] {
+    transform: scale(0.8);
+}
+
+.animate-on-scroll[data-animation="slideInBottom"].visible {
+    transform: translateY(0);
+}
+
+.animate-on-scroll[data-animation="slideInBottom"] {
+    transform: translateY(50px);
+}
+
+/* Sections */
 .features, .how-it-works, .faq, .contact {
     padding: 100px 0;
 }
@@ -378,11 +422,9 @@ body {
     margin-bottom: 60px;
     color: var(--text-primary);
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    animation: slideInBottom 1s ease-out forwards; /* Neue Animation für Titel */
 }
 
-/* Feature Cards mit verschiedenen Animationen */
+/* Feature Cards */
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -397,18 +439,6 @@ body {
     box-shadow: var(--shadow-md);
     transition: var(--transition-normal);
     border: 1px solid var(--border-color);
-    opacity: 0;
-    transform: translateY(30px);
-}
-
-.feature-card:nth-child(1) { 
-    animation: slideInLeft 0.8s ease-out 0.2s forwards; 
-}
-.feature-card:nth-child(2) { 
-    animation: scaleIn 0.8s ease-out 0.4s forwards; 
-}
-.feature-card:nth-child(3) { 
-    animation: slideInRight 0.8s ease-out 0.6s forwards; 
 }
 
 .feature-card:hover {
@@ -436,7 +466,7 @@ body {
     line-height: 1.7;
 }
 
-/* Steps mit verschiedenen Animationen */
+/* Steps */
 .steps {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -446,18 +476,6 @@ body {
 
 .step {
     text-align: center;
-    opacity: 0;
-    transform: translateY(30px);
-}
-
-.step:nth-child(1) { 
-    animation: slideInLeft 0.8s ease-out 0.3s forwards; 
-}
-.step:nth-child(2) { 
-    animation: slideInBottom 0.8s ease-out 0.5s forwards; 
-}
-.step:nth-child(3) { 
-    animation: slideInRight 0.8s ease-out 0.7s forwards; 
 }
 
 .step-number {
@@ -485,7 +503,7 @@ body {
     color: var(--text-secondary);
 }
 
-/* FAQ mit verschiedenen Animationen */
+/* FAQ */
 .faq-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -500,21 +518,6 @@ body {
     text-align: left;
     transition: var(--transition-normal);
     border: 1px solid var(--border-color);
-    opacity: 0;
-    transform: translateY(30px);
-}
-
-.faq-item:nth-child(1) { 
-    animation: slideInLeft 0.8s ease-out 0.2s forwards; 
-}
-.faq-item:nth-child(2) { 
-    animation: slideInRight 0.8s ease-out 0.3s forwards; 
-}
-.faq-item:nth-child(3) { 
-    animation: slideInLeft 0.8s ease-out 0.4s forwards; 
-}
-.faq-item:nth-child(4) { 
-    animation: slideInRight 0.8s ease-out 0.5s forwards; 
 }
 
 .faq-item:hover {
@@ -536,13 +539,11 @@ body {
     line-height: 1.6;
 }
 
-/* Contact mit neuen Animationen */
+/* Contact */
 .contact-content p {
     font-size: 1.2rem;
     color: var(--text-secondary);
     margin-bottom: 40px;
-    opacity: 0;
-    animation: slideInBottom 0.8s ease-out 0.2s forwards;
 }
 
 .contact-links {
@@ -562,18 +563,6 @@ body {
     border-radius: var(--radius-lg);
     font-weight: var(--font-weight-medium);
     box-shadow: var(--shadow-md);
-    opacity: 0;
-    transform: translateY(30px);
-}
-
-.contact-link:nth-child(1) { 
-    animation: slideInLeft 0.8s ease-out 0.4s forwards; 
-}
-.contact-link:nth-child(2) { 
-    animation: scaleIn 0.8s ease-out 0.5s forwards; 
-}
-.contact-link:nth-child(3) { 
-    animation: slideInRight 0.8s ease-out 0.6s forwards; 
 }
 
 /* Footer */
@@ -662,14 +651,6 @@ body {
     
     .hero-content {
         transform: translateY(-8vh);
-    }
-    
-    .cta-button {
-        transform: translateY(5vh); /* Weniger Verschiebung auf Mobile */
-    }
-    
-    .cta-button:hover {
-        transform: translateY(5vh) translateY(-2px);
     }
     
     .hero-title {
