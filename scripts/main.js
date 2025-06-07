@@ -17,54 +17,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // BESSERER MOBILE FOOTER LINK SUPPORT
+    // VEREINFACHTER LINK-HANDLER - NUR CLICK EVENTS
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        // Nur einen Event-Listener pro Element
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            e.stopPropagation();
             
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
-                // Kleine Verzögerung für bessere Mobile-Performance
-                setTimeout(() => {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }, 50);
-            }
-        });
-        
-        // Zusätzlicher Touch-Support für Mobile
-        anchor.addEventListener('touchend', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                setTimeout(() => {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }, 50);
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             }
         });
     });
     
-    // VERSCHIEDENE OBSERVER FÜR VERSCHIEDENE SEKTIONEN
+    // OBSERVER NUR FÜR NICHT-FOOTER ELEMENTE
     
-    // Standard Observer für die meisten Sektionen - ETWAS SPÄTER
+    // Standard Observer für die meisten Sektionen
     const standardObserverOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px 50px 0px' // Animationen kommen etwas später
+        rootMargin: '0px 0px 50px 0px'
     };
     
     // Spezieller Observer für Contact-Sektion
     const contactObserverOptions = {
         threshold: 0.05,
-        rootMargin: '0px 0px 150px 0px' // Kontakt bleibt früher
+        rootMargin: '0px 0px 150px 0px'
     };
     
     const standardObserver = new IntersectionObserver((entries) => {
@@ -85,22 +64,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, contactObserverOptions);
     
-    // Beobachte alle Elemente mit animate-on-scroll
+    // Beobachte nur Elemente AUSSERHALB des Footers
     document.querySelectorAll('.animate-on-scroll').forEach((element) => {
-        // Prüfe ob das Element in der Contact-Sektion oder im Footer ist
-        const isContactSection = element.closest('.contact-section') || element.closest('.footer');
+        // FOOTER KOMPLETT AUSSCHLIESSEN
+        const isInFooter = element.closest('.footer');
         
-        if (isContactSection) {
-            contactObserver.observe(element); // Frühere Animation für Kontakt
-        } else {
-            standardObserver.observe(element); // Standard Animation für Rest
+        if (!isInFooter) {
+            // Prüfe ob das Element in der Contact-Sektion ist
+            const isContactSection = element.closest('.contact-section');
+            
+            if (isContactSection) {
+                contactObserver.observe(element);
+            } else {
+                standardObserver.observe(element);
+            }
         }
+        // Footer-Elemente werden NICHT beobachtet = keine Animationen
     });
     
-    // Header background on scroll - SOFORTIGE ANPASSUNG
+    // Header background on scroll
     const header = document.querySelector('.header');
     
-    // Funktion für Header-Update
     function updateHeader() {
         const currentScrollY = window.scrollY;
         
@@ -113,16 +97,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Sofort ausführen beim Laden
     updateHeader();
-    
-    // Bei Scroll ausführen
     window.addEventListener('scroll', updateHeader);
-    
-    // Bei Resize ausführen (für Layout-Änderungen)
     window.addEventListener('resize', updateHeader);
     
-    // KOMPLETT ÜBERARBEITETE ACTIVE LINK TRACKING
+    // ACTIVE LINK TRACKING
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
     
@@ -130,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const scrollPosition = window.scrollY + 150;
         let activeSection = null;
         
-        // ENTFERNE ZUERST ALLE AKTIVEN KLASSEN - FIX FÜR DAS PROBLEM
+        // Entferne alle aktiven Klassen
         navLinks.forEach(link => link.classList.remove('active'));
         
         // Finde die aktuelle Sektion
@@ -174,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Throttle function für bessere Performance
+    // Throttle function
     let scrollTimeout;
     window.addEventListener('scroll', () => {
         if (scrollTimeout) {
@@ -183,7 +162,6 @@ document.addEventListener('DOMContentLoaded', function() {
         scrollTimeout = setTimeout(updateActiveNavLink, 10);
     });
     
-    // Initial call
     updateActiveNavLink();
     
     // Button hover effects with ripple
