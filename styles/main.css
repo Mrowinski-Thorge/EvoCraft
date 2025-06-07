@@ -18,6 +18,9 @@
     --text-secondary: #A1A1AA;       /* Sekundärtext */
     --border-color: #2A2A2E;         /* Rahmen */
     
+    /* Navigation Background - neue Farbe die sich von der Website abhebt */
+    --nav-bg: #1A1A1E;               /* Dunkler als bg-primary aber sichtbar unterschiedlich */
+    
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-weight-light: 300;
     --font-weight-normal: 400;
@@ -56,13 +59,13 @@ body {
     padding: 0 20px;
 }
 
-/* Header & Navigation */
+/* Header & Navigation - Neue Farbe und immer sichtbar */
 .header {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    background: var(--bg-primary);
+    background: var(--nav-bg);
     border-bottom: 1px solid var(--border-color);
     z-index: 1000;
     transition: var(--transition-normal);
@@ -175,7 +178,7 @@ body {
     transition: var(--transition-fast);
 }
 
-/* Hero Section mit IMG-Tag */
+/* Hero Section mit responsivem Bild-Cropping */
 .hero {
     position: relative;
     min-height: 100vh;
@@ -195,6 +198,8 @@ body {
     object-fit: cover;
     z-index: 1;
     opacity: 0.7;
+    /* Standardmäßig ganzes Bild sichtbar */
+    object-position: center center;
 }
 
 .hero-overlay {
@@ -544,13 +549,14 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    /* Navigation für Mobile - behält die neue Farbe */
     .nav-menu {
         display: none;
         position: fixed;
         top: 72px;
         left: 0;
         right: 0;
-        background: var(--bg-primary);
+        background: var(--nav-bg);
         flex-direction: column;
         padding: 20px;
         border-top: 1px solid var(--border-color);
@@ -562,6 +568,11 @@ body {
     
     .nav-toggle {
         display: flex;
+    }
+    
+    /* Hero-Bild auf Mobile: nur rechter Teil sichtbar (mittig/rechts fokussiert) */
+    .hero-background-image {
+        object-position: 65% center;
     }
     
     .hero-title {
@@ -593,6 +604,20 @@ body {
     }
 }
 
+/* Tablet und größere Smartphones (Portrait) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .hero-background-image {
+        object-position: center center;
+    }
+}
+
+/* Desktop und Tablet (Landscape) - ganzes Bild sichtbar */
+@media (min-width: 1025px) {
+    .hero-background-image {
+        object-position: center center;
+    }
+}
+
 @media (max-width: 480px) {
     .container {
         padding: 0 16px;
@@ -609,4 +634,4 @@ body {
     .feature-card, .faq-item {
         padding: 25px 20px;
     }
-        }
+}
