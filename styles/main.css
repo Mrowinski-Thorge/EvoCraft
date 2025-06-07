@@ -635,8 +635,13 @@ body {
     text-decoration: none;
     margin-bottom: 8px;
     transition: var(--transition-fast);
-    /* FIX für Touch-Events */
+    /* BESSERER TOUCH-SUPPORT für Mobile */
     touch-action: manipulation;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
 }
 
 .footer-group a:hover {
@@ -651,31 +656,40 @@ body {
     color: var(--text-secondary);
 }
 
-/* Desktop Hero Verbesserungen - GRÖßERER TEXT UND BUTTON */
+/* Desktop Hero Verbesserungen - 20% KLEINER UND NACH UNTEN MITTIG */
 @media (min-width: 1025px) {
     .hero-background-image {
         object-position: center center;
     }
     
-    /* GRÖßERER TEXT UND BUTTON AUF DESKTOP */
+    .hero-content {
+        transform: translateY(-5vh); /* Weniger nach oben, mehr mittig */
+    }
+    
+    /* 20% KLEINER ALS VORHER */
     .hero-title {
-        font-size: clamp(5rem, 10vw, 8rem); /* Doppelt so groß */
+        font-size: clamp(4rem, 8vw, 6.4rem); /* Von 8rem auf 6.4rem (20% kleiner) */
     }
     
     .hero-subtitle {
-        font-size: 2rem; /* Von 1.25rem auf 2rem */
-        max-width: 900px; /* Breiterer Container */
+        font-size: 1.6rem; /* Von 2rem auf 1.6rem (20% kleiner) */
+        max-width: 720px; /* Von 900px auf 720px (20% kleiner) */
     }
     
     .cta-button {
-        padding: 24px 48px; /* Von 16px 32px auf 24px 48px */
-        font-size: 1.6rem; /* Von 1.1rem auf 1.6rem */
-        gap: 16px; /* Größerer Gap */
+        padding: 20px 38px; /* Von 24px 48px auf 20px 38px (20% kleiner) */
+        font-size: 1.3rem; /* Von 1.6rem auf 1.3rem (20% kleiner) */
+        gap: 13px; /* Von 16px auf 13px (20% kleiner) */
+        transform: translateY(5vh); /* Weniger nach unten */
+    }
+    
+    .cta-button:hover {
+        transform: translateY(5vh) translateY(-2px);
     }
     
     .arrow-icon {
-        width: 28px; /* Größeres Icon */
-        height: 28px;
+        width: 22px; /* Von 28px auf 22px (20% kleiner) */
+        height: 22px;
     }
 }
 
