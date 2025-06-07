@@ -591,7 +591,7 @@ body {
     box-shadow: var(--shadow-md);
 }
 
-/* Footer mit Animationen */
+/* Footer OHNE Animationen - ALLE ANIMATIONEN ENTFERNT */
 .footer {
     background: var(--bg-secondary);
     color: var(--text-primary);
@@ -635,13 +635,8 @@ body {
     text-decoration: none;
     margin-bottom: 8px;
     transition: var(--transition-fast);
-    /* BESSERER TOUCH-SUPPORT für Mobile */
-    touch-action: manipulation;
-    user-select: none;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+    /* Einfache Touch-Unterstützung OHNE Animationen */
+    cursor: pointer;
 }
 
 .footer-group a:hover {
