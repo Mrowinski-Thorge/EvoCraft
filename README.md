@@ -2,7 +2,7 @@
 
 Ein wissenschaftlich fundiertes Browser-Crafting-Spiel, das die Evolution der Menschheit durch alle Zeitalter hinweg simuliert.
 
-![EvoCraft Hero](assets/images/hero/Evocraft_Hero.PNG)
+![EvoCraft Hero](Evocraft_Hero.PNG)
 
 ## 🎮 Über das Spiel
 
