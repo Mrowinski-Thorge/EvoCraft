@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // VEREINFACHTER LINK-HANDLER - NUR CLICK EVENTS
+    // VEREINFACHTER LINK-HANDLER - BEHÄLT SCROLL-POSITION BEI ZURÜCK-NAVIGATION
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // OBSERVER NUR FÜR NICHT-FOOTER ELEMENTE
+    // WIEDERHOLBARE OBSERVER FÜR ANIMATIONEN
     
     // Standard Observer für die meisten Sektionen
     const standardObserverOptions = {
@@ -50,7 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                standardObserver.unobserve(entry.target);
+                // ENTFERNT: observer.unobserve(entry.target); 
+                // Jetzt können Animationen bei jedem Besuch neu abgespielt werden
             }
         });
     }, standardObserverOptions);
@@ -59,18 +60,27 @@ document.addEventListener('DOMContentLoaded', function() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                contactObserver.unobserve(entry.target);
+                // ENTFERNT: observer.unobserve(entry.target);
+                // Jetzt können Animationen bei jedem Besuch neu abgespielt werden
             }
         });
     }, contactObserverOptions);
     
+    // RESET ANIMATIONEN BEI SEITENLADUNG
+    function resetAnimations() {
+        document.querySelectorAll('.animate-on-scroll').forEach(element => {
+            element.classList.remove('visible');
+        });
+    }
+    
+    // Reset bei Seitenladung (für Zurück-Navigation)
+    resetAnimations();
+    
     // Beobachte nur Elemente AUSSERHALB des Footers
     document.querySelectorAll('.animate-on-scroll').forEach((element) => {
-        // FOOTER KOMPLETT AUSSCHLIESSEN
         const isInFooter = element.closest('.footer');
         
         if (!isInFooter) {
-            // Prüfe ob das Element in der Contact-Sektion ist
             const isContactSection = element.closest('.contact-section');
             
             if (isContactSection) {
@@ -79,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 standardObserver.observe(element);
             }
         }
-        // Footer-Elemente werden NICHT beobachtet = keine Animationen
     });
     
     // Header background on scroll
@@ -163,6 +172,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     updateActiveNavLink();
+    
+    // VERHINDERT HORIZONTALES SCROLLEN DURCH TOUCH-GESTEN
+    let startX = 0;
+    document.addEventListener('touchstart', function(e) {
+        startX = e.touches[0].clientX;
+    });
+    
+    document.addEventListener('touchmove', function(e) {
+        const currentX = e.touches[0].clientX;
+        const diffX = Math.abs(currentX - startX);
+        
+        // Verhindert horizontales Scrollen wenn mehr horizontal als vertikal bewegt wird
+        if (diffX > 10) {
+            e.preventDefault();
+        }
+    }, { passive: false });
     
     // Button hover effects with ripple
     document.querySelectorAll('.cta-button, .contact-link').forEach(button => {
