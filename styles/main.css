@@ -168,19 +168,14 @@ body {
     flex-shrink: 1;
 }
 
-/* VERBESSERTE ACTIVE-MARKIERUNG - WIE FRÜHER */
+/* NUR HOVER-EFFEKT - KEINE ACTIVE-MARKIERUNG */
 .nav-link:hover {
     color: var(--accent-primary);
     background: linear-gradient(135deg, rgba(0, 212, 122, 0.1), rgba(87, 154, 255, 0.1));
     box-shadow: var(--shadow-glow);
 }
 
-.nav-link.active {
-    color: var(--accent-primary) !important;
-    background: linear-gradient(135deg, rgba(0, 212, 122, 0.15), rgba(87, 154, 255, 0.15)) !important;
-    box-shadow: 0 0 25px rgba(0, 212, 122, 0.4) !important;
-    border: 1px solid rgba(0, 212, 122, 0.3);
-}
+/* ENTFERNT: .nav-link.active styles */
 
 /* Hero Section */
 .hero {
