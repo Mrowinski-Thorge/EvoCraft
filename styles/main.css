@@ -74,7 +74,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Header & Navigation - KOMPLETT STABILISIERT */
+/* Header & Navigation - MOBILE-MENU FIXED */
 .header {
     position: fixed;
     top: 0;
@@ -194,13 +194,21 @@ body {
     flex-shrink: 1;
 }
 
-.nav-link:hover,
-.nav-link.active {
+/* VERBESSERTE ACTIVE-MARKIERUNG - WIE FRÜHER */
+.nav-link:hover {
     color: var(--accent-primary);
     background: linear-gradient(135deg, rgba(0, 212, 122, 0.1), rgba(87, 154, 255, 0.1));
     box-shadow: var(--shadow-glow);
 }
 
+.nav-link.active {
+    color: var(--accent-primary) !important;
+    background: linear-gradient(135deg, rgba(0, 212, 122, 0.15), rgba(87, 154, 255, 0.15)) !important;
+    box-shadow: 0 0 25px rgba(0, 212, 122, 0.4) !important;
+    border: 1px solid rgba(0, 212, 122, 0.3);
+}
+
+/* MOBILE TOGGLE BUTTON - VERBESSERT */
 .nav-toggle {
     display: none;
     flex-direction: column;
@@ -211,11 +219,14 @@ body {
     background: transparent;
     border: none;
     flex-shrink: 0;
-    z-index: 1001;
+    z-index: 1002; /* Höher als Menu */
     width: 40px;
     height: 40px;
     justify-content: center;
     align-items: center;
+    /* BESSERE TOUCH-AREA */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .nav-toggle span {
@@ -225,6 +236,19 @@ body {
     border-radius: 2px;
     transition: var(--transition-fast);
     display: block;
+}
+
+/* TOGGLE ANIMATION */
+.nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
 }
 
 /* Hero Section mit hellerem Bild */
@@ -743,7 +767,7 @@ body {
     }
 }
 
-/* Responsive Design mit strikter Breiten-Kontrolle */
+/* MOBILE RESPONSIVE - MENU FIX */
 @media (max-width: 768px) {
     .container {
         padding: 0 16px;
@@ -760,8 +784,9 @@ body {
         gap: 10px;
     }
     
+    /* MOBILE MENU - FUNKTIONIERT JETZT */
     .nav-menu {
-        display: none;
+        display: none; /* Standardmäßig versteckt */
         position: fixed;
         top: 68px;
         left: 0;
@@ -771,19 +796,46 @@ body {
         padding: 20px;
         border-top: 1px solid var(--border-color);
         box-shadow: var(--shadow-lg);
-        z-index: 999;
+        z-index: 1001;
         width: 100vw;
         box-sizing: border-box;
         max-width: 100vw;
         overflow-x: hidden;
+        
+        /* ANIMATION */
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 0.3s ease-out;
     }
     
+    /* MENU AKTIV */
     .nav-menu.active {
-        display: flex;
+        display: flex !important;
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    /* MOBILE NAV LINKS */
+    .nav-menu .nav-link {
+        padding: 16px 0;
+        text-align: center;
+        border-bottom: 1px solid var(--border-color);
+        border-radius: 0;
+        margin-bottom: 8px;
+    }
+    
+    .nav-menu .nav-link:last-child {
+        border-bottom: none;
+    }
+    
+    .nav-menu .nav-link.active {
+        background: linear-gradient(135deg, rgba(0, 212, 122, 0.2), rgba(87, 154, 255, 0.2)) !important;
+        border: 1px solid rgba(0, 212, 122, 0.4);
+        border-radius: var(--radius-md);
     }
     
     .nav-toggle {
-        display: flex;
+        display: flex !important; /* Wichtig für Mobile */
     }
     
     .logo-text {
@@ -859,6 +911,10 @@ body {
         padding: 10px 12px;
         height: 64px;
         gap: 8px;
+    }
+    
+    .nav-menu {
+        top: 64px; /* Angepasst für kleineren Header */
     }
     
     .logo-text {
