@@ -59,7 +59,7 @@ body {
     padding: 0 20px;
 }
 
-/* Header & Navigation - Neue Farbe und immer sichtbar */
+/* Header & Navigation */
 .header {
     position: fixed;
     top: 0;
@@ -197,11 +197,10 @@ body {
     height: 100%;
     object-fit: cover;
     z-index: 1;
-    opacity: 1; /* Geändert von 0.7 zu 1 für volle Helligkeit */
+    opacity: 1;
     object-position: center center;
 }
 
-/* Hero-Overlay komplett entfernt */
 .hero-overlay {
     display: none;
 }
@@ -215,7 +214,7 @@ body {
     z-index: 10;
     max-width: 800px;
     padding: 0 20px;
-    transform: translateY(-10vh); /* Text nach oben verschieben */
+    transform: translateY(-15vh); /* Mehr nach oben verschoben */
 }
 
 .hero-title {
@@ -224,7 +223,7 @@ body {
     color: var(--text-primary);
     margin-bottom: 24px;
     line-height: 1.1;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8); /* Stärkerer Schatten für bessere Lesbarkeit */
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
 }
 
 .title-line {
@@ -245,6 +244,42 @@ body {
     }
 }
 
+/* Slide-in from left animation */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Slide-in from right animation */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Scale-in animation */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 .hero-subtitle {
     font-size: 1.25rem;
     color: var(--text-secondary);
@@ -254,10 +289,9 @@ body {
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8); /* Stärkerer Schatten für bessere Lesbarkeit */
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
-/* Einfarbige Buttons mit Gradient-Hover */
 .cta-button {
     display: inline-flex;
     align-items: center;
@@ -292,7 +326,6 @@ body {
     transform: translateX(4px);
 }
 
-/* Contact Links und Step Numbers - einfarbig mit Gradient-Hover */
 .contact-link, .step-number {
     background: var(--accent-primary);
     transition: var(--transition-normal);
@@ -306,7 +339,7 @@ body {
     box-shadow: var(--shadow-glow);
 }
 
-/* Sections */
+/* Sections mit Animationen */
 .features, .how-it-works, .faq, .contact {
     padding: 100px 0;
 }
@@ -335,8 +368,11 @@ body {
     margin-bottom: 60px;
     color: var(--text-primary);
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
 }
 
+/* Feature Cards mit Animationen */
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -351,7 +387,14 @@ body {
     box-shadow: var(--shadow-md);
     transition: var(--transition-normal);
     border: 1px solid var(--border-color);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out forwards;
 }
+
+.feature-card:nth-child(1) { animation-delay: 0.2s; }
+.feature-card:nth-child(2) { animation-delay: 0.4s; }
+.feature-card:nth-child(3) { animation-delay: 0.6s; }
 
 .feature-card:hover {
     transform: translateY(-8px);
@@ -378,7 +421,7 @@ body {
     line-height: 1.7;
 }
 
-/* Steps */
+/* Steps mit Animationen */
 .steps {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -388,7 +431,14 @@ body {
 
 .step {
     text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out forwards;
 }
+
+.step:nth-child(1) { animation-delay: 0.2s; }
+.step:nth-child(2) { animation-delay: 0.4s; }
+.step:nth-child(3) { animation-delay: 0.6s; }
 
 .step-number {
     width: 60px;
@@ -415,7 +465,7 @@ body {
     color: var(--text-secondary);
 }
 
-/* FAQ */
+/* FAQ mit verbesserter Hover-Animation */
 .faq-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -430,11 +480,19 @@ body {
     text-align: left;
     transition: var(--transition-normal);
     border: 1px solid var(--border-color);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out forwards;
 }
 
+.faq-item:nth-child(1) { animation-delay: 0.1s; }
+.faq-item:nth-child(2) { animation-delay: 0.2s; }
+.faq-item:nth-child(3) { animation-delay: 0.3s; }
+.faq-item:nth-child(4) { animation-delay: 0.4s; }
+
 .faq-item:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-8px); /* Gleiche Animation wie Feature Cards */
+    box-shadow: var(--shadow-xl);
     border-color: var(--accent-primary);
     background: linear-gradient(135deg, var(--bg-primary), var(--bg-hover));
 }
@@ -456,6 +514,8 @@ body {
     font-size: 1.2rem;
     color: var(--text-secondary);
     margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 0.2s forwards;
 }
 
 .contact-links {
@@ -475,7 +535,13 @@ body {
     border-radius: var(--radius-lg);
     font-weight: var(--font-weight-medium);
     box-shadow: var(--shadow-md);
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
 }
+
+.contact-link:nth-child(1) { animation-delay: 0.3s; }
+.contact-link:nth-child(2) { animation-delay: 0.4s; }
+.contact-link:nth-child(3) { animation-delay: 0.5s; }
 
 /* Footer */
 .footer {
@@ -537,7 +603,6 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    /* Navigation für Mobile - behält die neue Farbe */
     .nav-menu {
         display: none;
         position: fixed;
@@ -558,13 +623,12 @@ body {
         display: flex;
     }
     
-    /* Hero-Bild auf Mobile: linke Seite komplett sichtbar */
     .hero-background-image {
         object-position: left center;
     }
     
     .hero-content {
-        transform: translateY(-5vh); /* Weniger Verschiebung auf Mobile */
+        transform: translateY(-8vh); /* Weniger Verschiebung auf Mobile */
     }
     
     .hero-title {
@@ -596,14 +660,12 @@ body {
     }
 }
 
-/* Tablet und größere Smartphones (Portrait) */
 @media (min-width: 769px) and (max-width: 1024px) {
     .hero-background-image {
         object-position: center center;
     }
 }
 
-/* Desktop und Tablet (Landscape) - ganzes Bild sichtbar */
 @media (min-width: 1025px) {
     .hero-background-image {
         object-position: center center;
