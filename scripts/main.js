@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Scroll Animation Observer
     const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: '0px 0px -10px 0px'
     };
     
     const observer = new IntersectionObserver((entries) => {
