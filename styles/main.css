@@ -635,6 +635,8 @@ body {
     text-decoration: none;
     margin-bottom: 8px;
     transition: var(--transition-fast);
+    /* FIX für Touch-Events */
+    touch-action: manipulation;
 }
 
 .footer-group a:hover {
@@ -647,6 +649,34 @@ body {
     padding-top: 20px;
     text-align: center;
     color: var(--text-secondary);
+}
+
+/* Desktop Hero Verbesserungen - GRÖßERER TEXT UND BUTTON */
+@media (min-width: 1025px) {
+    .hero-background-image {
+        object-position: center center;
+    }
+    
+    /* GRÖßERER TEXT UND BUTTON AUF DESKTOP */
+    .hero-title {
+        font-size: clamp(5rem, 10vw, 8rem); /* Doppelt so groß */
+    }
+    
+    .hero-subtitle {
+        font-size: 2rem; /* Von 1.25rem auf 2rem */
+        max-width: 900px; /* Breiterer Container */
+    }
+    
+    .cta-button {
+        padding: 24px 48px; /* Von 16px 32px auf 24px 48px */
+        font-size: 1.6rem; /* Von 1.1rem auf 1.6rem */
+        gap: 16px; /* Größerer Gap */
+    }
+    
+    .arrow-icon {
+        width: 28px; /* Größeres Icon */
+        height: 28px;
+    }
 }
 
 /* Responsive Design */
@@ -784,9 +814,3 @@ body {
         object-position: center center;
     }
 }
-
-@media (min-width: 1025px) {
-    .hero-background-image {
-        object-position: center center;
-    }
-    }
