@@ -214,7 +214,7 @@ body {
     z-index: 10;
     max-width: 800px;
     padding: 0 20px;
-    transform: translateY(-15vh); /* Mehr nach oben verschoben */
+    transform: translateY(-15vh); /* Text bleibt oben */
 }
 
 .hero-title {
@@ -244,7 +244,7 @@ body {
     }
 }
 
-/* Slide-in from left animation */
+/* Neue Einblende-Animationen */
 @keyframes slideInLeft {
     from {
         opacity: 0;
@@ -256,7 +256,6 @@ body {
     }
 }
 
-/* Slide-in from right animation */
 @keyframes slideInRight {
     from {
         opacity: 0;
@@ -268,7 +267,6 @@ body {
     }
 }
 
-/* Scale-in animation */
 @keyframes scaleIn {
     from {
         opacity: 0;
@@ -277,6 +275,17 @@ body {
     to {
         opacity: 1;
         transform: scale(1);
+    }
+}
+
+@keyframes slideInBottom {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -307,14 +316,15 @@ body {
     transition: var(--transition-normal);
     box-shadow: var(--shadow-lg);
     opacity: 0;
-    animation: fadeInUp 1s ease-out 0.9s forwards;
+    animation: scaleIn 1s ease-out 0.9s forwards; /* Button bekommt neue Animation */
     position: relative;
     overflow: hidden;
+    transform: translateY(10vh); /* Button nach unten verschoben */
 }
 
 .cta-button:hover {
     background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-    transform: translateY(-2px);
+    transform: translateY(10vh) translateY(-2px); /* Hover-Effect angepasst */
     box-shadow: var(--shadow-xl), var(--shadow-glow);
 }
 
@@ -339,7 +349,7 @@ body {
     box-shadow: var(--shadow-glow);
 }
 
-/* Sections mit Animationen */
+/* Sections mit neuen Animationen */
 .features, .how-it-works, .faq, .contact {
     padding: 100px 0;
 }
@@ -369,10 +379,10 @@ body {
     color: var(--text-primary);
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     opacity: 0;
-    animation: fadeInUp 0.8s ease-out forwards;
+    animation: slideInBottom 1s ease-out forwards; /* Neue Animation für Titel */
 }
 
-/* Feature Cards mit Animationen */
+/* Feature Cards mit verschiedenen Animationen */
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -389,12 +399,17 @@ body {
     border: 1px solid var(--border-color);
     opacity: 0;
     transform: translateY(30px);
-    animation: fadeInUp 0.8s ease-out forwards;
 }
 
-.feature-card:nth-child(1) { animation-delay: 0.2s; }
-.feature-card:nth-child(2) { animation-delay: 0.4s; }
-.feature-card:nth-child(3) { animation-delay: 0.6s; }
+.feature-card:nth-child(1) { 
+    animation: slideInLeft 0.8s ease-out 0.2s forwards; 
+}
+.feature-card:nth-child(2) { 
+    animation: scaleIn 0.8s ease-out 0.4s forwards; 
+}
+.feature-card:nth-child(3) { 
+    animation: slideInRight 0.8s ease-out 0.6s forwards; 
+}
 
 .feature-card:hover {
     transform: translateY(-8px);
@@ -421,7 +436,7 @@ body {
     line-height: 1.7;
 }
 
-/* Steps mit Animationen */
+/* Steps mit verschiedenen Animationen */
 .steps {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -433,12 +448,17 @@ body {
     text-align: center;
     opacity: 0;
     transform: translateY(30px);
-    animation: fadeInUp 0.8s ease-out forwards;
 }
 
-.step:nth-child(1) { animation-delay: 0.2s; }
-.step:nth-child(2) { animation-delay: 0.4s; }
-.step:nth-child(3) { animation-delay: 0.6s; }
+.step:nth-child(1) { 
+    animation: slideInLeft 0.8s ease-out 0.3s forwards; 
+}
+.step:nth-child(2) { 
+    animation: slideInBottom 0.8s ease-out 0.5s forwards; 
+}
+.step:nth-child(3) { 
+    animation: slideInRight 0.8s ease-out 0.7s forwards; 
+}
 
 .step-number {
     width: 60px;
@@ -465,7 +485,7 @@ body {
     color: var(--text-secondary);
 }
 
-/* FAQ mit verbesserter Hover-Animation */
+/* FAQ mit verschiedenen Animationen */
 .faq-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -482,16 +502,23 @@ body {
     border: 1px solid var(--border-color);
     opacity: 0;
     transform: translateY(30px);
-    animation: fadeInUp 0.8s ease-out forwards;
 }
 
-.faq-item:nth-child(1) { animation-delay: 0.1s; }
-.faq-item:nth-child(2) { animation-delay: 0.2s; }
-.faq-item:nth-child(3) { animation-delay: 0.3s; }
-.faq-item:nth-child(4) { animation-delay: 0.4s; }
+.faq-item:nth-child(1) { 
+    animation: slideInLeft 0.8s ease-out 0.2s forwards; 
+}
+.faq-item:nth-child(2) { 
+    animation: slideInRight 0.8s ease-out 0.3s forwards; 
+}
+.faq-item:nth-child(3) { 
+    animation: slideInLeft 0.8s ease-out 0.4s forwards; 
+}
+.faq-item:nth-child(4) { 
+    animation: slideInRight 0.8s ease-out 0.5s forwards; 
+}
 
 .faq-item:hover {
-    transform: translateY(-8px); /* Gleiche Animation wie Feature Cards */
+    transform: translateY(-8px);
     box-shadow: var(--shadow-xl);
     border-color: var(--accent-primary);
     background: linear-gradient(135deg, var(--bg-primary), var(--bg-hover));
@@ -509,13 +536,13 @@ body {
     line-height: 1.6;
 }
 
-/* Contact */
+/* Contact mit neuen Animationen */
 .contact-content p {
     font-size: 1.2rem;
     color: var(--text-secondary);
     margin-bottom: 40px;
     opacity: 0;
-    animation: fadeInUp 0.8s ease-out 0.2s forwards;
+    animation: slideInBottom 0.8s ease-out 0.2s forwards;
 }
 
 .contact-links {
@@ -536,12 +563,18 @@ body {
     font-weight: var(--font-weight-medium);
     box-shadow: var(--shadow-md);
     opacity: 0;
-    animation: fadeInUp 0.8s ease-out forwards;
+    transform: translateY(30px);
 }
 
-.contact-link:nth-child(1) { animation-delay: 0.3s; }
-.contact-link:nth-child(2) { animation-delay: 0.4s; }
-.contact-link:nth-child(3) { animation-delay: 0.5s; }
+.contact-link:nth-child(1) { 
+    animation: slideInLeft 0.8s ease-out 0.4s forwards; 
+}
+.contact-link:nth-child(2) { 
+    animation: scaleIn 0.8s ease-out 0.5s forwards; 
+}
+.contact-link:nth-child(3) { 
+    animation: slideInRight 0.8s ease-out 0.6s forwards; 
+}
 
 /* Footer */
 .footer {
@@ -628,7 +661,15 @@ body {
     }
     
     .hero-content {
-        transform: translateY(-8vh); /* Weniger Verschiebung auf Mobile */
+        transform: translateY(-8vh);
+    }
+    
+    .cta-button {
+        transform: translateY(5vh); /* Weniger Verschiebung auf Mobile */
+    }
+    
+    .cta-button:hover {
+        transform: translateY(5vh) translateY(-2px);
     }
     
     .hero-title {
