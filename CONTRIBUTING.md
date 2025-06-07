@@ -4,7 +4,11 @@ Vielen Dank für Ihr Interesse, zu EvoCraft beizutragen! Hier erfahren Sie, wie 
 
 ## 🐛 Bugs melden
 
-Haben Sie einen Bug gefunden? Bitte erstellen Sie ein [GitHub Issue](https://github.com/Mrowinski-Thorge/EvoCraft/issues/new) mit:
+Haben Sie einen Bug gefunden? Bitte erstellen Sie ein [GitHub Issue](https://github.com/Mrowinski-Thorge/EvoCraft/issues/new) 
+
+## Wollen Sie neue Features
+
+Schreiben Sie mir.
 
 # 💻 Mit Entwickeln 
 
