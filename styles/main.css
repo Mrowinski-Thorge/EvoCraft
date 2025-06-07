@@ -59,20 +59,19 @@ body {
     padding: 0 20px;
 }
 
-/* Header & Navigation - STABILISIERT FÜR ALLE BILDSCHIRMGROSSEN */
+/* Header & Navigation - KOMPLETT STABILISIERT */
 .header {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    width: 100vw; /* Feste Breite */
+    width: 100%;
+    max-width: 100vw; /* Verhindert Überlauf */
     background: var(--nav-bg) !important;
     border-bottom: 1px solid var(--border-color);
     z-index: 1000;
     transition: var(--transition-normal);
     backdrop-filter: blur(10px);
     box-sizing: border-box;
-    overflow: hidden; /* Verhindert horizontales Überlaufen */
 }
 
 .nav {
@@ -83,16 +82,16 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
+    height: 72px; /* Feste Höhe */
     box-sizing: border-box;
-    min-height: 72px; /* Feste Höhe verhindert Springen */
 }
 
 .nav-logo {
     display: flex;
     align-items: center;
     gap: 12px;
-    flex-shrink: 0; /* Verhindert dass das Logo schrumpft */
-    min-width: fit-content;
+    flex-shrink: 0;
+    min-width: 0; /* Wichtig für Flexbox */
 }
 
 .logo-container {
@@ -147,7 +146,9 @@ body {
     font-size: 20px;
     font-weight: var(--font-weight-bold);
     color: var(--accent-primary);
-    white-space: nowrap; /* Verhindert Zeilenumbruch */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .nav-menu {
@@ -156,6 +157,7 @@ body {
     gap: 32px;
     margin: 0;
     padding: 0;
+    flex-shrink: 0;
 }
 
 .nav-link {
@@ -185,7 +187,7 @@ body {
     border-radius: 4px;
     background: transparent;
     border: none;
-    flex-shrink: 0; /* Verhindert dass der Button schrumpft */
+    flex-shrink: 0;
     z-index: 1001;
     width: 40px;
     height: 40px;
@@ -377,7 +379,7 @@ body {
 .animate-on-scroll {
     opacity: 0;
     transform: translateY(30px);
-    transition: all 0.4s ease-out; /* VERKÜRZT von 0.8s auf 0.4s */
+    transition: all 0.4s ease-out;
 }
 
 .animate-on-scroll.visible {
@@ -589,7 +591,7 @@ body {
     box-shadow: var(--shadow-md);
 }
 
-/* Footer */
+/* Footer mit Animationen */
 .footer {
     background: var(--bg-secondary);
     color: var(--text-primary);
@@ -647,15 +649,15 @@ body {
     color: var(--text-secondary);
 }
 
-/* Responsive Design - VERBESSERTE STABILITÄT */
+/* Responsive Design */
 @media (max-width: 768px) {
     .header {
-        min-height: 68px; /* Feste Mindesthöhe auf Mobile */
+        height: 68px; /* Feste Höhe auf Mobile */
     }
     
     .nav {
         padding: 12px 16px;
-        min-height: 68px;
+        height: 68px;
     }
     
     .nav-menu {
@@ -670,7 +672,8 @@ body {
         border-top: 1px solid var(--border-color);
         box-shadow: var(--shadow-lg);
         z-index: 999;
-        width: 100vw;
+        width: 100%;
+        max-width: 100vw;
         box-sizing: border-box;
     }
     
@@ -740,12 +743,12 @@ body {
     }
     
     .header {
-        min-height: 64px;
+        height: 64px;
     }
     
     .nav {
         padding: 10px 12px;
-        min-height: 64px;
+        height: 64px;
     }
     
     .logo-text {
@@ -786,4 +789,4 @@ body {
     .hero-background-image {
         object-position: center center;
     }
-}
+    }
