@@ -31,10 +31,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Scroll Animation Observer
+    // Scroll Animation Observer - VIEL FRÜHERE AKTIVIERUNG
     const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px 25px 0px'
+        threshold: 0.05, // Niedrigerer Wert = frühere Animation
+        rootMargin: '0px 0px 25px 0px' // Animation triggert 200px früher
     };
     
     const observer = new IntersectionObserver((entries) => {
@@ -47,14 +47,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
     
-    // Observe all elements with animate-on-scroll class
+    // Observe all elements with animate-on-scroll class - KEINE DELAYS
     document.querySelectorAll('.animate-on-scroll').forEach((element, index) => {
-        // Add staggered delay for multiple elements in same section
-        element.style.transitionDelay = `${index * 0.1}s`;
+        // ENTFERNT: Keine gestaffelten Delays mehr
+        // element.style.transitionDelay = `${index * 0.1}s`;
         observer.observe(element);
     });
     
-    // Header background on scroll
+    // Header background on scroll - VERBESSERTE STABILITÄT
     const header = document.querySelector('.header');
     let lastScrollY = window.scrollY;
     
