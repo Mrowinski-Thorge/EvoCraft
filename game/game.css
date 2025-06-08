@@ -1,0 +1,422 @@
+/* Game-spezifische Styles mit neuer Farbpalette */
+.game-body {
+    background: var(--bg-primary);
+    overflow: hidden;
+}
+
+.game-header {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.game-controls {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.control-btn {
+    background: var(--accent-primary);
+    color: var(--bg-primary);
+    border: none;
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    text-decoration: none;
+    display: inline-block;
+}
+
+.control-btn:hover {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow);
+}
+
+/* Wartungsmeldung */
+.maintenance-notice {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.maintenance-content {
+    text-align: center;
+    max-width: 600px;
+    padding: 40px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-xl);
+}
+
+.maintenance-icon {
+    font-size: 4rem;
+    margin-bottom: 24px;
+    filter: drop-shadow(0 0 20px rgba(255, 159, 28, 0.5));
+}
+
+.maintenance-content h2 {
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 16px;
+}
+
+.maintenance-content p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 32px;
+    line-height: 1.6;
+}
+
+.maintenance-progress {
+    background: var(--bg-primary);
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+}
+
+.maintenance-progress .progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-hover);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.maintenance-progress .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px rgba(0, 212, 122, 0.5);
+}
+
+.maintenance-progress .progress-text {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-medium);
+}
+
+/* Game Interface (versteckt während Wartung) */
+.game-main {
+    display: grid;
+    grid-template-columns: 300px 1fr 300px;
+    height: calc(100vh - 72px);
+    margin-top: 72px;
+    gap: 0;
+}
+
+.sidebar, .inventory-panel {
+    background: var(--bg-secondary);
+    padding: 20px;
+    overflow-y: auto;
+    border-right: 1px solid var(--border-color);
+}
+
+.inventory-panel {
+    border-right: none;
+    border-left: 1px solid var(--border-color);
+}
+
+.sidebar-section {
+    margin-bottom: 32px;
+}
+
+.sidebar-section h3 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.elements-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.element {
+    background: var(--bg-primary);
+    padding: 12px 8px;
+    border-radius: var(--radius-md);
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    cursor: grab;
+    transition: var(--transition-normal);
+    border: 1px solid var(--border-color);
+}
+
+.element:hover {
+    background: var(--bg-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.element.pulsing {
+    animation: elementPulse 2s ease-in-out infinite;
+}
+
+@keyframes elementPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.game-canvas {
+    background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.cosmic-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(0, 212, 122, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(87, 154, 255, 0.1) 0%, transparent 50%);
+    animation: cosmicFlow 10s linear infinite;
+}
+
+@keyframes cosmicFlow {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.1); }
+}
+
+.crafting-area {
+    z-index: 10;
+    text-align: center;
+    padding: 40px;
+    background: rgba(28, 28, 34, 0.8);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
+}
+
+.crafting-title h2 {
+    color: var(--text-primary);
+    font-size: 1.8rem;
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 32px;
+}
+
+.drop-zones-container {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 32px;
+}
+
+.drop-zone {
+    width: 120px;
+    height: 120px;
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-primary);
+    transition: var(--transition-normal);
+    position: relative;
+}
+
+.drop-zone:hover {
+    border-color: var(--accent-primary);
+    background: rgba(0, 212, 122, 0.05);
+}
+
+.drop-hint {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: var(--font-weight-medium);
+}
+
+.combine-symbol {
+    font-size: 2rem;
+    color: var(--accent-primary);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--accent-primary);
+    position: relative;
+}
+
+.combine-symbol.pulsing {
+    animation: combinePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes combinePulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 212, 122, 0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0, 212, 122, 0); }
+}
+
+.experiment-btn {
+    background: var(--accent-primary);
+    color: var(--bg-primary);
+    border: none;
+    padding: 16px 32px;
+    border-radius: var(--radius-lg);
+    font-size: 1.1rem;
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.experiment-btn:disabled {
+    background: var(--bg-hover);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+}
+
+.experiment-btn:not(:disabled):hover {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
+}
+
+.result-area {
+    margin-top: 32px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-placeholder {
+    color: var(--text-secondary);
+    font-style: italic;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Timeline */
+.timeline {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    padding: 16px 0;
+    z-index: 100;
+}
+
+.timeline-content {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.timeline-epoch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    padding: 12px;
+    border-radius: var(--radius-md);
+}
+
+.timeline-epoch.active {
+    background: rgba(0, 212, 122, 0.1);
+    color: var(--accent-primary);
+}
+
+.timeline-epoch.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.timeline-epoch:not(.locked):hover {
+    background: var(--bg-hover);
+    transform: translateY(-2px);
+}
+
+.epoch-icon {
+    font-size: 1.5rem;
+}
+
+.epoch-name {
+    font-size: 0.8rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+}
+
+.timeline-epoch.active .epoch-name {
+    color: var(--accent-primary);
+}
+
+/* Responsive Design für Game */
+@media (max-width: 1024px) {
+    .game-main {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+    }
+    
+    .sidebar, .inventory-panel {
+        border-right: none;
+        border-left: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .timeline-content {
+        gap: 20px;
+    }
+    
+    .timeline-epoch {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .maintenance-content {
+        margin: 20px;
+        padding: 30px;
+    }
+    
+    .maintenance-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .drop-zones-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .timeline-content {
+        gap: 12px;
+        overflow-x: auto;
+        justify-content: flex-start;
+    }
+}
