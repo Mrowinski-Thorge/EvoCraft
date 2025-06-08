@@ -420,3 +420,35 @@
         justify-content: flex-start;
     }
 }
+/* Vertical Ad Banner Styles */
+.ad-banner-panel {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 160px;
+    z-index: 1000;
+    background: rgba(10, 10, 20, 0.9);
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 10px;
+    backdrop-filter: blur(10px);
+}
+
+.ad-container {
+    width: 100%;
+    height: auto;
+}
+
+.vertical-banner {
+    width: 160px !important;
+    height: 600px !important;
+    display: block !important;
+}
+
+/* Responsive - Banner auf mobilen Geräten ausblenden */
+@media (max-width: 1200px) {
+    .ad-banner-panel {
+        display: none;
+    }
+}
