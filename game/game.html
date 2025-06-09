@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="game-html">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, orientation=landscape">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EvoCraft - Spielen</title>
     <link rel="stylesheet" href="../website/website.css">
     <link rel="stylesheet" href="game.css">
@@ -12,16 +12,16 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6877291540318665"
          crossorigin="anonymous"></script>
     <style>
-        /* LANDSCAPE ORIENTATION ERZWINGEN */
-        @media screen and (orientation: portrait) and (max-width: 1024px) {
-            html, body {
+        /* QUERFORMAT ERZWINGEN FÜR SPIEL */
+        @media screen and (max-device-width: 1024px) and (orientation: portrait) {
+            html.game-html, body.game-body {
                 transform: rotate(90deg);
-                transform-origin: center center;
+                transform-origin: left top;
                 width: 100vh;
                 height: 100vw;
                 overflow: hidden;
                 position: fixed;
-                top: 0;
+                top: 100%;
                 left: 0;
             }
         }
