@@ -136,7 +136,7 @@ body {
     width: 40px;
     height: 40px;
     flex-shrink: 0;
-    transform: translateY(0px); /* HAMMER LOGO NACH OBEN */
+    transform: translateY(0px); /* HAMMER LOGO NORMAL */
 }
 
 .logo {
@@ -173,7 +173,7 @@ body {
     text-indent: -9999px; /* Versteckt den Text, zeigt nur das Bild */
     width: 800px; /* RIESIG */
     height: 160px; /* RIESIG */
-    transform: translateY(-5px); /* SCHRIFTZUG ZURÜCK ZUR URSPRÜNGLICHEN POSITION */
+    transform: translateY(10px); /* SCHRIFTZUG NACH UNTEN FÜR BEIDE VERSIONEN */
 }
 
 .nav-menu {
@@ -641,7 +641,7 @@ body {
     white-space: nowrap;
 }
 
-/* Footer OHNE Animationen - ZURÜCK ZUR URSPRÜNGLICHEN GRÖßE */
+/* Footer STANDARD - WIRD VON MEDIA QUERIES ÜBERSCHRIEBEN */
 .footer {
     background: var(--bg-secondary);
     color: var(--text-primary);
@@ -667,7 +667,7 @@ body {
 
 .footer-brand .footer-logo {
     font-size: 2rem;
-    margin-bottom: 8px; /* KLEINER ABSTAND ZUM TEXT */
+    margin-bottom: 8px;
     display: block;
     filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
     background-image: url('assets/icons/lettering.png');
@@ -675,15 +675,16 @@ body {
     background-repeat: no-repeat;
     background-position: left center;
     text-indent: -9999px;
-    width: 600px; /* ZURÜCK ZUR URSPRÜNGLICHEN GRÖßE */
-    height: 150px; /* ZURÜCK ZUR URSPRÜNGLICHEN GRÖßE */ 
-    transform: translateY(-50px); /* SCHRIFTZUG NACH OBEN */
+    width: 600px;
+    height: 150px;
+    /* Standard ohne Transform - wird von Media Queries überschrieben */
 }
 
 .footer-brand p {
     color: var(--text-secondary);
     word-wrap: break-word;
-    margin-top: -50px; /* DIREKT UNTER DEM LOGO */
+    margin-top: 0;
+    /* Standard ohne Margin - wird von Media Queries überschrieben */
 }
 
 .footer-links {
@@ -691,7 +692,7 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 40px;
     width: 100%;
-    margin-left: -250px; /* FOOTER LINKS NACH LINKS VERSCHIEBEN */
+    /* Standard ohne Margin - wird von Media Queries überschrieben */
 }
 
 .footer-group h4 {
@@ -724,7 +725,7 @@ body {
     word-wrap: break-word;
 }
 
-/* Desktop Hero Verbesserungen - 20% KLEINER UND NACH UNTEN MITTIG */
+/* DESKTOP ANPASSUNGEN - AB 1025px */
 @media (min-width: 1025px) {
     .hero-background-image {
         object-position: center center;
@@ -765,13 +766,23 @@ body {
         height: 160px;
     }
     
+    /* DESKTOP FOOTER ANPASSUNGEN */
     .footer-brand .footer-logo {
-        width: 600px; /* Desktop: ZURÜCK ZUR URSPRÜNGLICHEN GRÖßE */
+        width: 600px;
         height: 150px;
+        transform: translateY(-50px); /* NUR DESKTOP: SCHRIFTZUG NACH OBEN */
+    }
+    
+    .footer-brand p {
+        margin-top: -50px; /* NUR DESKTOP: TEXT NACH OBEN */
+    }
+    
+    .footer-links {
+        margin-left: -250px; /* NUR DESKTOP: FOOTER LINKS NACH LINKS */
     }
 }
 
-/* MOBILE RESPONSIVE - NAVIGATION KOMPLETT WEG */
+/* MOBILE RESPONSIVE - AB 768px und kleiner */
 @media (max-width: 768px) {
     .container {
         padding: 0 16px;
@@ -801,11 +812,36 @@ body {
         font-size: 18px;
         width: 600px; /* RIESIG FÜR MOBILE */
         height: 120px; /* RIESIG FÜR MOBILE */
+        transform: translateY(10px); /* MOBILE: SCHRIFTZUG NACH UNTEN */
+    }
+    
+    /* MOBILE FOOTER: ALLES MITTIG UND SICHTBAR */
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center; /* MOBILE: MITTIG AUSGERICHTET */
+    }
+    
+    .footer-brand {
+        align-items: center; /* MOBILE: MITTIG AUSGERICHTET */
     }
     
     .footer-brand .footer-logo {
-        width: 450px; /* MOBILE FOOTER LOGO */
+        width: 450px;
         height: 113px;
+        transform: none; /* MOBILE: KEINE VERSCHIEBUNG */
+    }
+    
+    .footer-brand p {
+        margin-top: 0; /* MOBILE: NORMALER ABSTAND */
+        text-align: center; /* MOBILE: MITTIG AUSGERICHTET */
+    }
+    
+    .footer-links {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-left: 0; /* MOBILE: KEINE VERSCHIEBUNG */
+        text-align: center; /* MOBILE: MITTIG AUSGERICHTET */
     }
     
     .hero-background-image {
@@ -834,30 +870,16 @@ body {
     .features-grid {
         grid-template-columns: 1fr;
         gap: 30px;
-        /* margin-left: 0 entfernt - ist schon normal */
     }
     
     .faq-grid {
         grid-template-columns: 1fr;
         gap: 25px;
-        /* margin-left: 0 entfernt - ist schon normal */
     }
     
     .steps {
         grid-template-columns: 1fr;
         gap: 40px;
-        /* margin-left: 0 entfernt - ist schon normal */
-    }
-    
-    .footer-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-    
-    .footer-links {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        /* margin-left: 0 entfernt - ist schon normal */
     }
     
     .contact-links {
@@ -886,11 +908,13 @@ body {
         font-size: 16px;
         width: 480px; /* RIESIG FÜR KLEINE SCREENS */
         height: 100px; /* RIESIG FÜR KLEINE SCREENS */
+        transform: translateY(10px); /* KLEINE SCREENS: SCHRIFTZUG NACH UNTEN */
     }
     
     .footer-brand .footer-logo {
         width: 360px; /* KLEINE SCREENS FOOTER LOGO */
         height: 90px;
+        transform: none; /* KLEINE SCREENS: KEINE VERSCHIEBUNG */
     }
     
     .nav-toggle {
@@ -928,10 +952,20 @@ body {
     .logo-text {
         width: 700px; /* Tablet: Zwischen Mobile und Desktop */
         height: 140px;
+        transform: translateY(10px); /* TABLET: SCHRIFTZUG NACH UNTEN */
     }
     
     .footer-brand .footer-logo {
         width: 525px; /* TABLET FOOTER LOGO */
         height: 128px;
+        transform: none; /* TABLET: KEINE VERSCHIEBUNG */
     }
-}
+    
+    .footer-brand p {
+        margin-top: 0; /* TABLET: NORMALER ABSTAND */
+    }
+    
+    .footer-links {
+        margin-left: 0; /* TABLET: KEINE VERSCHIEBUNG */
+    }
+        }
