@@ -2,15 +2,30 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, orientation=landscape">
     <title>EvoCraft - Spielen</title>
     <link rel="stylesheet" href="../website/website.css">
     <link rel="stylesheet" href="game.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧪</text></svg>">
+    <link rel="icon" href="../website/assets/icons/logo.png">
     <!-- AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6877291540318665"
          crossorigin="anonymous"></script>
+    <style>
+        /* LANDSCAPE ORIENTATION ERZWINGEN */
+        @media screen and (orientation: portrait) and (max-width: 1024px) {
+            html, body {
+                transform: rotate(90deg);
+                transform-origin: center center;
+                width: 100vh;
+                height: 100vw;
+                overflow: hidden;
+                position: fixed;
+                top: 0;
+                left: 0;
+            }
+        }
+    </style>
 </head>
 <body class="game-body">
     <!-- Header -->
@@ -18,10 +33,9 @@
         <nav class="nav">
             <div class="nav-logo">
                 <div class="logo-container">
-                    <span class="logo">🧪</span>
-                    <div class="dna-helix"></div>
+                    <span class="logo"></span>
                 </div>
-                <span class="logo-text">EvoCraft</span>
+                <span class="logo-text"></span>
             </div>
             <div class="game-controls">
                 <button class="control-btn" id="save-btn">💾 Speichern</button>
