@@ -42,7 +42,7 @@ Beiträge sind willkommen! Bitte lies die [Anforderungen](documentation/CONTRIBU
 ## 📧 Kontakt
 
 **Thorge Mrowinski**
-- E-Mail: [EvoCraft@proton.me](mailto:EvoCraft@proton.me)
+- E-Mail: [EvoCraft@proton.me](mailto:EvoCrafty@proton.me)
 - GitHub: [@Mrowinski-Thorge](https://github.com/Mrowinski-Thorge)
 
 ## 📄 Lizenz
