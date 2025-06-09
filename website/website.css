@@ -136,6 +136,7 @@ body {
     width: 40px;
     height: 40px;
     flex-shrink: 0;
+    transform: translateY(5px); /* LOGO MINI STÜCK NACH UNTEN */
 }
 
 .logo {
@@ -172,8 +173,9 @@ body {
     background-repeat: no-repeat;
     background-position: left center;
     text-indent: -9999px; /* Versteckt den Text, zeigt nur das Bild */
-    width: 800px; /* NOCHMAL DOPPELT SO GROß - von 400px auf 800px */
-    height: 160px; /* NOCHMAL DOPPELT SO GROß - von 80px auf 160px */
+    width: 800px; /* RIESIG */
+    height: 160px; /* RIESIG */
+    transform: translateY(5px); /* SCHRIFTZUG AUCH MINI STÜCK NACH UNTEN */
 }
 
 .nav-menu {
@@ -654,9 +656,15 @@ body {
     width: 100%;
 }
 
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 .footer-brand .footer-logo {
     font-size: 2rem;
-    margin-bottom: 16px;
+    margin-bottom: 8px; /* KLEINER ABSTAND ZUM TEXT */
     display: block;
     filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
     background-image: url('assets/icons/lettering.png');
@@ -664,13 +672,14 @@ body {
     background-repeat: no-repeat;
     background-position: left center;
     text-indent: -9999px;
-    width: 800px; /* NOCHMAL DOPPELT SO GROß - von 400px auf 800px */
-    height: 200px; /* NOCHMAL DOPPELT SO GROß - von 100px auf 200px */
+    width: 600px; /* 50% GRÖßER - von 400px auf 600px */
+    height: 150px; /* 50% GRÖßER - von 100px auf 150px */
 }
 
 .footer-brand p {
     color: var(--text-secondary);
     word-wrap: break-word;
+    margin-top: 0; /* DIREKT UNTER DEM LOGO */
 }
 
 .footer-links {
@@ -752,8 +761,8 @@ body {
     }
     
     .footer-brand .footer-logo {
-        width: 800px; /* Desktop: RIESIG */
-        height: 200px;
+        width: 600px; /* Desktop: 50% GRÖßER */
+        height: 150px;
     }
 }
 
@@ -785,13 +794,13 @@ body {
     
     .logo-text {
         font-size: 18px;
-        width: 600px; /* NOCHMAL DOPPELT SO GROß - von 300px auf 600px */
-        height: 120px; /* NOCHMAL DOPPELT SO GROß - von 60px auf 120px */
+        width: 600px; /* RIESIG FÜR MOBILE */
+        height: 120px; /* RIESIG FÜR MOBILE */
     }
     
     .footer-brand .footer-logo {
-        width: 600px; /* NOCHMAL DOPPELT SO GROß */
-        height: 150px; /* NOCHMAL DOPPELT SO GROß */
+        width: 450px; /* 50% GRÖßER */
+        height: 113px; /* 50% GRÖßER */
     }
     
     .hero-background-image {
@@ -866,13 +875,13 @@ body {
     
     .logo-text {
         font-size: 16px;
-        width: 480px; /* NOCHMAL DOPPELT SO GROß - von 240px auf 480px */
-        height: 100px; /* NOCHMAL DOPPELT SO GROß - von 50px auf 100px */
+        width: 480px; /* RIESIG FÜR KLEINE SCREENS */
+        height: 100px; /* RIESIG FÜR KLEINE SCREENS */
     }
     
     .footer-brand .footer-logo {
-        width: 480px; /* NOCHMAL DOPPELT SO GROß */
-        height: 120px; /* NOCHMAL DOPPELT SO GROß */
+        width: 360px; /* 50% GRÖßER */
+        height: 90px; /* 50% GRÖßER */
     }
     
     .nav-toggle {
@@ -913,7 +922,7 @@ body {
     }
     
     .footer-brand .footer-logo {
-        width: 700px;
-        height: 170px;
+        width: 525px; /* 50% GRÖßER */
+        height: 128px; /* 50% GRÖßER */
     }
 }
