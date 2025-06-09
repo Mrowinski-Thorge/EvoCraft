@@ -136,7 +136,7 @@ body {
     width: 40px;
     height: 40px;
     flex-shrink: 0;
-    transform: translateY(-5px); /* LOGO WEITER NACH UNTEN */
+    transform: translateY(-5px); /* HAMMER LOGO NACH OBEN */
 }
 
 .logo {
@@ -175,7 +175,7 @@ body {
     text-indent: -9999px; /* Versteckt den Text, zeigt nur das Bild */
     width: 800px; /* RIESIG */
     height: 160px; /* RIESIG */
-    transform: translateY(5px); /* SCHRIFTZUG WEITER NACH UNTEN */
+    transform: translateY(5px); /* SCHRIFTZUG ZURÜCK ZUR URSPRÜNGLICHEN POSITION */
 }
 
 .nav-menu {
@@ -447,7 +447,7 @@ body {
     transform: translateY(50px);
 }
 
-/* Sektions mit Überlauf-Schutz */
+/* Sektions mit Überlauf-Schutz - ZURÜCK ZUR NORMALPOSITION */
 .features, .how-it-works, .faq, .contact {
     padding: 100px 0;
     width: 100%;
@@ -481,13 +481,13 @@ body {
     word-wrap: break-word;
 }
 
-/* Feature Cards mit Überlauf-Schutz */
+/* Feature Cards mit Überlauf-Schutz - NORMALE POSITION */
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 40px;
     width: 100%;
-    margin-left: -50px; /* SEKTIONEN NACH LINKS */
+    /* margin-left entfernt - ZURÜCK ZUR NORMALPOSITION */
 }
 
 .feature-card {
@@ -530,13 +530,13 @@ body {
     word-wrap: break-word;
 }
 
-/* Steps mit Überlauf-Schutz */
+/* Steps mit Überlauf-Schutz - NORMALE POSITION */
 .steps {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 60px;
     margin-top: 60px;
-    margin-left: -50px; /* SEKTIONEN NACH LINKS */
+    /* margin-left entfernt - ZURÜCK ZUR NORMALPOSITION */
     width: 100%;
 }
 
@@ -572,13 +572,13 @@ body {
     word-wrap: break-word;
 }
 
-/* FAQ mit Überlauf-Schutz */
+/* FAQ mit Überlauf-Schutz - NORMALE POSITION */
 .faq-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 30px;
     margin-top: 60px;
-    margin-left: -50px; /* SEKTIONEN NACH LINKS */
+    /* margin-left entfernt - ZURÜCK ZUR NORMALPOSITION */
     width: 100%;
 }
 
@@ -643,7 +643,7 @@ body {
     white-space: nowrap;
 }
 
-/* Footer OHNE Animationen */
+/* Footer OHNE Animationen - ZURÜCK ZUR URSPRÜNGLICHEN GRÖßE */
 .footer {
     background: var(--bg-secondary);
     color: var(--text-primary);
@@ -669,7 +669,7 @@ body {
 
 .footer-brand .footer-logo {
     font-size: 2rem;
-    margin-bottom: 4px; /* KLEINER ABSTAND ZUM TEXT */
+    margin-bottom: 8px; /* KLEINER ABSTAND ZUM TEXT */
     display: block;
     filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
     background-image: url('assets/icons/lettering.png');
@@ -677,15 +677,15 @@ body {
     background-repeat: no-repeat;
     background-position: left center;
     text-indent: -9999px;
-    width: 750px; /* 25% GRÖßER - von 600px auf 750px */
-    height: 188px; /* 25% GRÖßER - von 150px auf 188px */
-    transform: translateY(-20px); /* NACH OBEN VERSCHIEBEN */
+    width: 600px; /* ZURÜCK ZUR URSPRÜNGLICHEN GRÖßE */
+    height: 150px; /* ZURÜCK ZUR URSPRÜNGLICHEN GRÖßE */
+    /* transform entfernt - KEINE VERSCHIEBUNG */
 }
 
 .footer-brand p {
     color: var(--text-secondary);
     word-wrap: break-word;
-    margin-top: -20px; /* NÄHER ZUM LOGO */
+    margin-top: 0; /* DIREKT UNTER DEM LOGO */
 }
 
 .footer-links {
@@ -693,7 +693,7 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 40px;
     width: 100%;
-    margin-left: -50px; /* FOOTER LINKS NACH LINKS */
+    /* margin-left entfernt - ZURÜCK ZUR NORMALPOSITION */
 }
 
 .footer-group h4 {
@@ -768,8 +768,8 @@ body {
     }
     
     .footer-brand .footer-logo {
-        width: 750px; /* Desktop: 25% GRÖßER */
-        height: 188px;
+        width: 600px; /* Desktop: ZURÜCK ZUR URSPRÜNGLICHEN GRÖßE */
+        height: 150px;
     }
 }
 
@@ -806,8 +806,8 @@ body {
     }
     
     .footer-brand .footer-logo {
-        width: 563px; /* 25% GRÖßER */
-        height: 141px; /* 25% GRÖßER */
+        width: 450px; /* MOBILE FOOTER LOGO */
+        height: 113px;
     }
     
     .hero-background-image {
@@ -836,19 +836,19 @@ body {
     .features-grid {
         grid-template-columns: 1fr;
         gap: 30px;
-        margin-left: 0; /* MOBILE KEIN VERSATZ */
+        /* margin-left: 0 entfernt - ist schon normal */
     }
     
     .faq-grid {
         grid-template-columns: 1fr;
         gap: 25px;
-        margin-left: 0; /* MOBILE KEIN VERSATZ */
+        /* margin-left: 0 entfernt - ist schon normal */
     }
     
     .steps {
         grid-template-columns: 1fr;
         gap: 40px;
-        margin-left: 0; /* MOBILE KEIN VERSATZ */
+        /* margin-left: 0 entfernt - ist schon normal */
     }
     
     .footer-content {
@@ -859,7 +859,7 @@ body {
     .footer-links {
         grid-template-columns: 1fr;
         gap: 20px;
-        margin-left: 0; /* MOBILE KEIN VERSATZ */
+        /* margin-left: 0 entfernt - ist schon normal */
     }
     
     .contact-links {
@@ -891,8 +891,8 @@ body {
     }
     
     .footer-brand .footer-logo {
-        width: 450px; /* 25% GRÖßER */
-        height: 113px; /* 25% GRÖßER */
+        width: 360px; /* KLEINE SCREENS FOOTER LOGO */
+        height: 90px;
     }
     
     .nav-toggle {
@@ -933,7 +933,7 @@ body {
     }
     
     .footer-brand .footer-logo {
-        width: 656px; /* 25% GRÖßER */
-        height: 160px; /* 25% GRÖßER */
+        width: 525px; /* TABLET FOOTER LOGO */
+        height: 128px;
     }
 }
