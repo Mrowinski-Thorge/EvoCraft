@@ -42,7 +42,7 @@ Beiträge sind willkommen! Bitte lies die [Anforderungen](documentation/CONTRIBU
 ## 📧 Kontakt
 
 **Thorge Mrowinski**
-- E-Mail: [EvoCraft@proton.me](mailto:EvoCrafty@proton.me)
+- E-Mail: [EvoCrafty@proton.me](mailto:EvoCrafty@proton.me)
 - GitHub: [@Mrowinski-Thorge](https://github.com/Mrowinski-Thorge)
 
 ## 📄 Lizenz
@@ -53,7 +53,7 @@ Dieses Projekt steht unter einer benutzerdefinierten Lizenz - siehe [LICENSE](LI
 - ✅ Code darf verwendet und modifiziert werden (mit Erlaubnis)
 - ✅ Für private und kommerzielle Projekte nutzbar
 - ❌ Grafiken und Assets sind ausgeschlossen
-- 📧 Erlaubnis erforderlich - kontaktiere [EvoCraft@proton.me](mailto:EvoCrafty@proton.me)
+- 📧 Erlaubnis erforderlich - kontaktiere [EvoCrafty@proton.me](mailto:EvoCrafty@proton.me)
 
 ## 📊 Statistiken
 
