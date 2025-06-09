@@ -10,6 +10,22 @@ html, body {
     max-width: 100vw;
     overflow-x: hidden;
     position: relative;
+    /* SPERRT ROTATION - NUR PORTRAIT FÜR HAUPTSEITE */
+    orientation: portrait;
+}
+
+/* ORIENTATION LOCK FÜR HAUPTSEITE - NUR PORTRAIT */
+@media screen and (orientation: landscape) and (max-width: 1024px) {
+    html, body {
+        transform: rotate(90deg);
+        transform-origin: center center;
+        width: 100vh;
+        height: 100vw;
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
 }
 
 :root {
@@ -61,6 +77,26 @@ body {
     overflow-x: hidden;
     min-width: 320px; /* Minimum mobile width */
     width: 100%;
+}
+
+/* GAME BODY - NUR LANDSCAPE ERLAUBT */
+.game-body {
+    /* SPIEL SOLL IM QUERFORMAT LAUFEN */
+    orientation: landscape !important;
+}
+
+/* ORIENTATION LOCK FÜR SPIEL - NUR LANDSCAPE */
+@media screen and (orientation: portrait) and (max-width: 1024px) {
+    .game-body {
+        transform: rotate(90deg);
+        transform-origin: center center;
+        width: 100vh;
+        height: 100vw;
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
 }
 
 /* CONTAINER MIT STRIKTER BREITEN-KONTROLLE */
@@ -158,8 +194,8 @@ body {
     background-repeat: no-repeat;
     background-position: left center;
     text-indent: -9999px; /* Versteckt den Text, zeigt nur das Bild */
-    width: 200px; /* GRÖßER GEMACHT */
-    height: 40px; /* GRÖßER GEMACHT */
+    width: 400px; /* DOPPELT SO GROß - von 200px auf 400px */
+    height: 80px; /* DOPPELT SO GROß - von 40px auf 80px */
 }
 
 .nav-menu {
@@ -185,18 +221,19 @@ body {
     flex-shrink: 1;
 }
 
-/* VERBESSERTE ACTIVE-MARKIERUNG - MIT GRÜN-HELLBLAU VERLAUF */
+/* HOVER BLEIBT - ACTIVE ENTFERNT */
 .nav-link:hover {
     color: var(--accent-primary);
     background: linear-gradient(135deg, rgba(0, 212, 122, 0.1), rgba(0, 212, 255, 0.1));
     box-shadow: var(--shadow-glow);
 }
 
+/* ACTIVE MARKIERUNG KOMPLETT ENTFERNT */
 .nav-link.active {
-    color: var(--accent-primary) !important;
-    background: linear-gradient(135deg, rgba(0, 212, 122, 0.15), rgba(0, 212, 255, 0.15)) !important;
-    box-shadow: 0 0 25px rgba(0, 212, 255, 0.4) !important;
-    border: 1px solid rgba(0, 212, 255, 0.3);
+    color: var(--text-secondary) !important; /* BLEIBT GRAU */
+    background: none !important; /* KEIN HINTERGRUND */
+    box-shadow: none !important; /* KEIN SCHATTEN */
+    border: none !important; /* KEIN RAHMEN */
 }
 
 /* MOBILE TOGGLE BUTTON - KOMPLETT VERSTECKT */
@@ -651,8 +688,8 @@ body {
     background-repeat: no-repeat;
     background-position: left center;
     text-indent: -9999px;
-    width: 200px; /* GRÖßER GEMACHT */
-    height: 50px; /* GRÖßER GEMACHT */
+    width: 400px; /* DOPPELT SO GROß - von 200px auf 400px */
+    height: 100px; /* DOPPELT SO GROß - von 50px auf 100px */
 }
 
 .footer-brand p {
@@ -732,9 +769,19 @@ body {
         width: 22px; /* Von 28px auf 22px (20% kleiner) */
         height: 22px;
     }
+    
+    .logo-text {
+        width: 400px; /* Desktop: Groß */
+        height: 80px;
+    }
+    
+    .footer-brand .footer-logo {
+        width: 400px; /* Desktop: Groß */
+        height: 100px;
+    }
 }
 
-/* MOBILE RESPONSIVE - OHNE MENU-TOGGLE */
+/* MOBILE RESPONSIVE - MENU VERSTECKT, ZURÜCK-BUTTON WEG */
 @media (max-width: 768px) {
     .container {
         padding: 0 16px;
@@ -751,11 +798,14 @@ body {
         gap: 10px;
     }
     
-    /* MOBILE MENU - KOMPLETT ENTFERNT */
+    /* MOBILE MENU - KOMPLETT VERSTECKT */
     .nav-menu {
-        display: flex; /* BLEIBT SICHTBAR */
-        gap: 16px; /* KLEINERER GAP FÜR MOBILE */
-        font-size: 14px; /* KLEINERE SCHRIFT FÜR MOBILE */
+        display: none !important; /* KOMPLETT WEG AUF MOBILE */
+    }
+    
+    /* ZURÜCK-BUTTON AUF PRIVACY/IMPRINT WEG */
+    .nav-menu li:has(a[href*="index.html"]) {
+        display: none !important;
     }
     
     .nav-toggle {
@@ -764,8 +814,13 @@ body {
     
     .logo-text {
         font-size: 18px;
-        width: 150px; /* ANGEPASST FÜR MOBILE */
-        height: 30px;
+        width: 300px; /* DOPPELT SO GROß - von 150px auf 300px */
+        height: 60px; /* DOPPELT SO GROß - von 30px auf 60px */
+    }
+    
+    .footer-brand .footer-logo {
+        width: 300px; /* DOPPELT SO GROß */
+        height: 75px; /* DOPPELT SO GROß */
     }
     
     .hero-background-image {
@@ -840,8 +895,13 @@ body {
     
     .logo-text {
         font-size: 16px;
-        width: 120px; /* ANGEPASST FÜR SEHR KLEINE SCREENS */
-        height: 25px;
+        width: 240px; /* DOPPELT SO GROß - von 120px auf 240px */
+        height: 50px; /* DOPPELT SO GROß - von 25px auf 50px */
+    }
+    
+    .footer-brand .footer-logo {
+        width: 240px; /* DOPPELT SO GROß */
+        height: 60px; /* DOPPELT SO GROß */
     }
     
     .nav-toggle {
@@ -874,5 +934,15 @@ body {
 @media (min-width: 769px) and (max-width: 1024px) {
     .hero-background-image {
         object-position: center center;
+    }
+    
+    .logo-text {
+        width: 350px; /* Tablet: Zwischen Mobile und Desktop */
+        height: 70px;
+    }
+    
+    .footer-brand .footer-logo {
+        width: 350px;
+        height: 85px;
     }
 }
