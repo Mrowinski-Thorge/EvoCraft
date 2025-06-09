@@ -693,7 +693,7 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 40px;
     width: 100%;
-    margin-left: -80px; /* FOOTER LINKS NACH LINKS VERSCHIEBEN */
+    margin-left: -300px; /* FOOTER LINKS NACH LINKS VERSCHIEBEN */
 }
 
 .footer-group h4 {
