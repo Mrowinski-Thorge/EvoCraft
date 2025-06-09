@@ -134,28 +134,7 @@ body {
     background-position: center;
 }
 
-.dna-helix {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--accent-primary);
-    border-radius: 50%;
-    animation: rotate 3s linear infinite;
-    opacity: 0.6;
-}
-
-.dna-helix::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 10px;
-    height: 10px;
-    background: var(--accent-secondary);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    animation: pulse 1.5s ease-in-out infinite;
-}
+/* DNA HELIX KOMPLETT ENTFERNT */
 
 @keyframes rotate {
     from { transform: rotate(0deg); }
@@ -174,14 +153,13 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 150px; /* Verhindert Überlauf */
     background-image: url('assets/icons/lettering.png');
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;
+    background-position: left center;
     text-indent: -9999px; /* Versteckt den Text, zeigt nur das Bild */
-    width: 120px;
-    height: 30px;
+    width: 200px; /* GRÖßER GEMACHT */
+    height: 40px; /* GRÖßER GEMACHT */
 }
 
 .nav-menu {
@@ -221,48 +199,16 @@ body {
     border: 1px solid rgba(0, 212, 255, 0.3);
 }
 
-/* MOBILE TOGGLE BUTTON - VERBESSERT */
+/* MOBILE TOGGLE BUTTON - KOMPLETT VERSTECKT */
 .nav-toggle {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    gap: 4px;
-    padding: 8px;
-    border-radius: 4px;
-    background: transparent;
-    border: none;
-    flex-shrink: 0;
-    z-index: 1002; /* Höher als Menu */
-    width: 40px;
-    height: 40px;
-    justify-content: center;
-    align-items: center;
-    /* BESSERE TOUCH-AREA */
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
+    display: none !important; /* KOMPLETT WEG */
 }
 
 .nav-toggle span {
-    width: 24px;
-    height: 3px;
-    background: var(--accent-primary);
-    border-radius: 2px;
-    transition: var(--transition-fast);
-    display: block;
+    display: none !important; /* KOMPLETT WEG */
 }
 
-/* TOGGLE ANIMATION */
-.nav-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-}
-
-.nav-toggle.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.nav-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -6px);
-}
+/* TOGGLE ANIMATION - ENTFERNT */
 
 /* Hero Section mit hellerem Bild */
 .hero {
@@ -549,6 +495,7 @@ body {
     font-size: 3rem;
     margin-bottom: 20px;
     filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
+    /* CHEMIE ICONS BLEIBEN */
 }
 
 .feature-card h3 {
@@ -704,8 +651,8 @@ body {
     background-repeat: no-repeat;
     background-position: left center;
     text-indent: -9999px;
-    width: 160px;
-    height: 40px;
+    width: 200px; /* GRÖßER GEMACHT */
+    height: 50px; /* GRÖßER GEMACHT */
 }
 
 .footer-brand p {
@@ -787,7 +734,7 @@ body {
     }
 }
 
-/* MOBILE RESPONSIVE - MENU FIX */
+/* MOBILE RESPONSIVE - OHNE MENU-TOGGLE */
 @media (max-width: 768px) {
     .container {
         padding: 0 16px;
@@ -804,65 +751,21 @@ body {
         gap: 10px;
     }
     
-    /* MOBILE MENU - FUNKTIONIERT JETZT */
+    /* MOBILE MENU - KOMPLETT ENTFERNT */
     .nav-menu {
-        display: none; /* Standardmäßig versteckt */
-        position: fixed;
-        top: 68px;
-        left: 0;
-        right: 0;
-        background: var(--nav-bg) !important;
-        flex-direction: column;
-        padding: 20px;
-        border-top: 1px solid var(--border-color);
-        box-shadow: var(--shadow-lg);
-        z-index: 1001;
-        width: 100vw;
-        box-sizing: border-box;
-        max-width: 100vw;
-        overflow-x: hidden;
-        
-        /* ANIMATION */
-        opacity: 0;
-        transform: translateY(-10px);
-        transition: all 0.3s ease-out;
-    }
-    
-    /* MENU AKTIV */
-    .nav-menu.active {
-        display: flex !important;
-        opacity: 1;
-        transform: translateY(0);
-    }
-    
-    /* MOBILE NAV LINKS */
-    .nav-menu .nav-link {
-        padding: 16px 0;
-        text-align: center;
-        border-bottom: 1px solid var(--border-color);
-        border-radius: 0;
-        margin-bottom: 8px;
-    }
-    
-    .nav-menu .nav-link:last-child {
-        border-bottom: none;
-    }
-    
-    .nav-menu .nav-link.active {
-        background: linear-gradient(135deg, rgba(0, 212, 122, 0.2), rgba(0, 212, 255, 0.2)) !important;
-        border: 1px solid rgba(0, 212, 255, 0.4);
-        border-radius: var(--radius-md);
+        display: flex; /* BLEIBT SICHTBAR */
+        gap: 16px; /* KLEINERER GAP FÜR MOBILE */
+        font-size: 14px; /* KLEINERE SCHRIFT FÜR MOBILE */
     }
     
     .nav-toggle {
-        display: flex !important; /* Wichtig für Mobile */
+        display: none !important; /* KOMPLETT WEG */
     }
     
     .logo-text {
         font-size: 18px;
-        max-width: 120px;
-        width: 100px;
-        height: 25px;
+        width: 150px; /* ANGEPASST FÜR MOBILE */
+        height: 30px;
     }
     
     .hero-background-image {
@@ -935,26 +838,14 @@ body {
         gap: 8px;
     }
     
-    .nav-menu {
-        top: 64px; /* Angepasst für kleineren Header */
-    }
-    
     .logo-text {
         font-size: 16px;
-        max-width: 100px;
-        width: 80px;
-        height: 20px;
+        width: 120px; /* ANGEPASST FÜR SEHR KLEINE SCREENS */
+        height: 25px;
     }
     
     .nav-toggle {
-        padding: 6px;
-        width: 36px;
-        height: 36px;
-    }
-    
-    .nav-toggle span {
-        width: 20px;
-        height: 2px;
+        display: none !important; /* KOMPLETT WEG */
     }
     
     .section-title {
