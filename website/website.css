@@ -13,11 +13,11 @@ html, body {
 }
 
 :root {
-    /* Neue Evocraft Dark Mode Farbpalette */
+    /* Neue Evocraft Dark Mode Farbpalette - AKTUALISIERT MIT FUTURISTISCHEM BLAU */
     --bg-primary: #0E0E10;           /* Haupthintergrund */
     --bg-secondary: #1C1C22;         /* Karten/Sektionen */
     --bg-hover: #2F2F37;             /* Hover-Zustände */
-    --accent-primary: #00D47A;       /* Crafting-Grün */
+    --accent-primary: #00D4FF;       /* Futuristisches Hellblau aus Hammer-Logo */
     --accent-secondary: #579AFF;     /* Neon-Blau */
     --accent-warning: #FF9F1C;       /* Gold-Orange */
     --accent-rare: #A259FF;          /* Lila für Seltenes */
@@ -39,7 +39,7 @@ html, body {
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.25);
     --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
-    --shadow-glow: 0 0 20px rgba(0, 212, 122, 0.3);
+    --shadow-glow: 0 0 20px rgba(0, 212, 255, 0.3);
     
     --radius-sm: 4px;
     --radius-md: 8px;
@@ -125,8 +125,13 @@ body {
 }
 
 .logo {
-    font-size: 24px;
+    width: 40px;
+    height: 40px;
     z-index: 2;
+    background-image: url('assets/icons/logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .dna-helix {
@@ -170,6 +175,13 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 150px; /* Verhindert Überlauf */
+    background-image: url('assets/icons/lettering.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    text-indent: -9999px; /* Versteckt den Text, zeigt nur das Bild */
+    width: 120px;
+    height: 30px;
 }
 
 .nav-menu {
@@ -195,18 +207,18 @@ body {
     flex-shrink: 1;
 }
 
-/* VERBESSERTE ACTIVE-MARKIERUNG - WIE FRÜHER */
+/* VERBESSERTE ACTIVE-MARKIERUNG - MIT GRÜN-HELLBLAU VERLAUF */
 .nav-link:hover {
     color: var(--accent-primary);
-    background: linear-gradient(135deg, rgba(0, 212, 122, 0.1), rgba(87, 154, 255, 0.1));
+    background: linear-gradient(135deg, rgba(0, 212, 122, 0.1), rgba(0, 212, 255, 0.1));
     box-shadow: var(--shadow-glow);
 }
 
 .nav-link.active {
     color: var(--accent-primary) !important;
-    background: linear-gradient(135deg, rgba(0, 212, 122, 0.15), rgba(87, 154, 255, 0.15)) !important;
-    box-shadow: 0 0 25px rgba(0, 212, 122, 0.4) !important;
-    border: 1px solid rgba(0, 212, 122, 0.3);
+    background: linear-gradient(135deg, rgba(0, 212, 122, 0.15), rgba(0, 212, 255, 0.15)) !important;
+    box-shadow: 0 0 25px rgba(0, 212, 255, 0.4) !important;
+    border: 1px solid rgba(0, 212, 255, 0.3);
 }
 
 /* MOBILE TOGGLE BUTTON - VERBESSERT */
@@ -402,7 +414,7 @@ body {
 }
 
 .cta-button:hover {
-    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    background: linear-gradient(135deg, #00D47A, var(--accent-primary));
     transform: translateY(10vh) translateY(-2px); /* Hover-Effekt angepasst */
     box-shadow: var(--shadow-xl), var(--shadow-glow);
 }
@@ -423,7 +435,7 @@ body {
 }
 
 .contact-link:hover, .step-number:hover {
-    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    background: linear-gradient(135deg, #00D47A, var(--accent-primary));
     transform: translateY(-2px);
     box-shadow: var(--shadow-glow);
 }
@@ -536,7 +548,7 @@ body {
 .feature-icon {
     font-size: 3rem;
     margin-bottom: 20px;
-    filter: drop-shadow(0 0 10px rgba(0, 212, 122, 0.3));
+    filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
 }
 
 .feature-card h3 {
@@ -686,7 +698,14 @@ body {
     font-size: 2rem;
     margin-bottom: 16px;
     display: block;
-    filter: drop-shadow(0 0 10px rgba(0, 212, 122, 0.3));
+    filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
+    background-image: url('assets/icons/lettering.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left center;
+    text-indent: -9999px;
+    width: 160px;
+    height: 40px;
 }
 
 .footer-brand p {
@@ -720,7 +739,7 @@ body {
 
 .footer-group a:hover {
     color: var(--accent-primary);
-    text-shadow: 0 0 10px rgba(0, 212, 122, 0.5);
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
 }
 
 .footer-bottom {
@@ -830,8 +849,8 @@ body {
     }
     
     .nav-menu .nav-link.active {
-        background: linear-gradient(135deg, rgba(0, 212, 122, 0.2), rgba(87, 154, 255, 0.2)) !important;
-        border: 1px solid rgba(0, 212, 122, 0.4);
+        background: linear-gradient(135deg, rgba(0, 212, 122, 0.2), rgba(0, 212, 255, 0.2)) !important;
+        border: 1px solid rgba(0, 212, 255, 0.4);
         border-radius: var(--radius-md);
     }
     
@@ -842,6 +861,8 @@ body {
     .logo-text {
         font-size: 18px;
         max-width: 120px;
+        width: 100px;
+        height: 25px;
     }
     
     .hero-background-image {
@@ -921,6 +942,8 @@ body {
     .logo-text {
         font-size: 16px;
         max-width: 100px;
+        width: 80px;
+        height: 20px;
     }
     
     .nav-toggle {
