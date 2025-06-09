@@ -12,6 +12,6 @@ Schreiben Sie mir.
 
 # 💻 Mit Entwickeln 
 
-Wenn Sie interessiert sind EvoCraft zu verbessern, schreiben Sie mir bitte unter EvoCraft@proton.me eine Email.
+Wenn Sie interessiert sind EvoCraft zu verbessern, schreiben Sie mir bitte unter EvoCrafty@proton.me eine Email.
 
 # Vielen Dank für Ihre Unterstützung 🏅
