@@ -136,7 +136,7 @@ body {
     width: 40px;
     height: 40px;
     flex-shrink: 0;
-    transform: translateY(-10px); /* HAMMER LOGO NACH OBEN */
+    transform: translateY(0px); /* HAMMER LOGO NACH OBEN */
 }
 
 .logo {
@@ -678,14 +678,14 @@ body {
     background-position: left center;
     text-indent: -9999px;
     width: 600px; /* ZURÜCK ZUR URSPRÜNGLICHEN GRÖßE */
-    height: 150px; /* ZURÜCK ZUR URSPRÜNGLICHEN GRÖßE */
-    /* transform entfernt - KEINE VERSCHIEBUNG */
+    height: 150px; /* ZURÜCK ZUR URSPRÜNGLICHEN GRÖßE */ 
+    transform: translateY(-50px); /* SCHRIFTZUG NACH OBEN */
 }
 
 .footer-brand p {
     color: var(--text-secondary);
     word-wrap: break-word;
-    margin-top: 0; /* DIREKT UNTER DEM LOGO */
+    margin-top: -50px; /* DIREKT UNTER DEM LOGO */
 }
 
 .footer-links {
@@ -693,7 +693,7 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 40px;
     width: 100%;
-    margin-left: -300px; /* FOOTER LINKS NACH LINKS VERSCHIEBEN */
+    margin-left: -250px; /* FOOTER LINKS NACH LINKS VERSCHIEBEN */
 }
 
 .footer-group h4 {
