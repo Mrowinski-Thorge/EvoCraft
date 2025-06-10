@@ -1,25 +1,15 @@
-// Game JavaScript
+// EvoCraft Game JavaScript
 class EvoCraftGame {
     constructor() {
-        this.elements = new Map();
-        this.inventory = [];
-        this.discoveredItems = new Set();
-        this.currentEpoch = 'primordial';
-        this.gameData = {
-            combinations: {
-                'fire+water': { result: 'steam', icon: '💨', name: 'Dampf' },
-                'fire+earth': { result: 'lava', icon: '🌋', name: 'Lava' },
-                'water+earth': { result: 'mud', icon: '🌫️', name: 'Schlamm' },
-                'air+water': { result: 'cloud', icon: '☁️', name: 'Wolke' },
-                'fire+air': { result: 'energy', icon: '⚡', name: 'Energie' },
-                'earth+air': { result: 'dust', icon: '🌪️', name: 'Staub' }
-            },
-            elements: {
-                fire: { icon: '🔥', name: 'Feuer' },
-                water: { icon: '💧', name: 'Wasser' },
-                earth: { icon: '🌍', name: 'Erde' },
-                air: { icon: '💨', name: 'Luft' }
-            }
+        this.inventory = new Map(); // Objekt -> Anzahl
+        this.discoveredObjects = new Set(['stone', 'wood']); // Startobjekte
+        this.craftingAPI = 'https://your-api-domain.vercel.app'; // Deine private API URL
+        this.objects = {
+            stone: { name: 'Stein', icon: 'assets/sprites/stone.png' },
+            wood: { name: 'Holz', icon: 'assets/sprites/wood.png' },
+            spark: { name: 'Funken', icon: 'assets/sprites/spark.png' },
+            fire: { name: 'Feuer', icon: 'assets/sprites/fire.png' },
+            fireplace: { name: 'Feuerstelle', icon: 'assets/sprites/fireplace.png' }
         };
         
         this.init();
@@ -29,43 +19,41 @@ class EvoCraftGame {
         this.setupEventListeners();
         this.loadGameState();
         this.updateUI();
+        this.showAvailableObjects();
     }
     
     setupEventListeners() {
-        // Drag & Drop für Elemente
+        // Drag & Drop
         this.setupDragAndDrop();
         
-        // Kombinieren Button
-        const combineBtn = document.getElementById('combine-btn');
-        combineBtn.addEventListener('click', () => this.combineElements());
+        // Combine Button
+        document.getElementById('combine-btn').addEventListener('click', () => {
+            this.combineObjects();
+        });
         
         // Control Buttons
         document.getElementById('save-btn').addEventListener('click', () => this.saveGame());
         document.getElementById('sound-btn').addEventListener('click', () => this.toggleSound());
         document.getElementById('fullscreen-btn').addEventListener('click', () => this.toggleFullscreen());
-        
-        // Epochen Selector
-        document.getElementById('epoch-select').addEventListener('change', (e) => {
-            this.changeEpoch(e.target.value);
-        });
     }
     
     setupDragAndDrop() {
-        const elements = document.querySelectorAll('.element');
-        const dropZones = document.querySelectorAll('.drop-zone');
-        
-        elements.forEach(element => {
-            element.draggable = true;
-            element.addEventListener('dragstart', (e) => {
-                e.dataTransfer.setData('text/plain', e.target.dataset.element);
+        // Objekte draggable machen
+        document.addEventListener('dragstart', (e) => {
+            if (e.target.classList.contains('object')) {
+                e.dataTransfer.setData('text/plain', e.target.dataset.object);
                 e.target.style.opacity = '0.5';
-            });
-            
-            element.addEventListener('dragend', (e) => {
-                e.target.style.opacity = '1';
-            });
+            }
         });
         
+        document.addEventListener('dragend', (e) => {
+            if (e.target.classList.contains('object')) {
+                e.target.style.opacity = '1';
+            }
+        });
+        
+        // Drop Zones
+        const dropZones = document.querySelectorAll('.drop-zone');
         dropZones.forEach(zone => {
             zone.addEventListener('dragover', (e) => {
                 e.preventDefault();
@@ -78,35 +66,35 @@ class EvoCraftGame {
             
             zone.addEventListener('drop', (e) => {
                 e.preventDefault();
-                const elementType = e.dataTransfer.getData('text/plain');
-                this.placeElement(zone, elementType);
+                const objectType = e.dataTransfer.getData('text/plain');
+                this.placeObject(zone, objectType);
                 zone.classList.remove('drag-over');
             });
         });
     }
     
-    placeElement(zone, elementType) {
-        const elementData = this.gameData.elements[elementType];
-        if (!elementData) return;
+    placeObject(zone, objectType) {
+        const objectData = this.objects[objectType];
+        if (!objectData) return;
         
         zone.innerHTML = `
-            <div class="placed-element" data-element="${elementType}">
-                <span class="element-icon">${elementData.icon}</span>
-                <span class="element-name">${elementData.name}</span>
-                <button class="remove-element" onclick="game.removeElement('${zone.id}')">×</button>
+            <div class="placed-object" data-object="${objectType}">
+                <img src="${objectData.icon}" alt="${objectData.name}">
+                <span class="placed-object-name">${objectData.name}</span>
+                <button class="remove-object" onclick="game.removeObject('${zone.id}')">×</button>
             </div>
         `;
         zone.classList.add('filled');
-        zone.dataset.element = elementType;
+        zone.dataset.object = objectType;
         
         this.checkCombination();
     }
     
-    removeElement(zoneId) {
+    removeObject(zoneId) {
         const zone = document.getElementById(zoneId);
-        zone.innerHTML = '<span class="drop-hint">Element hier ablegen</span>';
+        zone.innerHTML = '<span class="drop-hint">Objekt ' + (zoneId.includes('1') ? '1' : '2') + '</span>';
         zone.classList.remove('filled');
-        delete zone.dataset.element;
+        delete zone.dataset.object;
         
         this.checkCombination();
     }
@@ -116,172 +104,152 @@ class EvoCraftGame {
         const zone2 = document.getElementById('drop-zone-2');
         const combineBtn = document.getElementById('combine-btn');
         
-        if (zone1.dataset.element && zone2.dataset.element) {
+        if (zone1.dataset.object && zone2.dataset.object) {
             combineBtn.disabled = false;
         } else {
             combineBtn.disabled = true;
         }
     }
     
-    combineElements() {
+    async combineObjects() {
         const zone1 = document.getElementById('drop-zone-1');
         const zone2 = document.getElementById('drop-zone-2');
         const resultArea = document.getElementById('result-area');
         
-        const element1 = zone1.dataset.element;
-        const element2 = zone2.dataset.element;
+        const object1 = zone1.dataset.object;
+        const object2 = zone2.dataset.object;
         
-        if (!element1 || !element2) return;
+        if (!object1 || !object2) return;
         
-        // Kombinationsschlüssel erstellen (alphabetisch sortiert für Konsistenz)
-        const combinationKey = [element1, element2].sort().join('+');
-        const combination = this.gameData.combinations[combinationKey];
-        
-        if (combination) {
-            // Erfolgreiche Kombination
-            this.showResult(combination, resultArea);
-            this.addToInventory(combination);
-            this.updateDiscovery(combination);
+        try {
+            // API Call zum privaten Repository
+            const response = await fetch(`${this.craftingAPI}/api/craft?item1=${object1}&item2=${object2}`);
+            const result = await response.json();
             
-            // Animation
-            resultArea.style.animation = 'none';
-            setTimeout(() => {
-                resultArea.style.animation = 'pulse 0.5s ease-out';
-            }, 10);
-        } else {
-            // Fehlgeschlagene Kombination
-            this.showFailure(resultArea);
+            if (result.success && result.result) {
+                // Erfolgreiche Kombination
+                this.showResult(result.result, resultArea, true);
+                this.addToInventory(result.result);
+                this.unlockObject(result.result);
+            } else {
+                // Fehlgeschlagene Kombination
+                this.showResult(null, resultArea, false);
+            }
+        } catch (error) {
+            console.error('Crafting API Error:', error);
+            // Fallback zu lokaler Logik (für Development)
+            this.localCombine(object1, object2, resultArea);
         }
         
-        // Zones zurücksetzen
+        // Zones nach 2 Sekunden zurücksetzen
         setTimeout(() => {
-            this.removeElement('drop-zone-1');
-            this.removeElement('drop-zone-2');
-        }, 1500);
-    }
-    
-    showResult(combination, resultArea) {
-        resultArea.innerHTML = `
-            <div class="result-success">
-                <span class="result-icon">${combination.icon}</span>
-                <span class="result-name">${combination.name}</span>
-                <span class="result-new">Neu!</span>
-            </div>
-        `;
-    }
-    
-    showFailure(resultArea) {
-        resultArea.innerHTML = `
-            <div class="result-failure">
-                <span class="result-icon">❌</span>
-                <span class="result-name">Keine Reaktion</span>
-            </div>
-        `;
-        
-        setTimeout(() => {
-            resultArea.innerHTML = '<div class="result-placeholder"><span>Ergebnis erscheint hier</span></div>';
+            this.removeObject('drop-zone-1');
+            this.removeObject('drop-zone-2');
+            resultArea.innerHTML = '<span class="result-hint">Ergebnis</span>';
         }, 2000);
     }
     
-    addToInventory(item) {
-        this.inventory.push(item);
-        this.discoveredItems.add(item.result);
+    // Fallback lokale Kombinationen (für Development)
+    localCombine(object1, object2, resultArea) {
+        const combinations = {
+            'stone+stone': 'spark',
+            'spark+wood': 'fire',
+            'fire+stone': 'fireplace'
+        };
+        
+        const key = [object1, object2].sort().join('+');
+        const result = combinations[key];
+        
+        if (result) {
+            this.showResult(result, resultArea, true);
+            this.addToInventory(result);
+            this.unlockObject(result);
+        } else {
+            this.showResult(null, resultArea, false);
+        }
+    }
+    
+    showResult(result, resultArea, success) {
+        if (success && result) {
+            const objectData = this.objects[result];
+            const isNew = !this.discoveredObjects.has(result);
+            
+            resultArea.innerHTML = `
+                <div class="result-success">
+                    <img src="${objectData.icon}" alt="${objectData.name}">
+                    <span class="result-name">${objectData.name}</span>
+                    ${isNew ? '<span class="result-new">Neu!</span>' : ''}
+                </div>
+            `;
+        } else {
+            resultArea.innerHTML = `
+                <div class="result-failure">
+                    ❌ Keine Kombination möglich
+                </div>
+            `;
+        }
+    }
+    
+    addToInventory(objectType) {
+        const current = this.inventory.get(objectType) || 0;
+        this.inventory.set(objectType, current + 1);
         this.updateInventoryDisplay();
-        this.updateProgress();
+    }
+    
+    unlockObject(objectType) {
+        if (!this.discoveredObjects.has(objectType)) {
+            this.discoveredObjects.add(objectType);
+            this.showAvailableObjects();
+        }
+    }
+    
+    showAvailableObjects() {
+        const objectsGrid = document.getElementById('available-objects');
+        const objectElements = objectsGrid.querySelectorAll('.object');
+        
+        objectElements.forEach(element => {
+            const objectType = element.dataset.object;
+            if (this.discoveredObjects.has(objectType)) {
+                element.classList.remove('hidden');
+            } else {
+                element.classList.add('hidden');
+            }
+        });
     }
     
     updateInventoryDisplay() {
-        const inventoryGrid = document.getElementById('inventory');
-        const slots = inventoryGrid.querySelectorAll('.inventory-slot');
+        const inventoryList = document.getElementById('inventory-list');
+        const inventoryCount = document.getElementById('inventory-count');
         
-        slots.forEach((slot, index) => {
-            if (this.inventory[index]) {
-                const item = this.inventory[index];
-                slot.innerHTML = `
-                    <span class="item-icon">${item.icon}</span>
-                    <span class="item-name">${item.name}</span>
-                `;
-                slot.classList.add('filled');
-                slot.classList.remove('empty');
-            } else {
-                slot.innerHTML = '<span>Leer</span>';
-                slot.classList.remove('filled');
-                slot.classList.add('empty');
-            }
-        });
-    }
-    
-    updateDiscovery(item) {
-        const lastDiscovery = document.getElementById('last-discovery');
-        lastDiscovery.innerHTML = `
-            <div class="discovery-item">
-                <span class="discovery-icon">${item.icon}</span>
-                <span class="discovery-name">${item.name}</span>
-            </div>
-        `;
-    }
-    
-    updateProgress() {
-        const totalItems = Object.keys(this.gameData.combinations).length;
-        const discovered = this.discoveredItems.size;
-        const percentage = (discovered / totalItems) * 100;
+        let totalItems = 0;
+        let html = '';
         
-        const progressFill = document.querySelector('.progress-fill');
-        const progressText = document.querySelector('.progress-text');
+        for (let [objectType, count] of this.inventory) {
+            totalItems += count;
+            const objectData = this.objects[objectType];
+            html += `
+                <div class="inventory-item">
+                    <img src="${objectData.icon}" alt="${objectData.name}">
+                    <span>${objectData.name}</span>
+                    <span style="margin-left: auto; font-weight: 600;">${count}x</span>
+                </div>
+            `;
+        }
         
-        progressFill.style.width = `${percentage}%`;
-        progressText.textContent = `${discovered} von ${totalItems} Items entdeckt`;
-        
-        // Epochen freischalten basierend auf Fortschritt
-        this.checkEpochUnlock(percentage);
-    }
-    
-    checkEpochUnlock(percentage) {
-        const epochSelect = document.getElementById('epoch-select');
-        const options = epochSelect.querySelectorAll('option');
-        
-        options.forEach(option => {
-            const value = option.value;
-            let unlocked = false;
-            
-            switch(value) {
-                case 'primordial':
-                    unlocked = true;
-                    break;
-                case 'stone':
-                    unlocked = percentage >= 25;
-                    break;
-                case 'bronze':
-                    unlocked = percentage >= 50;
-                    break;
-                case 'iron':
-                    unlocked = percentage >= 75;
-                    break;
-            }
-            
-            if (unlocked) {
-                option.textContent = option.textContent.replace(' (🔒)', '');
-                option.disabled = false;
-            }
-        });
-    }
-    
-    changeEpoch(epoch) {
-        this.currentEpoch = epoch;
-        // Hier würden epochenspezifische Elemente geladen werden
-        console.log('Epoche gewechselt zu:', epoch);
+        inventoryList.innerHTML = html || '<div style="color: var(--text-secondary); text-align: center; padding: 20px;">Inventar ist leer</div>';
+        inventoryCount.textContent = totalItems;
     }
     
     saveGame() {
         const gameState = {
-            inventory: this.inventory,
-            discoveredItems: Array.from(this.discoveredItems),
-            currentEpoch: this.currentEpoch
+            inventory: Array.from(this.inventory.entries()),
+            discoveredObjects: Array.from(this.discoveredObjects),
+            timestamp: Date.now()
         };
         
         localStorage.setItem('evoCraftSave', JSON.stringify(gameState));
         
-        // Feedback für den Nutzer
+        // Feedback
         const saveBtn = document.getElementById('save-btn');
         const originalText = saveBtn.textContent;
         saveBtn.textContent = '✓ Gespeichert';
@@ -296,15 +264,17 @@ class EvoCraftGame {
     loadGameState() {
         const savedState = localStorage.getItem('evoCraftSave');
         if (savedState) {
-            const gameState = JSON.parse(savedState);
-            this.inventory = gameState.inventory || [];
-            this.discoveredItems = new Set(gameState.discoveredItems || []);
-            this.currentEpoch = gameState.currentEpoch || 'primordial';
+            try {
+                const gameState = JSON.parse(savedState);
+                this.inventory = new Map(gameState.inventory || []);
+                this.discoveredObjects = new Set(gameState.discoveredObjects || ['stone', 'wood']);
+            } catch (error) {
+                console.error('Failed to load game state:', error);
+            }
         }
     }
     
     toggleSound() {
-        // Sound Toggle Logik
         const soundBtn = document.getElementById('sound-btn');
         const isMuted = soundBtn.textContent.includes('🔇');
         
@@ -325,82 +295,12 @@ class EvoCraftGame {
     
     updateUI() {
         this.updateInventoryDisplay();
-        this.updateProgress();
+        this.showAvailableObjects();
     }
 }
 
-// CSS für Game-spezifische Animationen
-const gameAnimationStyles = `
-    .placed-element {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 4px;
-        color: white;
-        position: relative;
-        padding: 8px;
-    }
-    
-    .element-icon {
-        font-size: 2rem;
-    }
-    
-    .element-name {
-        font-size: 0.8rem;
-        font-weight: 500;
-    }
-    
-    .remove-element {
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: #ef4444;
-        color: white;
-        border: none;
-        cursor: pointer;
-        font-size: 0.8rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .result-success {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        color: white;
-        animation: celebration 0.5s ease-out;
-    }
-    
-    .result-failure {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        color: #ef4444;
-    }
-    
-    .result-icon {
-        font-size: 3rem;
-    }
-    
-    .result-name {
-        font-size: 1rem;
-        font-weight: 600;
-    }
-    
-    .result-new {
-        background: var(--neon-green);
-        color: white;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 0.7rem;
-        font-weight: 600;
-    }
-    
-    @keyframes celebration {
-        0% { transform: scale(0.5
+// Game initialisieren
+let game;
+document.addEventListener('DOMContentLoaded', () => {
+    game = new EvoCraftGame();
+});
