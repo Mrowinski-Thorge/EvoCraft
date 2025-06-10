@@ -22,6 +22,23 @@
             color: #ffffff;
         }
 
+        /* Wartungsmodus Warnung */
+        #maintenance {
+            background: rgba(255, 50, 50, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000;
+            border: 2px solid #ff3333;
+            text-align: center;
+            max-width: 500px;
+        }
+
         /* Vollbild Button */
         .fullscreen-btn {
             position: fixed;
@@ -134,6 +151,7 @@
             transition: all 0.3s ease;
             user-select: none;
             position: relative;
+            touch-action: none; /* Wichtig für Touch */
         }
 
         .element:hover {
@@ -218,7 +236,7 @@
             object-fit: contain;
         }
 
-        /* Crafting Area - Vollständig rechts */
+        /* Crafting Area */
         .crafting-area {
             position: relative;
             background: transparent;
@@ -228,7 +246,6 @@
                 radial-gradient(circle at 80% 20%, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
         }
 
-        /* Drop Zone in der Mitte */
         .drop-zone {
             position: absolute;
             top: 50%;
@@ -259,7 +276,7 @@
             font-weight: 500;
         }
 
-        /* Platzierte Elemente in der Crafting Area */
+        /* Platzierte Elemente */
         .placed-element {
             position: absolute;
             width: 80px;
@@ -275,6 +292,7 @@
             z-index: 100;
             backdrop-filter: blur(15px);
             transition: all 0.3s ease;
+            touch-action: none; /* Wichtig für Touch */
         }
 
         .placed-element:hover {
@@ -390,7 +408,7 @@
             100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
 
-        /* Responsive */
+        /* Responsive & Mobile */
         @media (max-width: 768px) {
             .game-container {
                 grid-template-columns: 200px 1fr;
@@ -405,9 +423,37 @@
                 height: 200px;
             }
         }
+
+        /* Mobile Portrait -> Landscape Lock */
+        @media screen and (max-width: 768px) and (orientation: portrait) {
+            body::before {
+                content: "📱 Bitte drehe dein Gerät ins Querformat für die beste Spielerfahrung!";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.9);
+                color: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                z-index: 99999;
+                font-size: 1.2rem;
+                padding: 2rem;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Wartungsmodus Warnung -->
+    <div id="maintenance">
+        ⚠️ <strong>Wartungsarbeiten:</strong> Der Server ist aktuell nicht verfügbar.
+        <br>Bitte versuche es später erneut.
+        <div id="maintenance-message" style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px;"></div>
+    </div>
+
     <!-- Vollbild Button -->
     <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Vollbild">
         📺
@@ -440,7 +486,7 @@
             </div>
         </div>
 
-        <!-- Crafting Area - Komplette rechte Seite -->
+        <!-- Crafting Area -->
         <div class="crafting-area" id="craftingArea">
             <div class="drop-zone" id="dropZone">
                 <div class="drop-hint">
@@ -459,7 +505,7 @@
         let placedElements = [];
         let draggedElement = null;
 
-        // Element-Daten mit Sprite-Pfaden (wie im alten Code)
+        // Element-Daten mit Sprite-Pfaden
         const elementData = {
             'Stein': { sprite: 'stone.png' },
             'Holz': { sprite: 'wood.png' },
@@ -477,7 +523,7 @@
             'Ziegel': { sprite: 'brick.png' }
         };
 
-        // Server-URL - RICHTIG konfiguriert
+        // Server-URL
         const SERVER_URL = 'https://evocraft-server.onrender.com';
 
         // === SPIEL INITIALISIERUNG ===
@@ -486,14 +532,41 @@
             const loadingText = document.getElementById('loadingText');
 
             try {
-                // Schritt 1: Server verbinden
+                // Schritt 1: Wartungsmodus prüfen
+                loadingText.textContent = 'Prüfe Server-Status...';
+                loadingBar.style.width = '15%';
+                await sleep(200);
+
+                // Wartungsmodus API-Aufruf
+                try {
+                    const maintenanceResponse = await fetch(`${SERVER_URL}/api/maintenance`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (maintenanceResponse.ok) {
+                        const maintenanceData = await maintenanceResponse.json();
+                        if (maintenanceData.maintenance === true) {
+                            // Wartungsmodus ist aktiv
+                            showMaintenanceMode(maintenanceData.message || 'Der Server befindet sich im Wartungsmodus.');
+                            return; // Spiel nicht laden
+                        }
+                    }
+                } catch (error) {
+                    console.warn('Wartungsmodus-Check fehlgeschlagen:', error);
+                    // Weitermachen, falls Wartungs-API nicht verfügbar
+                }
+
+                // Schritt 2: Server verbinden
                 loadingText.textContent = 'Verbinde mit Server...';
-                loadingBar.style.width = '25%';
+                loadingBar.style.width = '35%';
                 await sleep(300);
 
-                // Schritt 2: Crafting-Regeln laden
+                // Schritt 3: Crafting-Regeln laden
                 loadingText.textContent = 'Lade Crafting-Regeln...';
-                loadingBar.style.width = '50%';
+                loadingBar.style.width = '60%';
                 
                 const response = await fetch(`${SERVER_URL}/api/match-logic`, {
                     method: 'GET',
@@ -514,12 +587,12 @@
                     throw new Error('Server-Antwort ungültig');
                 }
 
-                // Schritt 3: UI vorbereiten
+                // Schritt 4: UI vorbereiten
                 loadingText.textContent = 'Bereite Spielelemente vor...';
-                loadingBar.style.width = '75%';
+                loadingBar.style.width = '80%';
                 await sleep(200);
 
-                // Schritt 4: Spiel starten
+                // Schritt 5: Spiel starten
                 loadingText.textContent = 'Starte Spiel...';
                 loadingBar.style.width = '100%';
                 await sleep(300);
@@ -528,10 +601,17 @@
 
             } catch (error) {
                 console.error('❌ Verbindungsfehler:', error);
-                
-                // Fehlermeldung ohne Fallback anzeigen
                 showConnectionError(error);
             }
+        }
+
+        // Wartungsmodus anzeigen
+        function showMaintenanceMode(message) {
+            document.getElementById('maintenance').style.display = 'block';
+            document.getElementById('maintenance-message').innerHTML = `<strong>Server-Nachricht:</strong><br>${message}`;
+            
+            // Ladebildschirm ausblenden
+            document.getElementById('loadingScreen').style.display = 'none';
         }
 
         // Verbindungsfehler anzeigen
@@ -567,14 +647,6 @@
                     " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
                         🔄 Erneut versuchen
                     </button>
-                    <div style="margin-top: 2rem; color: #94a3b8; font-size: 0.9rem;">
-                        <p>Mögliche Ursachen:</p>
-                        <ul style="text-align: left; margin-top: 0.5rem;">
-                            <li>Server ist offline</li>
-                            <li>Internetverbindung unterbrochen</li>
-                            <li>Server überlastet</li>
-                        </ul>
-                    </div>
                 </div>
             `;
         }
@@ -588,11 +660,168 @@
             document.getElementById('loadingScreen').style.display = 'none';
             document.getElementById('gameContainer').style.display = 'grid';
             
+            // Automatisch Vollbild aktivieren bei Mobile
+            if (window.innerWidth <= 768) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Auto-Vollbild fehlgeschlagen: ${err.message}`);
+                });
+            }
+            
             renderElements();
             setupDragAndDrop();
+            setupTouchSupport(); // Neue Touch-Unterstützung
             updateInventory();
             
             console.log('🎮 EvoCraft gestartet!');
+        }
+
+        // === TOUCH SUPPORT ===
+        function setupTouchSupport() {
+            const elementsGrid = document.getElementById('elementsGrid');
+            const craftingArea = document.getElementById('craftingArea');
+
+            // Touch-Events für Elemente in der Sidebar
+            elementsGrid.addEventListener('touchstart', handleTouchStart, {passive: false});
+            elementsGrid.addEventListener('touchmove', handleTouchMove, {passive: false});
+            elementsGrid.addEventListener('touchend', handleTouchEnd, {passive: false});
+
+            // Touch-Events für Crafting Area
+            craftingArea.addEventListener('touchstart', handleCraftingTouchStart, {passive: false});
+            craftingArea.addEventListener('touchmove', handleCraftingTouchMove, {passive: false});
+            craftingArea.addEventListener('touchend', handleCraftingTouchEnd, {passive: false});
+        }
+
+        let touchData = {
+            isDragging: false,
+            element: null,
+            startX: 0,
+            startY: 0,
+            offsetX: 0,
+            offsetY: 0
+        };
+
+        function handleTouchStart(e) {
+            if (e.target.closest('.element')) {
+                e.preventDefault();
+                const element = e.target.closest('.element');
+                const touch = e.touches[0];
+                
+                touchData.isDragging = true;
+                touchData.element = element;
+                touchData.startX = touch.clientX;
+                touchData.startY = touch.clientY;
+                
+                element.style.opacity = '0.7';
+                element.style.transform = 'scale(1.1)';
+            }
+        }
+
+        function handleTouchMove(e) {
+            if (touchData.isDragging && touchData.element) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                
+                // Visual Feedback für Drag
+                const craftingArea = document.getElementById('craftingArea');
+                const craftingRect = craftingArea.getBoundingClientRect();
+                
+                if (touch.clientX >= craftingRect.left && touch.clientX <= craftingRect.right &&
+                    touch.clientY >= craftingRect.top && touch.clientY <= craftingRect.bottom) {
+                    document.getElementById('dropZone').classList.add('dragover');
+                } else {
+                    document.getElementById('dropZone').classList.remove('dragover');
+                }
+            }
+        }
+
+        function handleTouchEnd(e) {
+            if (touchData.isDragging && touchData.element) {
+                e.preventDefault();
+                const touch = e.changedTouches[0];
+                const elementName = touchData.element.dataset.element;
+                
+                // Reset Element
+                touchData.element.style.opacity = '1';
+                touchData.element.style.transform = 'scale(1)';
+                document.getElementById('dropZone').classList.remove('dragover');
+                
+                // Check if dropped in crafting area
+                const craftingArea = document.getElementById('craftingArea');
+                const craftingRect = craftingArea.getBoundingClientRect();
+                
+                if (touch.clientX >= craftingRect.left && touch.clientX <= craftingRect.right &&
+                    touch.clientY >= craftingRect.top && touch.clientY <= craftingRect.bottom) {
+                    
+                    const x = touch.clientX - craftingRect.left - 40;
+                    const y = touch.clientY - craftingRect.top - 40;
+                    
+                    placeElement(elementName, x, y);
+                }
+                
+                // Reset touch data
+                touchData.isDragging = false;
+                touchData.element = null;
+            }
+        }
+
+        function handleCraftingTouchStart(e) {
+            if (e.target.closest('.placed-element')) {
+                e.preventDefault();
+                const element = e.target.closest('.placed-element');
+                const touch = e.touches[0];
+                const rect = element.getBoundingClientRect();
+                
+                touchData.isDragging = true;
+                touchData.element = element;
+                touchData.startX = touch.clientX;
+                touchData.startY = touch.clientY;
+                touchData.offsetX = touch.clientX - rect.left;
+                touchData.offsetY = touch.clientY - rect.top;
+                
+                element.style.zIndex = '1000';
+            }
+        }
+
+        function handleCraftingTouchMove(e) {
+            if (touchData.isDragging && touchData.element && touchData.element.classList.contains('placed-element')) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const craftingArea = document.getElementById('craftingArea');
+                const craftingRect = craftingArea.getBoundingClientRect();
+                
+                const x = touch.clientX - craftingRect.left - touchData.offsetX;
+                const y = touch.clientY - craftingRect.top - touchData.offsetY;
+                
+                // Grenzen respektieren
+                const maxX = craftingArea.clientWidth - 80;
+                const maxY = craftingArea.clientHeight - 80;
+                
+                const newX = Math.max(0, Math.min(x, maxX));
+                const newY = Math.max(0, Math.min(y, maxY));
+                
+                touchData.element.style.left = newX + 'px';
+                touchData.element.style.top = newY + 'px';
+                
+                // Update placedElements data
+                const placedData = placedElements.find(pe => pe.element === touchData.element);
+                if (placedData) {
+                    placedData.x = newX;
+                    placedData.y = newY;
+                }
+            }
+        }
+
+        function handleCraftingTouchEnd(e) {
+            if (touchData.isDragging && touchData.element) {
+                e.preventDefault();
+                touchData.element.style.zIndex = '100';
+                
+                // Check for collisions after touch end
+                setTimeout(() => checkCollisions(), 100);
+                
+                touchData.isDragging = false;
+                touchData.element = null;
+            }
         }
 
         // === ELEMENTE RENDERN ===
@@ -614,7 +843,7 @@
                 
                 elementDiv.innerHTML = `
                     <div class="element-icon">
-                        <img src="assets/sprites/${data.sprite}" alt="${elementName}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSIjNjQ3NDhiIiByeD0iNCIvPgo8dGV4dCB4PSIxNiIgeT0iMjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPj88L3RleHQ+Cjwvc3ZnPg=='">
+                        <img src="assets/sprites/${data.sprite}" alt="${elementName}" onerror="this.style.background='#3b82f6'">
                     </div>
                     <div class="element-name">${elementName}</div>
                 `;
@@ -623,7 +852,7 @@
             }
         }
 
-        // === DRAG & DROP SYSTEM ===
+        // === DRAG & DROP SYSTEM (Desktop) ===
         function setupDragAndDrop() {
             const dropZone = document.getElementById('dropZone');
             const craftingArea = document.getElementById('craftingArea');
@@ -701,7 +930,7 @@
             
             elementDiv.innerHTML = `
                 <div class="placed-element-icon">
-                    <img src="assets/sprites/${data.sprite}" alt="${elementName}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjM2I4MmY2IiByeD0iNiIvPgo8dGV4dCB4PSIyMCIgeT0iMjYiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPj88L3RleHQ+Cjwvc3ZnPg=='">
+                    <img src="assets/sprites/${data.sprite}" alt="${elementName}" onerror="this.style.background='#3b82f6'">
                 </div>
                 <div class="placed-element-name">${elementName}</div>
             `;
@@ -722,7 +951,7 @@
             setTimeout(() => checkCollisions(), 100);
         }
 
-        // === PLATZIERTE ELEMENTE DRAGGABLE MACHEN ===
+        // === PLATZIERTE ELEMENTE DRAGGABLE MACHEN (Desktop) ===
         function makePlacedElementDraggable(element, placedData) {
             let isDragging = false;
             let startX, startY, elementX, elementY;
@@ -766,7 +995,7 @@
             });
         }
 
-        // === KOLLISIONSPRÜFUNG ===
+        // === KOLLISIONSPRÜFUNG (VERBESSERT) ===
         function checkCollisions() {
             for (let i = 0; i < placedElements.length; i++) {
                 for (let j = i + 1; j < placedElements.length; j++) {
@@ -779,13 +1008,13 @@
                     
                     if (distance < 60) { // Kollision!
                         combineElements(el1, el2);
-                        return;
+                        return; // Nur eine Kombination pro Aufruf
                     }
                 }
             }
         }
 
-        // === ELEMENTE KOMBINIEREN ===
+        // === ELEMENTE KOMBINIEREN (VERBESSERT) ===
         function combineElements(el1, el2) {
             const combo1 = `${el1.name}+${el2.name}`;
             const combo2 = `${el2.name}+${el1.name}`;
@@ -836,7 +1065,7 @@
             popup.className = 'new-element-popup';
             popup.innerHTML = `
                 <div class="new-element-icon">
-                    <img src="assets/sprites/${data.sprite}" alt="${elementName}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjMjJjNTVlIiByeD0iMTAiLz4KPHR5cGUgeD0iNDAiIHk9IjUwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMzYiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4/PC90ZXh0Pgo8L3N2Zz4='">
+                    <img src="assets/sprites/${data.sprite}" alt="${elementName}" onerror="this.style.background='#22c55e'">
                 </div>
                 <div class="new-element-name">${elementName}</div>
                 <div class="new-badge">Neu entdeckt!</div>
@@ -882,7 +1111,7 @@
                 html += `
                     <div class="inventory-item">
                         <div class="inventory-item-icon">
-                            <img src="assets/sprites/${data.sprite}" alt="${elementName}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHZpZXdCb3g9IjAgMCAyMCAyMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiBmaWxsPSIjMjJjNTVlIiByeD0iMyIvPgo8dGV4dCB4PSIxMCIgeT0iMTQiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPj88L3RleHQ+Cjwvc3ZnPg=='">
+                            <img src="assets/sprites/${data.sprite}" alt="${elementName}" onerror="this.style.background='#22c55e'">
                         </div>
                         <div>${elementName}</div>
                         <div style="color: #22c55e; font-weight: 600;">${itemCount}x</div>
@@ -913,6 +1142,17 @@
                 e.preventDefault();
             }
         });
+
+        // Screen Orientation Lock (wenn möglich)
+        window.addEventListener('DOMContentLoaded', async () => {
+            if (screen.orientation && screen.orientation.lock) {
+                try {
+                    await screen.orientation.lock('landscape');
+                } catch (err) {
+                    console.log('Orientation lock nicht unterstützt:', err);
+                }
+            }
+        });
     </script>
 </body>
-</html>
+    </html>
