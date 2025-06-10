@@ -1,229 +1,165 @@
-/* Game-spezifische Styles mit neuer Farbpalette */
+/* Game-spezifische Styles */
 .game-body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
     background: var(--bg-primary);
+    color: var(--text-primary);
     overflow: hidden;
 }
 
 .game-header {
-    background: var(--bg-primary);
-    border-bottom: 1px solid var(--border-color);
-}
-
-.game-controls {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-}
-
-.control-btn {
-    background: var(--accent-primary);
-    color: var(--bg-primary);
-    border: none;
-    padding: 8px 16px;
-    border-radius: var(--radius-md);
-    font-size: 0.9rem;
-    font-weight: var(--font-weight-medium);
-    cursor: pointer;
-    transition: var(--transition-normal);
-    text-decoration: none;
-    display: inline-block;
-}
-
-.control-btn:hover {
-    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-glow);
-}
-
-/* Wartungsmeldung */
-.maintenance-notice {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    background: var(--bg-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-}
-
-.maintenance-content {
-    text-align: center;
-    max-width: 600px;
-    padding: 40px;
     background: var(--bg-secondary);
-    border-radius: var(--radius-xl);
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-xl);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1000;
+    height: 60px;
 }
 
-.maintenance-icon {
-    font-size: 4rem;
-    margin-bottom: 24px;
-    filter: drop-shadow(0 0 20px rgba(255, 159, 28, 0.5));
-}
-
-.maintenance-content h2 {
-    color: var(--text-primary);
-    font-size: 2rem;
-    font-weight: var(--font-weight-bold);
-    margin-bottom: 16px;
-}
-
-.maintenance-content p {
-    color: var(--text-secondary);
-    font-size: 1.1rem;
-    margin-bottom: 32px;
-    line-height: 1.6;
-}
-
-.maintenance-progress {
-    background: var(--bg-primary);
-    padding: 20px;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border-color);
-}
-
-.maintenance-progress .progress-bar {
-    width: 100%;
-    height: 8px;
-    background: var(--bg-hover);
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 12px;
-}
-
-.maintenance-progress .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-    border-radius: 4px;
-    transition: width 0.5s ease;
-    box-shadow: 0 0 10px rgba(0, 212, 122, 0.5);
-}
-
-.maintenance-progress .progress-text {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    font-weight: var(--font-weight-medium);
-}
-
-/* Game Interface (versteckt während Wartung) */
 .game-main {
     display: grid;
-    grid-template-columns: 300px 1fr 300px;
-    height: calc(100vh - 72px);
-    margin-top: 72px;
-    gap: 0;
+    grid-template-columns: 280px 1fr;
+    height: calc(100vh - 60px);
+    margin-top: 60px;
 }
 
-.sidebar, .inventory-panel {
+/* Sidebar */
+.sidebar {
     background: var(--bg-secondary);
     padding: 20px;
     overflow-y: auto;
     border-right: 1px solid var(--border-color);
 }
 
-.inventory-panel {
-    border-right: none;
-    border-left: 1px solid var(--border-color);
-}
-
 .sidebar-section {
-    margin-bottom: 32px;
+    margin-bottom: 30px;
 }
 
 .sidebar-section h3 {
     color: var(--text-primary);
     font-size: 1.1rem;
-    font-weight: var(--font-weight-semibold);
-    margin-bottom: 16px;
+    font-weight: 600;
+    margin-bottom: 15px;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border-color);
 }
 
-.elements-grid {
+/* Objekte Grid */
+.objects-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
 }
 
-.element {
+.object {
     background: var(--bg-primary);
-    padding: 12px 8px;
+    padding: 12px;
     border-radius: var(--radius-md);
-    text-align: center;
-    font-size: 0.9rem;
-    color: var(--text-primary);
-    cursor: grab;
-    transition: var(--transition-normal);
     border: 1px solid var(--border-color);
-}
-
-.element:hover {
-    background: var(--bg-hover);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-.element.pulsing {
-    animation: elementPulse 2s ease-in-out infinite;
-}
-
-@keyframes elementPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-}
-
-.game-canvas {
-    background: var(--bg-primary);
+    text-align: center;
+    cursor: grab;
+    transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 8px;
+}
+
+.object:hover {
+    background: var(--bg-hover);
+    border-color: var(--accent-primary);
+    transform: translateY(-2px);
+}
+
+.object:active {
+    cursor: grabbing;
+}
+
+.object.hidden {
+    display: none;
+}
+
+.object-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.object-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+/* Inventar */
+.inventory-count {
+    background: var(--bg-primary);
+    padding: 8px;
+    border-radius: var(--radius-sm);
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.inventory-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.inventory-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px;
+    background: var(--bg-primary);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+}
+
+.inventory-item img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Hauptfläche */
+.game-canvas {
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
     justify-content: center;
     position: relative;
-    overflow: hidden;
-}
-
-.cosmic-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 30% 30%, rgba(0, 212, 122, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 70% 70%, rgba(87, 154, 255, 0.1) 0%, transparent 50%);
-    animation: cosmicFlow 10s linear infinite;
-}
-
-@keyframes cosmicFlow {
-    0%, 100% { transform: rotate(0deg) scale(1); }
-    50% { transform: rotate(180deg) scale(1.1); }
 }
 
 .crafting-area {
-    z-index: 10;
     text-align: center;
+    max-width: 800px;
+    width: 100%;
     padding: 40px;
-    background: rgba(28, 28, 34, 0.8);
-    border-radius: var(--radius-xl);
-    border: 1px solid var(--border-color);
-    backdrop-filter: blur(10px);
 }
 
 .crafting-title h2 {
     color: var(--text-primary);
-    font-size: 1.8rem;
-    font-weight: var(--font-weight-bold);
-    margin-bottom: 32px;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
 }
 
+.crafting-title p {
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+}
+
+/* Drop Zones */
 .drop-zones-container {
     display: flex;
     align-items: center;
-    gap: 32px;
-    margin-bottom: 32px;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
 }
 
 .drop-zone {
@@ -232,223 +168,217 @@
     border: 2px dashed var(--border-color);
     border-radius: var(--radius-lg);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--bg-primary);
-    transition: var(--transition-normal);
+    background: var(--bg-secondary);
+    transition: all 0.3s ease;
     position: relative;
+    overflow: hidden;
 }
 
 .drop-zone:hover {
     border-color: var(--accent-primary);
-    background: rgba(0, 212, 122, 0.05);
+    background: var(--bg-hover);
+}
+
+.drop-zone.drag-over {
+    border-color: var(--neon-green);
+    background: rgba(34, 197, 94, 0.1);
+    border-style: solid;
+}
+
+.drop-zone.filled {
+    border-color: var(--accent-primary);
+    border-style: solid;
 }
 
 .drop-hint {
     color: var(--text-secondary);
     font-size: 0.9rem;
-    font-weight: var(--font-weight-medium);
+    font-weight: 500;
+}
+
+.result-area {
+    width: 140px;
+    height: 120px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    position: relative;
+}
+
+.result-hint {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
 .combine-symbol {
     font-size: 2rem;
+    font-weight: bold;
     color: var(--accent-primary);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: var(--bg-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid var(--accent-primary);
-    position: relative;
+    width: 40px;
+    height: 40px;
 }
 
-.combine-symbol.pulsing {
-    animation: combinePulse 1.5s ease-in-out infinite;
-}
-
-@keyframes combinePulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 212, 122, 0.4); }
-    50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0, 212, 122, 0); }
-}
-
-.experiment-btn {
-    background: var(--accent-primary);
-    color: var(--bg-primary);
-    border: none;
-    padding: 16px 32px;
-    border-radius: var(--radius-lg);
-    font-size: 1.1rem;
-    font-weight: var(--font-weight-semibold);
-    cursor: pointer;
-    transition: var(--transition-normal);
-    position: relative;
-    overflow: hidden;
-}
-
-.experiment-btn:disabled {
-    background: var(--bg-hover);
-    color: var(--text-secondary);
-    cursor: not-allowed;
-}
-
-.experiment-btn:not(:disabled):hover {
-    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-glow);
-}
-
-.result-area {
-    margin-top: 32px;
-    min-height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.result-placeholder {
-    color: var(--text-secondary);
-    font-style: italic;
+/* Platzierte Objekte */
+.placed-object {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 6px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding: 10px;
 }
 
-/* Timeline */
-.timeline {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--bg-secondary);
-    border-top: 1px solid var(--border-color);
-    padding: 16px 0;
-    z-index: 100;
+.placed-object img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
 }
 
-.timeline-content {
+.placed-object-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.remove-object {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ef4444;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 40px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
 }
 
-.timeline-epoch {
+/* Ergebnis */
+.result-success {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
+    animation: success-pulse 0.5s ease-out;
+}
+
+.result-success img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.result-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--neon-green);
+}
+
+.result-new {
+    background: var(--neon-green);
+    color: white;
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.result-failure {
+    color: #ef4444;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Combine Button */
+.combine-button {
+    margin-top: 20px;
+}
+
+.craft-btn {
+    background: var(--accent-primary);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: var(--radius-lg);
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: var(--transition-normal);
-    padding: 12px;
-    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
 }
 
-.timeline-epoch.active {
-    background: rgba(0, 212, 122, 0.1);
-    color: var(--accent-primary);
-}
-
-.timeline-epoch.locked {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.timeline-epoch:not(.locked):hover {
-    background: var(--bg-hover);
+.craft-btn:hover:not(:disabled) {
+    background: var(--accent-hover);
     transform: translateY(-2px);
 }
 
-.epoch-icon {
-    font-size: 1.5rem;
-}
-
-.epoch-name {
-    font-size: 0.8rem;
-    font-weight: var(--font-weight-medium);
+.craft-btn:disabled {
+    background: var(--bg-secondary);
     color: var(--text-secondary);
+    cursor: not-allowed;
 }
 
-.timeline-epoch.active .epoch-name {
-    color: var(--accent-primary);
+/* Animationen */
+@keyframes success-pulse {
+    0% { 
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    50% { 
+        transform: scale(1.1);
+    }
+    100% { 
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
-/* Responsive Design für Game */
+/* Responsive */
 @media (max-width: 1024px) {
     .game-main {
         grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr auto;
+        grid-template-rows: auto 1fr;
     }
     
-    .sidebar, .inventory-panel {
+    .sidebar {
         border-right: none;
-        border-left: none;
         border-bottom: 1px solid var(--border-color);
+        height: auto;
+        max-height: 200px;
     }
     
-    .timeline-content {
-        gap: 20px;
-    }
-    
-    .timeline-epoch {
-        padding: 8px;
+    .objects-grid {
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
 @media (max-width: 768px) {
-    .maintenance-content {
-        margin: 20px;
-        padding: 30px;
-    }
-    
-    .maintenance-content h2 {
-        font-size: 1.5rem;
-    }
-    
     .drop-zones-container {
-        flex-direction: column;
         gap: 20px;
     }
     
-    .timeline-content {
-        gap: 12px;
-        overflow-x: auto;
-        justify-content: flex-start;
+    .drop-zone, .result-area {
+        width: 100px;
+        height: 100px;
     }
-}
-/* Vertical Ad Banner Styles */
-.ad-banner-panel {
-    position: fixed;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 160px;
-    z-index: 1000;
-    background: rgba(10, 10, 20, 0.9);
-    border: 1px solid #333;
-    border-radius: 12px;
-    padding: 10px;
-    backdrop-filter: blur(10px);
-}
-
-.ad-container {
-    width: 100%;
-    height: auto;
-}
-
-.vertical-banner {
-    width: 160px !important;
-    height: 600px !important;
-    display: block !important;
-}
-
-/* Responsive - Banner auf mobilen Geräten ausblenden */
-@media (max-width: 1200px) {
-    .ad-banner-panel {
-        display: none;
+    
+    .combine-symbol {
+        font-size: 1.5rem;
     }
 }
