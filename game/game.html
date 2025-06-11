@@ -1186,8 +1186,140 @@
             setupTouchSupport();
             setupSearch();
             updateAchievements();
+            updateAchievementDisplay();
             
             console.log('🎮 EvoCraft gestartet!');
+        }
+
+        // === ELEMENT FREISCHALTEN ===
+        function unlockElement(elementName) {
+            discoveredElements.add(elementName);
+            renderElements();
+            
+            // Settings-Counter aktualisieren
+            document.getElementById('discoveredCount').textContent = discoveredElements.size;
+        }
+
+        // === KOMBINATIONS-EFFEKT ===
+        function showCombinationEffect(x, y) {
+            const effect = document.createElement('div');
+            effect.className = 'combination-effect';
+            effect.style.left = x + 'px';
+            effect.style.top = y + 'px';
+            
+            document.getElementById('craftingArea').appendChild(effect);
+            
+            setTimeout(() => effect.remove(), 1500);
+        }
+
+        // === NEUES ELEMENT POPUP ===
+        function showNewElementPopup(elementName) {
+            const popup = document.createElement('div');
+            popup.className = 'new-element-popup';
+            
+            const data = elementData[elementName];
+            popup.innerHTML = `
+                <div class="new-element-icon">
+                    <img src="assets/sprites/${data.sprite}" alt="${elementName}" onerror="this.style.background='var(--accent-blue)'">
+                </div>
+                <div class="new-element-name">${elementName}</div>
+                <div class="new-badge">NEU ENTDECKT!</div>
+            `;
+            
+            document.getElementById('craftingArea').appendChild(popup);
+            
+            setTimeout(() => popup.remove(), 2500);
+        }
+
+        // === ACHIEVEMENT SYSTEM ===
+        function unlockAchievement(achievementId) {
+            const achievement = achievements.find(a => a.id === achievementId);
+            if (achievement && !achievement.unlocked) {
+                achievement.unlocked = true;
+                achievement.progress = achievement.maxProgress;
+                console.log('🏆 Achievement freigeschaltet:', achievement.title);
+                updateAchievementDisplay();
+            }
+        }
+
+        function updateAchievementDisplay() {
+            const grid = document.getElementById('achievementGrid');
+            grid.innerHTML = '';
+            
+            for (const achievement of achievements) {
+                const item = document.createElement('div');
+                item.className = `achievement-item ${achievement.unlocked ? 'unlocked' : ''}`;
+                
+                const progressPercent = (achievement.progress / achievement.maxProgress) * 100;
+                
+                item.innerHTML = `
+                    <div class="achievement-header">
+                        <div class="achievement-icon">${achievement.icon}</div>
+                        <div class="achievement-title">${achievement.title}</div>
+                    </div>
+                    <div class="achievement-desc">${achievement.description}</div>
+                    <div class="achievement-progress">
+                        <div class="achievement-progress-bar" style="width: ${progressPercent}%"></div>
+                    </div>
+                `;
+                
+                grid.appendChild(item);
+            }
+        }
+
+        // === NAVIGATION FUNKTIONEN ===
+        function switchTab(tabName) {
+            // Alle nav-items deaktivieren
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            
+            // Aktives Tab markieren
+            event.target.closest('.nav-item').classList.add('active');
+            
+            if (tabName === 'timeline') {
+                document.getElementById('timelineModal').style.display = 'block';
+            } else if (tabName === 'achievements') {
+                updateAchievementDisplay();
+                document.getElementById('achievementsModal').style.display = 'block';
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function openSettings() {
+            document.getElementById('settingsModal').style.display = 'block';
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(console.log);
+            } else {
+                document.exitFullscreen().catch(console.log);
+            }
+        }
+
+        function testServerConnection() {
+            const btn = document.getElementById('testServerBtn');
+            btn.disabled = true;
+            btn.textContent = 'Teste...';
+            
+            fetch(`${SERVER_URL}/api/maintenance`)
+                .then(response => {
+                    btn.textContent = response.ok ? '✅ Online' : '❌ Fehler';
+                    btn.style.background = response.ok ? 'var(--accent-green)' : '#ef4444';
+                })
+                .catch(() => {
+                    btn.textContent = '❌ Offline';
+                    btn.style.background = '#ef4444';
+                })
+                .finally(() => {
+                    setTimeout(() => {
+                        btn.disabled = false;
+                        btn.textContent = 'Testen';
+                        btn.style.background = 'var(--accent-blue)';
+                    }, 2000);
+                });
         }
 
         // === SUCHFUNKTION ===
@@ -1678,7 +1810,7 @@
             timeline.innerHTML = html;
         }
 
-        // === ACHIEVEMENTS ===
+        // === ACHIEVEMENTS VOLLSTÄNDIG ===
         function updateAchievements() {
             // Erstes Experiment
             if (craftingHistory.length > 0 && !achievements.find(a => a.id === 'first_combination').unlocked) {
@@ -1691,6 +1823,46 @@
             const discover10 = achievements.find(a => a.id === 'discover_10');
             
             discover5.progress = Math.min(discovered, 5);
+            discover10.progress = Math.min(discovered, 10);
+            
             if (discovered >= 5 && !discover5.unlocked) {
                 unlockAchievement('discover_5');
+            }
             
+            if (discovered >= 10 && !discover10.unlocked) {
+                unlockAchievement('discover_10');
+            }
+            
+            // Feuer Achievement
+            if (discoveredElements.has('Feuer') && !achievements.find(a => a.id === 'fire_creator').unlocked) {
+                unlockAchievement('fire_creator');
+            }
+        }
+
+        // === SPIEL BEIM LADEN STARTEN ===
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🎮 DOM geladen, starte Spiel...');
+            initializeGame();
+        });
+
+        // Fallback für ältere Browser
+        window.addEventListener('load', () => {
+            // Nur starten wenn noch nicht gestartet
+            if (document.getElementById('loadingScreen').style.display !== 'none') {
+                console.log('🎮 Window geladen, starte Spiel als Fallback...');
+                initializeGame();
+            }
+        });
+
+        // Orientierung überwachen
+        window.addEventListener('resize', () => {
+            // Portrait Mode prüfen
+            if (window.innerWidth <= 768 && window.innerHeight > window.innerWidth) {
+                document.querySelector('.portrait-blocker').style.display = 'flex';
+            } else {
+                document.querySelector('.portrait-blocker').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
