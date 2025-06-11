@@ -173,7 +173,7 @@ body {
     text-indent: -9999px; /* Versteckt den Text, zeigt nur das Bild */
     width: 800px; /* RIESIG */
     height: 160px; /* RIESIG */
-    transform: translateY(-10px); /* SCHRIFTZUG NACH UNTEN FÜR BEIDE VERSIONEN */
+    transform: translateY(0px); /* SCHRIFTZUG NACH UNTEN FÜR BEIDE VERSIONEN */
 }
 
 .nav-menu {
