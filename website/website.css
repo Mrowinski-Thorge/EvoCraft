@@ -1,4 +1,4 @@
-/* EvoCraft Redesign - Game-orientierte Modernisierung */
+/* EvoCraft Redesign - Game-orientierte Modernisierung - FIXED */
 * {
     margin: 0;
     padding: 0;
@@ -25,29 +25,30 @@ html, body {
 }
 
 :root {
-    /* Neue Game-orientierte Farbpalette */
-    --bg-primary: #0A0F1C;              /* Tieferes Dunkelblau */
-    --bg-secondary: #1A2332;            /* Warmes Dunkelgrau */
-    --bg-hover: #253345;                /* Hover-Zustände */
-    --bg-card: #162029;                 /* Karten-Hintergrund */
+    /* Neue Game-orientierte Farbpalette - Angepasst */
+    --bg-primary: #0A0F1C;              
+    --bg-secondary: #1A2332;            
+    --bg-hover: #253345;                
+    --bg-card: #162029;                 
     
-    /* Primäre Game-Farben */
-    --accent-primary: #00E676;          /* Lebendiges Grün (Little Alchemy Style) */
-    --accent-secondary: #FF6B35;        /* Warmes Orange (Energie) */
-    --accent-tertiary: #2196F3;        /* Technologie-Blau */
-    --accent-rare: #9C27B0;            /* Seltene Items - Lila */
+    /* Primäre Game-Farben - Orange/Gold Theme */
+    --accent-primary: #FF6B35;          /* Warmes Orange als Hauptfarbe */
+    --accent-secondary: #FFA726;        /* Gold-Orange */
+    --accent-tertiary: #FF8F00;         /* Amber */
+    --accent-rare: #9C27B0;            /* Lila für Seltenes */
     --accent-warning: #FFC107;          /* Gold für Achievements */
     
     /* Text-Farben */
-    --text-primary: #FFFFFF;            /* Reines Weiß für Haupttext */
-    --text-secondary: #B0BEC5;          /* Helles Grau für Sekundärtext */
-    --text-muted: #78909C;              /* Gedämpft für weniger wichtige Elemente */
-    --border-color: #37474F;            /* Rahmen */
+    --text-primary: #FFFFFF;            
+    --text-secondary: #B0BEC5;          
+    --text-muted: #78909C;              
+    --text-dark: #1A1A1A;               /* Für helle Hintergründe */
+    --border-color: #37474F;            
     
     /* Navigation */
-    --nav-bg: #0D1421;                 /* Navigation leicht unterschiedlich */
+    --nav-bg: #0D1421;                 
     
-    /* Neue Typografie - Game-orientiert */
+    /* Typografie */
     --font-family-primary: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-family-accent: 'Raleway', sans-serif;
     
@@ -58,14 +59,14 @@ html, body {
     --font-weight-bold: 700;
     --font-weight-black: 900;
     
-    /* Erweiterte Schatten für Game-Feeling */
+    /* Schatten - Orange Theme */
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
     --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
-    --shadow-glow: 0 0 20px rgba(0, 230, 118, 0.4);
-    --shadow-glow-orange: 0 0 20px rgba(255, 107, 53, 0.4);
-    --shadow-glow-blue: 0 0 20px rgba(33, 150, 243, 0.4);
+    --shadow-glow: 0 0 20px rgba(255, 107, 53, 0.4);
+    --shadow-glow-orange: 0 0 20px rgba(255, 167, 38, 0.4);
+    --shadow-glow-amber: 0 0 20px rgba(255, 143, 0, 0.4);
     
     --radius-sm: 6px;
     --radius-md: 12px;
@@ -78,7 +79,7 @@ html, body {
     --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Google Fonts Import für neue Typografie */
+/* Google Fonts Import */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&family=Raleway:wght@300;400;500;600;700;800&display=swap');
 
 body {
@@ -92,7 +93,6 @@ body {
     width: 100%;
 }
 
-/* CONTAINER MIT STRIKTER BREITEN-KONTROLLE */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -102,7 +102,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Header & Navigation - Modernisiert */
+/* Header & Navigation - Komplett überarbeitet */
 .header {
     position: fixed;
     top: 0;
@@ -133,7 +133,7 @@ body {
 .nav-logo {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
     flex-shrink: 0;
     min-width: 0;
     max-width: 60%;
@@ -148,9 +148,9 @@ body {
     width: 48px;
     height: 48px;
     flex-shrink: 0;
-    transform: translateY(0px);
 }
 
+/* Logo OHNE grünen Glow */
 .logo {
     width: 48px;
     height: 48px;
@@ -159,18 +159,17 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    filter: drop-shadow(0 0 10px rgba(0, 230, 118, 0.5));
     transition: var(--transition-normal);
 }
 
 .logo:hover {
-    transform: scale(1.1);
-    filter: drop-shadow(0 0 15px rgba(0, 230, 118, 0.8));
+    transform: scale(1.05);
 }
 
+/* Logo-Text größer gemacht */
 .logo-text {
     font-family: var(--font-family-accent);
-    font-size: 24px;
+    font-size: 28px;
     font-weight: var(--font-weight-bold);
     color: var(--accent-primary);
     white-space: nowrap;
@@ -181,8 +180,8 @@ body {
     background-repeat: no-repeat;
     background-position: left center;
     text-indent: -9999px;
-    width: 200px;
-    height: 40px;
+    width: 280px;  /* Deutlich größer */
+    height: 56px;  /* Deutlich größer */
     transform: translateY(0px);
 }
 
@@ -197,6 +196,7 @@ body {
     overflow: hidden;
 }
 
+/* Navigation Links - KEIN GRÜN mehr */
 .nav-link {
     text-decoration: none;
     color: var(--text-secondary);
@@ -225,7 +225,7 @@ body {
 
 .nav-link:hover {
     color: var(--accent-primary);
-    background: rgba(0, 230, 118, 0.1);
+    background: rgba(255, 107, 53, 0.1);
     transform: translateY(-2px);
 }
 
@@ -233,21 +233,69 @@ body {
     width: 100%;
 }
 
+/* Active Link - KEIN spezieller Stil */
 .nav-link.active {
-    color: var(--accent-primary);
-    background: rgba(0, 230, 118, 0.15);
+    color: var(--text-secondary);
+    background: none;
 }
 
 .nav-link.active::before {
-    width: 100%;
+    width: 0;
 }
 
-/* Mobile Toggle versteckt */
+/* Mobile Toggle Button - Jetzt sichtbar */
 .nav-toggle {
-    display: none !important;
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+    padding: 8px;
+    border-radius: var(--radius-sm);
+    transition: var(--transition-fast);
 }
 
-/* Hero Section - Dramatisch verbessert */
+.nav-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: var(--text-primary);
+    transition: var(--transition-fast);
+    border-radius: 2px;
+}
+
+.nav-toggle:hover span {
+    background: var(--accent-primary);
+}
+
+.nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Mobile Menu */
+.nav-menu.mobile-open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(13, 20, 33, 0.98);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(55, 71, 79, 0.3);
+    padding: 20px;
+    gap: 16px;
+    box-shadow: var(--shadow-lg);
+}
+
+/* Hero Section - Komplett überarbeitet */
 .hero {
     position: relative;
     min-height: 100vh;
@@ -257,6 +305,7 @@ body {
     text-align: center;
     overflow: hidden;
     width: 100%;
+    background: linear-gradient(135deg, #1A1A2E 0%, #16213E 50%, #0F3460 100%);
 }
 
 .hero-background-image {
@@ -267,7 +316,7 @@ body {
     height: 100%;
     object-fit: cover;
     z-index: 1;
-    opacity: 0.8;
+    opacity: 0.6;
     object-position: center center;
 }
 
@@ -279,9 +328,9 @@ body {
     right: 0;
     bottom: 0;
     background: linear-gradient(135deg, 
-        rgba(10, 15, 28, 0.7) 0%, 
-        rgba(26, 35, 50, 0.5) 50%, 
-        rgba(10, 15, 28, 0.8) 100%);
+        rgba(26, 26, 46, 0.8) 0%, 
+        rgba(22, 33, 62, 0.6) 50%, 
+        rgba(15, 52, 96, 0.7) 100%);
     z-index: 2;
 }
 
@@ -295,19 +344,16 @@ body {
     box-sizing: border-box;
 }
 
+/* Hero Title - Schwarze Schrift in Weiß geändert */
 .hero-title {
     font-family: var(--font-family-accent);
     font-size: clamp(3.5rem, 10vw, 7rem);
     font-weight: var(--font-weight-black);
-    color: var(--text-primary);
+    color: var(--text-primary);  /* Weiße Schrift */
     margin-bottom: 32px;
     line-height: 1.1;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
     word-wrap: break-word;
-    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 50%, var(--accent-secondary) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 }
 
 .title-line {
@@ -339,18 +385,18 @@ body {
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8);
     word-wrap: break-word;
     line-height: 1.7;
 }
 
-/* CTA Button - Vollständig neu gestaltet */
+/* CTA Button - Game-orientiert */
 .cta-button {
     display: inline-flex;
     align-items: center;
     gap: 16px;
-    background: linear-gradient(135deg, var(--accent-primary) 0%, #00C853 100%);
-    color: var(--bg-primary);
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+    color: white;
     border: none;
     padding: 20px 40px;
     font-family: var(--font-family-primary);
@@ -385,7 +431,7 @@ body {
 }
 
 .cta-button:hover {
-    background: linear-gradient(135deg, #00E676 0%, var(--accent-secondary) 100%);
+    background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-tertiary) 100%);
     transform: translateY(8vh) translateY(-4px) scale(1.05);
     box-shadow: var(--shadow-xl), var(--shadow-glow), var(--shadow-glow-orange);
 }
@@ -399,7 +445,7 @@ body {
     transform: translateX(6px);
 }
 
-/* Neue Scroll-Animationen */
+/* Scroll-Animationen */
 @keyframes slideInLeft {
     from {
         opacity: 0;
@@ -444,7 +490,6 @@ body {
     }
 }
 
-/* Scroll-Animation System */
 .animate-on-scroll {
     opacity: 0;
     transform: translateY(40px);
@@ -488,7 +533,7 @@ body {
     transform: translateY(60px);
 }
 
-/* Sektionen - Modernisiert */
+/* Sektionen - Game-orientiert */
 .features, .how-it-works, .faq, .contact {
     padding: 120px 0;
     width: 100%;
@@ -496,19 +541,19 @@ body {
 }
 
 .features {
-    background: linear-gradient(135deg, var(--bg-secondary) 0%, #1E2A3A 100%);
+    background: linear-gradient(135deg, #1A2332 0%, #253345 100%);
 }
 
 .how-it-works {
-    background: linear-gradient(135deg, var(--bg-primary) 0%, #0F1419 100%);
+    background: linear-gradient(135deg, #0A0F1C 0%, #162029 100%);
 }
 
 .faq {
-    background: linear-gradient(135deg, var(--bg-secondary) 0%, #1E2A3A 100%);
+    background: linear-gradient(135deg, #1A2332 0%, #253345 100%);
 }
 
 .contact {
-    background: linear-gradient(135deg, var(--bg-primary) 0%, #0F1419 100%);
+    background: linear-gradient(135deg, #0A0F1C 0%, #162029 100%);
     text-align: center;
 }
 
@@ -521,13 +566,9 @@ body {
     color: var(--text-primary);
     text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     word-wrap: break-word;
-    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 }
 
-/* Feature Cards - Vollständig neu gestaltet */
+/* Feature Cards - Mit richtigen Icons statt Emojis */
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -569,19 +610,32 @@ body {
     transform: translateY(-12px);
     box-shadow: var(--shadow-xl), var(--shadow-glow);
     border-color: var(--accent-primary);
-    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(0, 230, 118, 0.05) 100%);
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(255, 107, 53, 0.05) 100%);
 }
 
+/* Feature Icons - Echte SVG Icons */
 .feature-icon {
-    font-size: 4rem;
-    margin-bottom: 24px;
-    filter: drop-shadow(0 0 15px rgba(0, 230, 118, 0.4));
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    border-radius: var(--radius-lg);
+    filter: drop-shadow(0 0 15px rgba(255, 107, 53, 0.4));
     transition: var(--transition-normal);
 }
 
 .feature-card:hover .feature-icon {
     transform: scale(1.1);
-    filter: drop-shadow(0 0 25px rgba(0, 230, 118, 0.6));
+    filter: drop-shadow(0 0 25px rgba(255, 107, 53, 0.6));
+}
+
+.feature-icon svg {
+    width: 40px;
+    height: 40px;
+    fill: white;
 }
 
 .feature-card h3 {
@@ -600,7 +654,7 @@ body {
     font-size: 1.1rem;
 }
 
-/* Steps - Neu gestaltet */
+/* Steps */
 .steps {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -619,7 +673,7 @@ body {
     width: 80px;
     height: 80px;
     background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-    color: var(--bg-primary);
+    color: white;
     border-radius: var(--radius-full);
     display: flex;
     align-items: center;
@@ -653,64 +707,77 @@ body {
     line-height: 1.7;
 }
 
-/* FAQ - Modernisiert */
+/* FAQ - Aufklappbar */
 .faq-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-    gap: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
     margin-top: 80px;
     width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .faq-item {
     background: linear-gradient(135deg, var(--bg-card) 0%, rgba(22, 32, 41, 0.8) 100%);
-    padding: 40px 32px;
     border-radius: var(--radius-xl);
-    text-align: left;
-    transition: var(--transition-normal);
     border: 1px solid rgba(55, 71, 79, 0.3);
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    position: relative;
     overflow: hidden;
-}
-
-.faq-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent-tertiary), var(--accent-primary));
-    opacity: 0;
     transition: var(--transition-normal);
-}
-
-.faq-item:hover::before {
-    opacity: 1;
 }
 
 .faq-item:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-xl), var(--shadow-glow-blue);
-    border-color: var(--accent-tertiary);
-    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(33, 150, 243, 0.05) 100%);
+    border-color: var(--accent-primary);
+    box-shadow: var(--shadow-md), var(--shadow-glow);
 }
 
-.faq-item h3 {
+.faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 32px;
+    text-align: left;
+    cursor: pointer;
+    color: var(--text-primary);
     font-family: var(--font-family-accent);
     font-size: 1.4rem;
     font-weight: var(--font-weight-semibold);
-    margin-bottom: 16px;
-    color: var(--text-primary);
-    word-wrap: break-word;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition-fast);
 }
 
-.faq-item p {
+.faq-question:hover {
+    color: var(--accent-primary);
+}
+
+.faq-question::after {
+    content: '+';
+    font-size: 2rem;
+    color: var(--accent-primary);
+    transition: var(--transition-fast);
+}
+
+.faq-item.active .faq-question::after {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.faq-item.active .faq-answer {
+    max-height: 300px;
+}
+
+.faq-answer-content {
+    padding: 0 32px 32px;
     color: var(--text-secondary);
     line-height: 1.7;
-    word-wrap: break-word;
     font-size: 1.05rem;
 }
 
@@ -736,7 +803,7 @@ body {
     align-items: center;
     gap: 12px;
     background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-    color: var(--bg-primary);
+    color: white;
     text-decoration: none;
     padding: 16px 32px;
     border-radius: var(--radius-lg);
@@ -770,7 +837,7 @@ body {
     box-shadow: var(--shadow-xl), var(--shadow-glow), var(--shadow-glow-orange);
 }
 
-/* Footer - Modernisiert */
+/* Footer */
 .footer {
     background: linear-gradient(135deg, var(--bg-secondary) 0%, #0F1419 100%);
     color: var(--text-primary);
@@ -798,7 +865,7 @@ body {
     font-size: 2rem;
     margin-bottom: 16px;
     display: block;
-    filter: drop-shadow(0 0 15px rgba(0, 230, 118, 0.4));
+    filter: drop-shadow(0 0 15px rgba(255, 107, 53, 0.4));
     background-image: url('assets/icons/lettering.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -846,7 +913,7 @@ body {
 
 .footer-group a:hover {
     color: var(--accent-primary);
-    text-shadow: 0 0 10px rgba(0, 230, 118, 0.5);
+    text-shadow: 0 0 10px rgba(255, 107, 53, 0.5);
     transform: translateX(4px);
 }
 
@@ -859,7 +926,7 @@ body {
     font-size: 0.95rem;
 }
 
-/* DESKTOP ANPASSUNGEN - AB 1025px */
+/* DESKTOP ANPASSUNGEN */
 @media (min-width: 1025px) {
     .hero-background-image {
         object-position: center center;
@@ -895,8 +962,8 @@ body {
     }
     
     .logo-text {
-        width: 240px;
-        height: 48px;
+        width: 320px;  /* Desktop: Noch größer */
+        height: 64px;
     }
     
     .footer-brand .footer-logo {
@@ -914,7 +981,7 @@ body {
     }
 }
 
-/* MOBILE RESPONSIVE - AB 768px und kleiner */
+/* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
     .container {
         padding: 0 20px;
@@ -931,18 +998,34 @@ body {
         gap: 12px;
     }
     
+    /* Mobile Navigation - Hamburger Menu */
     .nav-menu {
-        display: none !important;
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(13, 20, 33, 0.98);
+        backdrop-filter: blur(20px);
+        border-top: 1px solid rgba(55, 71, 79, 0.3);
+        padding: 20px;
+        flex-direction: column;
+        gap: 16px;
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .nav-menu.mobile-open {
+        display: flex;
     }
     
     .nav-toggle {
-        display: none !important;
+        display: flex !important;
     }
     
     .logo-text {
-        font-size: 20px;
-        width: 180px;
-        height: 36px;
+        font-size: 24px;
+        width: 240px;  /* Mobile: Größer */
+        height: 48px;
         transform: translateY(4px);
     }
     
@@ -1011,8 +1094,7 @@ body {
     }
     
     .faq-grid {
-        grid-template-columns: 1fr;
-        gap: 28px;
+        gap: 20px;
     }
     
     .steps {
@@ -1027,6 +1109,15 @@ body {
     
     .features, .how-it-works, .faq, .contact {
         padding: 80px 0;
+    }
+    
+    .faq-question {
+        padding: 24px;
+        font-size: 1.2rem;
+    }
+    
+    .faq-answer-content {
+        padding: 0 24px 24px;
     }
 }
 
@@ -1047,9 +1138,9 @@ body {
     }
     
     .logo-text {
-        font-size: 18px;
-        width: 160px;
-        height: 32px;
+        font-size: 20px;
+        width: 200px;
+        height: 40px;
         transform: translateY(4px);
     }
     
@@ -1059,16 +1150,16 @@ body {
         transform: none;
     }
     
-    .nav-toggle {
-        display: none !important;
-    }
-    
     .section-title {
         font-size: 1.8rem;
     }
     
-    .feature-card, .faq-item {
-        padding: 32px 24px;
+    .feature-card, .faq-question {
+        padding: 20px;
+    }
+    
+    .faq-answer-content {
+        padding: 0 20px 20px;
     }
     
     .hero-content {
@@ -1078,11 +1169,6 @@ body {
     .features-grid {
         grid-template-columns: 1fr;
         gap: 28px;
-    }
-    
-    .faq-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
     }
     
     .features, .how-it-works, .faq, .contact {
@@ -1096,8 +1182,8 @@ body {
     }
     
     .logo-text {
-        width: 200px;
-        height: 40px;
+        width: 280px;
+        height: 56px;
         transform: translateY(4px);
     }
     
