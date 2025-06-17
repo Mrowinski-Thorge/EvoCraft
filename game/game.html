@@ -1,880 +1,200 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="game-html">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EvoCraft - Spielen</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EvoCraft - Spiel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="game.css">
     <link rel="icon" href="../website/assets/icons/logo.png">
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-bg: #0f0f23;
-            --secondary-bg: #1a1a2e;
-            --accent-blue: #3b82f6;
-            --accent-green: #22c55e;
-            --surface: rgba(30, 30, 60, 0.9);
-            --border: rgba(255, 255, 255, 0.1);
-            --text-primary: #ffffff;
-            --text-secondary: #e2e8f0;
-            --text-muted: #94a3b8;
-        }
-
-        html, body {
-            height: 100vh;
-            overflow: hidden;
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
-            color: var(--text-primary);
-        }
-
-        /* Wartungsmodus Warnung */
-        #maintenance {
-            background: rgba(255, 50, 50, 0.9);
-            padding: 20px;
-            border-radius: 12px;
-            display: none;
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10000;
-            border: 2px solid #ff3333;
-            text-align: center;
-            max-width: 500px;
-            backdrop-filter: blur(15px);
-        }
-
-        /* Server Status Warnung */
-        #serverStatus {
-            background: rgba(255, 193, 7, 0.9);
-            padding: 15px;
-            border-radius: 8px;
-            display: none;
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            z-index: 9999;
-            border: 2px solid #ffc107;
-            max-width: 350px;
-            backdrop-filter: blur(15px);
-        }
-
-        /* Portrait Mode Blocker */
-        .portrait-blocker {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            color: white;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            z-index: 99999;
-            font-size: 1.2rem;
-            padding: 2rem;
-            backdrop-filter: blur(20px);
-        }
-
-        @media screen and (max-width: 768px) and (orientation: portrait) {
-            .portrait-blocker {
-                display: flex;
-            }
-        }
-
-        /* Ladebildschirm */
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-
-        .loading-logo {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            background: linear-gradient(45deg, var(--accent-blue), var(--accent-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        .loading-progress {
-            width: 300px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-bottom: 1rem;
-        }
-
-        .loading-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
-            width: 0%;
-            transition: width 0.3s ease;
-            border-radius: 3px;
-        }
-
-        .loading-text {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            text-align: center;
-        }
-
-        /* Hauptspiel Layout */
-        .game-container {
-            display: none;
-            height: calc(100vh - 80px); /* Platz für Bottom Bar */
-            grid-template-columns: 300px 1fr;
-            background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
-        }
-
-        /* Sidebar */
-        .sidebar {
-            background: var(--surface);
-            backdrop-filter: blur(15px);
-            border-right: 1px solid var(--border);
-            padding: 20px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Suchleiste */
-        .search-container {
-            margin-bottom: 20px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--accent-blue);
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        .search-input::placeholder {
-            color: var(--text-muted);
-        }
-
-        /* Element Liste */
-        .elements-list {
-            flex: 1;
-            overflow-y: auto;
-            padding-right: 8px;
-        }
-
-        .elements-list::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .elements-list::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-        }
-
-        .elements-list::-webkit-scrollbar-thumb {
-            background: var(--accent-blue);
-            border-radius: 3px;
-        }
-
-        .element-item {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            margin-bottom: 8px;
-            background: rgba(59, 130, 246, 0.1);
-            border: 2px solid rgba(59, 130, 246, 0.3);
-            border-radius: 8px;
-            cursor: grab;
-            transition: all 0.3s ease;
-            user-select: none;
-            touch-action: none;
-        }
-
-        .element-item:hover {
-            background: rgba(59, 130, 246, 0.2);
-            border-color: var(--accent-blue);
-            transform: translateX(5px);
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-        }
-
-        .element-item:active {
-            cursor: grabbing;
-        }
-
-        .element-item.new {
-            border-color: var(--accent-green);
-            background: rgba(34, 197, 94, 0.1);
-            animation: newElement 3s ease-out;
-        }
-
-        .element-icon {
-            width: 32px;
-            height: 32px;
-            margin-right: 12px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .element-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .element-name {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        /* Crafting Area */
-        .crafting-area {
-            position: relative;
-            background: transparent;
-            overflow: hidden;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
-        }
-
-        .drop-zone {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            height: 300px;
-            border: 3px dashed rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .drop-zone.dragover {
-            border-color: var(--accent-blue);
-            background: rgba(59, 130, 246, 0.1);
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
-        }
-
-        .drop-hint {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 1.2rem;
-            text-align: center;
-            font-weight: 500;
-        }
-
-        /* Platzierte Elemente */
-        .placed-element {
-            position: absolute;
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid var(--accent-blue);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: grab;
-            z-index: 100;
-            backdrop-filter: blur(15px);
-            transition: all 0.3s ease;
-            touch-action: none;
-        }
-
-        .placed-element:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
-        }
-
-        .placed-element:active {
-            cursor: grabbing;
-        }
-
-        .placed-element-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .placed-element-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        /* Drag Ghost */
-        .drag-ghost {
-            position: fixed;
-            width: 50px;
-            height: 50px;
-            background: rgba(59, 130, 246, 0.8);
-            border: 2px solid var(--accent-blue);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            pointer-events: none;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5);
-        }
-
-        /* Bottom Navigation Bar */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 80px;
-            background: var(--surface);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            padding: 8px 16px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            user-select: none;
-        }
-
-        .nav-item:hover {
-            background: rgba(59, 130, 246, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .nav-item.active {
-            background: rgba(59, 130, 246, 0.2);
-            color: var(--accent-blue);
-        }
-
-        .nav-icon {
-            font-size: 1.5rem;
-        }
-
-        .nav-text {
-            font-size: 0.7rem;
-            font-weight: 500;
-            color: var(--text-muted);
-        }
-
-        .nav-item.active .nav-text {
-            color: var(--accent-blue);
-        }
-
-        .nav-controls {
-            position: absolute;
-            right: 20px;
-            display: flex;
-            gap: 12px;
-        }
-
-        .nav-btn {
-            background: rgba(59, 130, 246, 0.2);
-            border: 2px solid rgba(59, 130, 246, 0.3);
-            border-radius: 8px;
-            padding: 8px;
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.2rem;
-        }
-
-        .nav-btn:hover {
-            background: rgba(59, 130, 246, 0.3);
-            border-color: var(--accent-blue);
-            transform: scale(1.05);
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 10000;
-            backdrop-filter: blur(10px);
-        }
-
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--surface);
-            border-radius: 16px;
-            padding: 30px;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-            border: 1px solid var(--border);
-            backdrop-filter: blur(20px);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        .modal-close:hover {
-            color: var(--text-primary);
-        }
-
-        /* Timeline Styles */
-        .timeline {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .timeline-item {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            margin-bottom: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            border-left: 4px solid var(--accent-blue);
-        }
-
-        .timeline-icon {
-            width: 32px;
-            height: 32px;
-            margin-right: 12px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(59, 130, 246, 0.2);
-        }
-
-        .timeline-content {
-            flex: 1;
-        }
-
-        .timeline-text {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 4px;
-        }
-
-        .timeline-time {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-        }
-
-        /* Achievement Styles */
-        .achievement-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .achievement-item {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            padding: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .achievement-item.unlocked {
-            border-color: var(--accent-green);
-            background: rgba(34, 197, 94, 0.1);
-        }
-
-        .achievement-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .achievement-icon {
-            font-size: 2rem;
-            margin-right: 12px;
-        }
-
-        .achievement-title {
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-
-        .achievement-item.unlocked .achievement-title {
-            color: var(--accent-green);
-        }
-
-        .achievement-desc {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-
-        .achievement-progress {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            height: 6px;
-            overflow: hidden;
-        }
-
-        .achievement-progress-bar {
-            height: 100%;
-            background: var(--accent-blue);
-            transition: width 0.3s ease;
-        }
-
-        .achievement-item.unlocked .achievement-progress-bar {
-            background: var(--accent-green);
-        }
-
-        /* Settings Styles */
-        .settings-section {
-            margin-bottom: 25px;
-        }
-
-        .settings-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-            margin-bottom: 10px;
-        }
-
-        .settings-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-
-        .settings-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .test-btn {
-            background: var(--accent-blue);
-            border: none;
-            border-radius: 6px;
-            padding: 8px 16px;
-            color: white;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-        }
-
-        .test-btn:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
-        }
-
-        .test-btn:disabled {
-            background: var(--text-muted);
-            cursor: not-allowed;
-        }
-
-        /* Effekte */
-        .combination-effect {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(34, 197, 94, 0.8), transparent);
-            animation: combine-pulse 1.5s ease-out;
-            pointer-events: none;
-            z-index: 500;
-        }
-
-        .new-element-popup {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(34, 197, 94, 0.2);
-            border: 2px solid var(--accent-green);
-            border-radius: 15px;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            animation: element-appear 2.5s ease-out forwards;
-            z-index: 600;
-            backdrop-filter: blur(20px);
-        }
-
-        .new-element-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-
-        .new-element-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .new-element-name {
-            color: var(--accent-green);
-            font-weight: 700;
-            font-size: 1.3rem;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .new-badge {
-            background: var(--accent-green);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        /* Animationen */
-        @keyframes glow {
-            from { text-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
-            to { text-shadow: 0 0 30px rgba(34, 197, 94, 0.5); }
-        }
-
-        @keyframes combine-pulse {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
-        }
-
-        @keyframes element-appear {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        }
-
-        @keyframes newElement {
-            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .game-container {
-                grid-template-columns: 250px 1fr;
-            }
-            
-            .sidebar {
-                padding: 15px;
-            }
-            
-            .drop-zone {
-                width: 300px;
-                height: 200px;
-            }
-
-            .nav-container {
-                gap: 20px;
-            }
-
-            .nav-controls {
-                right: 10px;
-            }
-        }
-    </style>
 </head>
-<body>
-    <!-- Portrait Mode Blocker -->
-    <div class="portrait-blocker">
-        <div>
-            <div style="font-size: 4rem; margin-bottom: 1rem;">📱</div>
-            <h2>Bitte drehe dein Gerät ins Querformat</h2>
-            <p style="margin-top: 1rem; opacity: 0.8;">
-                EvoCraft funktioniert am besten im Landscape-Modus
-            </p>
-        </div>
-    </div>
-
-    <!-- Wartungsmodus Warnung -->
-    <div id="maintenance">
-        ⚠️ <strong>Wartungsarbeiten:</strong> Der Server ist aktuell nicht verfügbar.
-        <br>Bitte versuche es später erneut.
-        <div id="maintenance-message" style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px;"></div>
-    </div>
-
-    <!-- Server Status -->
-    <div id="serverStatus">
-        <div style="display: flex; align-items: center; gap: 8px;">
-            <div style="font-size: 1.2rem;">⏳</div>
-            <div>
-                <div style="font-weight: 600; margin-bottom: 4px;">Server startet...</div>
-                <div style="font-size: 0.8rem; opacity: 0.8;">Es kann zu Verzögerungen kommen. Bitte warte etwas.</div>
+<body class="game-body">
+    <!-- Loading Screen -->
+    <div class="game-loading" id="gameLoading">
+        <div class="loading-container">
+            <div class="loading-logo">
+                <img src="../website/assets/icons/logo.png" alt="EvoCraft" class="logo-pulse">
+            </div>
+            <div class="loading-title">EvoCraft</div>
+            <div class="loading-bar">
+                <div class="loading-fill" id="loadingProgress"></div>
+            </div>
+            <div class="loading-status" id="loadingStatus">Initialisiere Evolution...</div>
+            <div class="loading-tips">
+                <p class="loading-tip" id="loadingTip">💡 Tipp: Kombiniere Feuer + Stein um Funken zu erzeugen!</p>
             </div>
         </div>
     </div>
 
-    <!-- Ladebildschirm -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loading-logo">EvoCraft</div>
-        <div class="loading-progress">
-            <div class="loading-bar" id="loadingBar"></div>
+    <!-- Server Status Alert -->
+    <div class="server-alert" id="serverAlert" style="display: none;">
+        <div class="server-alert-content">
+            <span class="server-alert-icon">⚠️</span>
+            <span class="server-alert-text" id="serverAlertText">Server startet...</span>
         </div>
-        <div class="loading-text" id="loadingText">Spiel wird initialisiert...</div>
     </div>
 
-    <!-- Hauptspiel -->
-    <div class="game-container" id="gameContainer">
-        <!-- Sidebar mit Elementen -->
-        <div class="sidebar">
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="🔍 Element suchen..." id="searchInput">
+    <!-- Game Container -->
+    <div class="game-container" id="gameContainer" style="display: none;">
+        <!-- Top Bar -->
+        <header class="game-header">
+            <div class="header-left">
+                <button class="menu-btn" id="menuBtn">
+                    <span class="menu-icon">☰</span>
+                </button>
+                <div class="game-logo">
+                    <img src="../website/assets/icons/logo.png" alt="EvoCraft" class="game-logo-img">
+                    <span class="game-logo-text">EvoCraft</span>
+                </div>
             </div>
             
-            <div class="elements-list" id="elementsList">
-                <!-- Elemente werden dynamisch geladen -->
-            </div>
-        </div>
-
-        <!-- Crafting Area -->
-        <div class="crafting-area" id="craftingArea">
-            <div class="drop-zone" id="dropZone">
-                <div class="drop-hint">
-                    🎯 Ziehe Elemente hierher<br>
-                    um sie zu kombinieren!
+            <div class="header-center">
+                <div class="epoch-display">
+                    <span class="epoch-label">Epoche:</span>
+                    <span class="epoch-name" id="currentEpoch">Steinzeit</span>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Bottom Navigation -->
-    <div class="bottom-nav">
-        <div class="nav-container">
-            <div class="nav-item active" onclick="switchTab('crafting')">
-                <div class="nav-icon">🧪</div>
-                <div class="nav-text">Crafting</div>
-            </div>
-            <div class="nav-item" onclick="switchTab('timeline')">
-                <div class="nav-icon">📜</div>
-                <div class="nav-text">Zeitleiste</div>
-            </div>
-            <div class="nav-item" onclick="switchTab('achievements')">
-                <div class="nav-icon">📖</div>
-                <div class="nav-text">Achievements</div>
-            </div>
-        </div>
-
-        <div class="nav-controls">
-            <div class="nav-btn" onclick="toggleFullscreen()" title="Vollbild">📺</div>
-            <div class="nav-btn" onclick="openSettings()" title="Einstellungen">⚙️</div>
-        </div>
-    </div>
-
-    <!-- Timeline Modal -->
-    <div class="modal" id="timelineModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">📜 Crafting Zeitleiste</div>
-                <button class="modal-close" onclick="closeModal('timelineModal')">&times;</button>
-            </div>
-            <div class="timeline" id="timelineContent">
-                <div style="text-align: center; color: var(--text-muted); padding: 40px;">
-                    Noch keine Crafting-Aktivitäten
+            
+            <div class="header-right">
+                <div class="stats-display">
+                    <div class="stat-item">
+                        <span class="stat-icon">🧬</span>
+                        <span class="stat-value" id="discoveredCount">4</span>
+                        <span class="stat-label">Entdeckt</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">⚡</span>
+                        <span class="stat-value" id="combinationCount">0</span>
+                        <span class="stat-label">Kombinationen</span>
+                    </div>
                 </div>
+                <button class="settings-btn" id="settingsBtn">
+                    <span class="settings-icon">⚙️</span>
+                </button>
             </div>
+        </header>
+
+        <!-- Main Game Area -->
+        <div class="game-main">
+            <!-- Sidebar -->
+            <aside class="game-sidebar" id="gameSidebar">
+                <div class="sidebar-header">
+                    <h2 class="sidebar-title">Elemente</h2>
+                    <button class="sidebar-close" id="sidebarClose">×</button>
+                </div>
+                
+                <div class="element-search">
+                    <input type="text" class="search-input" id="elementSearch" placeholder="🔍 Element suchen...">
+                </div>
+                
+                <div class="element-categories">
+                    <button class="category-btn active" data-category="all">
+                        <span class="category-icon">🌍</span>
+                        <span class="category-name">Alle</span>
+                    </button>
+                    <button class="category-btn" data-category="basic">
+                        <span class="category-icon">⚛️</span>
+                        <span class="category-name">Basis</span>
+                    </button>
+                    <button class="category-btn" data-category="life">
+                        <span class="category-icon">🌱</span>
+                        <span class="category-name">Leben</span>
+                    </button>
+                    <button class="category-btn" data-category="tech">
+                        <span class="category-icon">⚙️</span>
+                        <span class="category-name">Technik</span>
+                    </button>
+                </div>
+                
+                <div class="elements-container" id="elementsContainer">
+                    <div class="elements-grid" id="elementsGrid">
+                        <!-- Elements will be dynamically added here -->
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Crafting Area -->
+            <main class="crafting-area" id="craftingArea">
+                <div class="crafting-workspace">
+                    <div class="workspace-hint" id="workspaceHint">
+                        <div class="hint-icon">🎯</div>
+                        <div class="hint-text">
+                            Ziehe Elemente hierher und kombiniere sie!
+                        </div>
+                    </div>
+                    
+                    <!-- Placed elements will appear here -->
+                    <div class="workspace-elements" id="workspaceElements"></div>
+                    
+                    <!-- Combination effects -->
+                    <div class="effects-layer" id="effectsLayer"></div>
+                </div>
+                
+                <!-- Quick Access Bar -->
+                <div class="quick-access-bar">
+                    <div class="quick-access-title">Schnellzugriff</div>
+                    <div class="quick-access-elements" id="quickAccessElements">
+                        <!-- Favorite elements here -->
+                    </div>
+                </div>
+            </main>
         </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-panel="workspace">
+                <span class="nav-icon">🧪</span>
+                <span class="nav-label">Werkbank</span>
+            </button>
+            <button class="nav-item" data-panel="encyclopedia">
+                <span class="nav-icon">📖</span>
+                <span class="nav-label">Enzyklopädie</span>
+            </button>
+            <button class="nav-item" data-panel="achievements">
+                <span class="nav-icon">🏆</span>
+                <span class="nav-label">Erfolge</span>
+            </button>
+            <button class="nav-item" data-panel="timeline">
+                <span class="nav-icon">📜</span>
+                <span class="nav-label">Zeitleiste</span>
+            </button>
+        </nav>
     </div>
 
-    <!-- Achievements Modal -->
-    <div class="modal" id="achievementsModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title">📖 Achievements</div>
-                <button class="modal-close" onclick="closeModal('achievementsModal')">&times;</button>
-            </div>
-            <div class="achievement-grid" id="achievementGrid">
-                <!-- Achievements werden dynamisch geladen -->
-            </div>
+    <!-- Side Menu -->
+    <div class="side-menu" id="sideMenu">
+        <div class="menu-header">
+            <h2 class="menu-title">Menu</h2>
+            <button class="menu-close" id="menuClose">×</button>
+        </div>
+        <div class="menu-content">
+            <a href="../index.html" class="menu-item">
+                <span class="menu-item-icon">🏠</span>
+                <span class="menu-item-text">Zur Startseite</span>
+            </a>
+            <button class="menu-item" id="saveGameBtn">
+                <span class="menu-item-icon">💾</span>
+                <span class="menu-item-text">Spiel speichern</span>
+            </button>
+            <button class="menu-item" id="loadGameBtn">
+                <span class="menu-item-icon">📂</span>
+                <span class="menu-item-text">Spiel laden</span>
+            </button>
+            <button class="menu-item" id="resetGameBtn">
+                <span class="menu-item-icon">🔄</span>
+                <span class="menu-item-text">Spiel zurücksetzen</span>
+            </button>
+            <div class="menu-divider"></div>
+            <button class="menu-item" id="tutorialBtn">
+                <span class="menu-item-icon">❓</span>
+                <span class="menu-item-text">Tutorial</span>
+            </button>
+            <button class="menu-item" id="aboutBtn">
+                <span class="menu-item-icon">ℹ️</span>
+                <span class="menu-item-text">Über EvoCraft</span>
+            </button>
         </div>
     </div>
 
@@ -882,987 +202,135 @@
     <div class="modal" id="settingsModal">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-title">⚙️ Einstellungen</div>
-                <button class="modal-close" onclick="closeModal('settingsModal')">&times;</button>
+                <h2 class="modal-title">Einstellungen</h2>
+                <button class="modal-close" id="settingsClose">×</button>
             </div>
-            
-            <div class="settings-section">
-                <div class="settings-title">🌐 Server Verbindung</div>
-                <div class="settings-item">
-                    <span class="settings-label">Server Status testen</span>
-                    <button class="test-btn" onclick="testServerConnection()" id="testServerBtn">Testen</button>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h3 class="settings-subtitle">Grafik</h3>
+                    <div class="settings-item">
+                        <label class="settings-label">
+                            <input type="checkbox" id="particlesToggle" checked>
+                            <span>Partikeleffekte</span>
+                        </label>
+                    </div>
+                    <div class="settings-item">
+                        <label class="settings-label">
+                            <input type="checkbox" id="animationsToggle" checked>
+                            <span>Animationen</span>
+                        </label>
+                    </div>
                 </div>
-                <div class="settings-item">
-                    <span class="settings-label">Server URL</span>
-                    <span style="font-family: monospace; font-size: 0.8rem; color: var(--text-muted);">evocraft-server.onrender.com</span>
+                
+                <div class="settings-section">
+                    <h3 class="settings-subtitle">Audio</h3>
+                    <div class="settings-item">
+                        <label class="settings-label">
+                            <input type="checkbox" id="soundToggle" checked>
+                            <span>Soundeffekte</span>
+                        </label>
+                    </div>
+                    <div class="settings-item">
+                        <label class="settings-label">
+                            <input type="checkbox" id="musicToggle" checked>
+                            <span>Hintergrundmusik</span>
+                        </label>
+                    </div>
                 </div>
-            </div>
-
-            <div class="settings-section">
-                <div class="settings-title">🎮 Spiel</div>
-                <div class="settings-item">
-                    <span class="settings-label">Vollbild Modus</span>
-                    <button class="test-btn" onclick="toggleFullscreen()">Ein/Aus</button>
-                </div>
-                <div class="settings-item">
-                    <span class="settings-label">Entdeckte Elemente</span>
-                    <span id="discoveredCount">2</span>
+                
+                <div class="settings-section">
+                    <h3 class="settings-subtitle">Gameplay</h3>
+                    <div class="settings-item">
+                        <label class="settings-label">
+                            <input type="checkbox" id="hintsToggle" checked>
+                            <span>Hinweise anzeigen</span>
+                        </label>
+                    </div>
+                    <div class="settings-item">
+                        <label class="settings-label">
+                            <input type="checkbox" id="autosaveToggle" checked>
+                            <span>Automatisch speichern</span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        // === GLOBALE VARIABLEN ===
-        let craftingLogic = {};
-        let discoveredElements = new Set(['Stein', 'Holz']);
-        let firstTimeElements = new Set(); // Für erste Entdeckung
-        let placedElements = [];
-        let draggedElement = null;
-        let currentFilter = '';
-        let craftingHistory = [];
-        let achievements = [];
+    <!-- Encyclopedia Panel -->
+    <div class="panel" id="encyclopediaPanel" style="display: none;">
+        <div class="panel-header">
+            <h2 class="panel-title">Enzyklopädie</h2>
+            <div class="panel-stats">
+                <span id="encyclopediaProgress">4 / 500 Elemente entdeckt</span>
+            </div>
+        </div>
+        <div class="panel-content">
+            <div class="encyclopedia-grid" id="encyclopediaGrid">
+                <!-- Elements will be displayed here -->
+            </div>
+        </div>
+    </div>
 
-        // Element-Daten mit Sprite-Pfaden
-        const elementData = {
-            'Stein': { sprite: 'stone.png' },
-            'Holz': { sprite: 'wood.png' },
-            'Funken': { sprite: 'spark.png' },
-            'Feuer': { sprite: 'fire.png' },
-            'Feuerstelle': { sprite: 'fireplace.png' },
-            'Samen': { sprite: 'seed.png' },
-            'Wasser': { sprite: 'water.png' },
-            'Setzling': { sprite: 'sapling.png' },
-            'Erde': { sprite: 'earth.png' },
-            'Schlamm': { sprite: 'mud.png' },
-            'Beil': { sprite: 'axe.png' },
-            'Dampf': { sprite: 'steam.png' },
-            'Nebel': { sprite: 'fog.png' },
-            'Ziegel': { sprite: 'brick.png' }
-        };
+    <!-- Achievements Panel -->
+    <div class="panel" id="achievementsPanel" style="display: none;">
+        <div class="panel-header">
+            <h2 class="panel-title">Erfolge</h2>
+            <div class="panel-stats">
+                <span id="achievementProgress">0 / 50 Erfolge freigeschaltet</span>
+            </div>
+        </div>
+        <div class="panel-content">
+            <div class="achievements-grid" id="achievementsGrid">
+                <!-- Achievements will be displayed here -->
+            </div>
+        </div>
+    </div>
 
-        // Achievement Definitionen
-        const achievementDefinitions = [
-            {
-                id: 'first_combination',
-                title: 'Erstes Experiment',
-                description: 'Kombiniere zwei Elemente zum ersten Mal',
-                icon: '🔬',
-                progress: 0,
-                maxProgress: 1,
-                unlocked: false
-            },
-            {
-                id: 'discover_5',
-                title: 'Entdecker',
-                description: 'Entdecke 5 verschiedene Elemente',
-                icon: '🔍',
-                progress: 0,
-                maxProgress: 5,
-                unlocked: false
-            },
-            {
-                id: 'discover_10',
-                title: 'Forscher',
-                description: 'Entdecke 10 verschiedene Elemente',
-                icon: '🧪',
-                progress: 0,
-                maxProgress: 10,
-                unlocked: false
-            },
-            {
-                id: 'fire_creator',
-                title: 'Feuer-Macher',
-                description: 'Erschaffe Feuer',
-                icon: '🔥',
-                progress: 0,
-                maxProgress: 1,
-                unlocked: false
-            }
-        ];
+    <!-- Timeline Panel -->
+    <div class="panel" id="timelinePanel" style="display: none;">
+        <div class="panel-header">
+            <h2 class="panel-title">Zeitleiste</h2>
+            <button class="panel-action" id="clearTimeline">Verlauf löschen</button>
+        </div>
+        <div class="panel-content">
+            <div class="timeline-container" id="timelineContainer">
+                <!-- Timeline entries will be displayed here -->
+            </div>
+        </div>
+    </div>
 
-        // Server-URL
-        const SERVER_URL = 'https://evocraft-server.onrender.com';
-        let serverStartupShown = false;
+    <!-- Discovery Popup -->
+    <div class="discovery-popup" id="discoveryPopup" style="display: none;">
+        <div class="discovery-content">
+            <div class="discovery-glow"></div>
+            <div class="discovery-icon" id="discoveryIcon">✨</div>
+            <h3 class="discovery-title">Neue Entdeckung!</h3>
+            <div class="discovery-element">
+                <img class="discovery-img" id="discoveryImg" src="" alt="">
+                <span class="discovery-name" id="discoveryName"></span>
+            </div>
+            <p class="discovery-description" id="discoveryDesc"></p>
+            <button class="discovery-continue" id="discoveryContinue">Weiter erforschen</button>
+        </div>
+    </div>
 
-        // === SPIEL INITIALISIERUNG ===
-        async function initializeGame() {
-            // Automatisch Vollbild aktivieren
-            try {
-                await document.documentElement.requestFullscreen();
-            } catch (err) {
-                console.log('Auto-Vollbild fehlgeschlagen:', err);
-            }
-
-            // Prüfe Orientierung bevor Spiel geladen wird
-            if (window.innerWidth <= 768 && window.innerHeight > window.innerWidth) {
-                // Portrait Mode - Spiel nicht laden
-                return;
-            }
-
-            const loadingBar = document.getElementById('loadingBar');
-            const loadingText = document.getElementById('loadingText');
-
-            try {
-                // Schritt 1: Wartungsmodus prüfen
-                loadingText.textContent = 'Prüfe Server-Status...';
-                loadingBar.style.width = '15%';
-                await sleep(200);
-
-                // Wartungsmodus API-Aufruf
-                try {
-                    const maintenanceResponse = await fetchWithTimeout(`${SERVER_URL}/api/maintenance`, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    }, 5000);
-
-                    if (maintenanceResponse.ok) {
-                        const maintenanceData = await maintenanceResponse.json();
-                        if (maintenanceData.maintenance === true) {
-                            showMaintenanceMode(maintenanceData.message || 'Der Server befindet sich im Wartungsmodus.');
-                            return;
-                        }
-                    }
-                } catch (error) {
-                    console.warn('Wartungsmodus-Check fehlgeschlagen:', error);
-                    if (error.name === 'TimeoutError') {
-                        showServerStartup();
-                    }
-                }
-
-                // Schritt 2: Server verbinden
-                loadingText.textContent = 'Verbinde mit Server...';
-                loadingBar.style.width = '35%';
-                await sleep(300);
-
-                // Schritt 3: Crafting-Regeln laden
-                loadingText.textContent = 'Lade Crafting-Regeln...';
-                loadingBar.style.width = '60%';
-                
-                const response = await fetchWithTimeout(`${SERVER_URL}/api/match-logic`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }, 5000);
-
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-
-                const data = await response.json();
-                if (data.success && data.data) {
-                    craftingLogic = data.data;
-                    console.log('✅ Crafting-Regeln geladen:', Object.keys(craftingLogic).length, 'Kombinationen');
-                } else {
-                    throw new Error('Server-Antwort ungültig');
-                }
-
-                // Server erreichbar - Startup Message ausblenden
-                hideServerStartup();
-
-                // Schritt 4: UI vorbereiten
-                loadingText.textContent = 'Bereite Spielelemente vor...';
-                loadingBar.style.width = '80%';
-                await sleep(200);
-
-                // Schritt 5: Spiel starten
-                loadingText.textContent = 'Starte Spiel...';
-                loadingBar.style.width = '100%';
-                await sleep(300);
-
-                startGame();
-
-            } catch (error) {
-                console.error('❌ Verbindungsfehler:', error);
-                if (error.name === 'TimeoutError') {
-                    showServerStartup();
-                    // Versuche es erneut nach 10 Sekunden
-                    setTimeout(() => {
-                        location.reload();
-                    }, 10000);
-                } else {
-                    showConnectionError(error);
-                }
-            }
-        }
-
-        // Fetch mit Timeout
-        async function fetchWithTimeout(url, options, timeout = 5000) {
-            const controller = new AbortController();
-            const id = setTimeout(() => controller.abort(), timeout);
-            
-            try {
-                const response = await fetch(url, {
-                    ...options,
-                    signal: controller.signal
-                });
-                clearTimeout(id);
-                return response;
-            } catch (error) {
-                clearTimeout(id);
-                if (error.name === 'AbortError') {
-                    const timeoutError = new Error('Request timeout');
-                    timeoutError.name = 'TimeoutError';
-                    throw timeoutError;
-                }
-                throw error;
-            }
-        }
-
-        // Server Startup Nachricht anzeigen
-        function showServerStartup() {
-            if (!serverStartupShown) {
-                document.getElementById('serverStatus').style.display = 'block';
-                serverStartupShown = true;
-            }
-        }
-
-        // Server Startup Nachricht ausblenden
-        function hideServerStartup() {
-            document.getElementById('serverStatus').style.display = 'none';
-        }
-
-        // Wartungsmodus anzeigen
-        function showMaintenanceMode(message) {
-            document.getElementById('maintenance').style.display = 'block';
-            document.getElementById('maintenance-message').innerHTML = `<strong>Server-Nachricht:</strong><br>${message}`;
-            document.getElementById('loadingScreen').style.display = 'none';
-        }
-
-        // Verbindungsfehler anzeigen
-        function showConnectionError(error) {
-            const loadingScreen = document.getElementById('loadingScreen');
-            loadingScreen.innerHTML = `
-                <div style="text-align: center; max-width: 500px; padding: 2rem;">
-                    <div style="font-size: 4rem; margin-bottom: 2rem;">❌</div>
-                    <h2 style="color: #ef4444; margin-bottom: 1rem; font-size: 1.8rem;">
-                        Verbindung fehlgeschlagen
-                    </h2>
-                    <p style="color: #f87171; margin-bottom: 1.5rem; font-size: 1.1rem;">
-                        Es konnte keine Verbindung zum EvoCraft-Server hergestellt werden.
-                    </p>
-                    <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; border-radius: 10px; padding: 1rem; margin-bottom: 2rem;">
-                        <div style="color: #fca5a5; font-size: 0.9rem; margin-bottom: 0.5rem;">
-                            <strong>Fehlercode:</strong>
-                        </div>
-                        <div style="color: #ef4444; font-family: monospace; font-size: 0.9rem;">
-                            ${error.message || 'Unbekannter Verbindungsfehler'}
-                        </div>
-                    </div>
-                    <button onclick="location.reload()" style="
-                        background: linear-gradient(45deg, var(--accent-blue), #1d4ed8);
-                        color: white;
-                        border: none;
-                        padding: 1rem 2rem;
-                        border-radius: 10px;
-                        font-size: 1rem;
-                        font-weight: 600;
-                        cursor: pointer;
-                        transition: all 0.3s ease;
-                    " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                        🔄 Erneut versuchen
-                    </button>
+    <!-- Tutorial Overlay -->
+    <div class="tutorial-overlay" id="tutorialOverlay" style="display: none;">
+        <div class="tutorial-content">
+            <div class="tutorial-step" id="tutorialStep">
+                <h3 class="tutorial-title" id="tutorialTitle">Willkommen bei EvoCraft!</h3>
+                <p class="tutorial-text" id="tutorialText">
+                    Beginne deine evolutionäre Reise mit den vier Grundelementen.
+                </p>
+                <div class="tutorial-actions">
+                    <button class="tutorial-skip" id="tutorialSkip">Überspringen</button>
+                    <button class="tutorial-next" id="tutorialNext">Weiter</button>
                 </div>
-            `;
-        }
+            </div>
+        </div>
+    </div>
 
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
-        // === SPIEL STARTEN ===
-        function startGame() {
-            document.getElementById('loadingScreen').style.display = 'none';
-            document.getElementById('gameContainer').style.display = 'grid';
-            
-            // Achievements initialisieren
-            achievements = [...achievementDefinitions];
-            
-            renderElements();
-            setupDragAndDrop();
-            setupTouchSupport();
-            setupSearch();
-            updateAchievements();
-            updateAchievementDisplay();
-            
-            console.log('🎮 EvoCraft gestartet!');
-        }
-
-        // === ELEMENT FREISCHALTEN ===
-        function unlockElement(elementName) {
-            discoveredElements.add(elementName);
-            renderElements();
-            
-            // Settings-Counter aktualisieren
-            document.getElementById('discoveredCount').textContent = discoveredElements.size;
-        }
-
-        // === KOMBINATIONS-EFFEKT ===
-        function showCombinationEffect(x, y) {
-            const effect = document.createElement('div');
-            effect.className = 'combination-effect';
-            effect.style.left = x + 'px';
-            effect.style.top = y + 'px';
-            
-            document.getElementById('craftingArea').appendChild(effect);
-            
-            setTimeout(() => effect.remove(), 1500);
-        }
-
-        // === NEUES ELEMENT POPUP ===
-        function showNewElementPopup(elementName) {
-            const popup = document.createElement('div');
-            popup.className = 'new-element-popup';
-            
-            const data = elementData[elementName];
-            popup.innerHTML = `
-                <div class="new-element-icon">
-                    <img src="assets/sprites/${data.sprite}" alt="${elementName}" onerror="this.style.background='var(--accent-blue)'">
-                </div>
-                <div class="new-element-name">${elementName}</div>
-                <div class="new-badge">NEU ENTDECKT!</div>
-            `;
-            
-            document.getElementById('craftingArea').appendChild(popup);
-            
-            setTimeout(() => popup.remove(), 2500);
-        }
-
-        // === ACHIEVEMENT SYSTEM ===
-        function unlockAchievement(achievementId) {
-            const achievement = achievements.find(a => a.id === achievementId);
-            if (achievement && !achievement.unlocked) {
-                achievement.unlocked = true;
-                achievement.progress = achievement.maxProgress;
-                console.log('🏆 Achievement freigeschaltet:', achievement.title);
-                updateAchievementDisplay();
-            }
-        }
-
-        function updateAchievementDisplay() {
-            const grid = document.getElementById('achievementGrid');
-            grid.innerHTML = '';
-            
-            for (const achievement of achievements) {
-                const item = document.createElement('div');
-                item.className = `achievement-item ${achievement.unlocked ? 'unlocked' : ''}`;
-                
-                const progressPercent = (achievement.progress / achievement.maxProgress) * 100;
-                
-                item.innerHTML = `
-                    <div class="achievement-header">
-                        <div class="achievement-icon">${achievement.icon}</div>
-                        <div class="achievement-title">${achievement.title}</div>
-                    </div>
-                    <div class="achievement-desc">${achievement.description}</div>
-                    <div class="achievement-progress">
-                        <div class="achievement-progress-bar" style="width: ${progressPercent}%"></div>
-                    </div>
-                `;
-                
-                grid.appendChild(item);
-            }
-        }
-
-        // === NAVIGATION FUNKTIONEN ===
-        function switchTab(tabName) {
-            // Alle nav-items deaktivieren
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            
-            // Aktives Tab markieren
-            event.target.closest('.nav-item').classList.add('active');
-            
-            if (tabName === 'timeline') {
-                document.getElementById('timelineModal').style.display = 'block';
-            } else if (tabName === 'achievements') {
-                updateAchievementDisplay();
-                document.getElementById('achievementsModal').style.display = 'block';
-            }
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        function openSettings() {
-            document.getElementById('settingsModal').style.display = 'block';
-        }
-
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(console.log);
-            } else {
-                document.exitFullscreen().catch(console.log);
-            }
-        }
-
-        function testServerConnection() {
-            const btn = document.getElementById('testServerBtn');
-            btn.disabled = true;
-            btn.textContent = 'Teste...';
-            
-            fetch(`${SERVER_URL}/api/maintenance`)
-                .then(response => {
-                    btn.textContent = response.ok ? '✅ Online' : '❌ Fehler';
-                    btn.style.background = response.ok ? 'var(--accent-green)' : '#ef4444';
-                })
-                .catch(() => {
-                    btn.textContent = '❌ Offline';
-                    btn.style.background = '#ef4444';
-                })
-                .finally(() => {
-                    setTimeout(() => {
-                        btn.disabled = false;
-                        btn.textContent = 'Testen';
-                        btn.style.background = 'var(--accent-blue)';
-                    }, 2000);
-                });
-        }
-
-        // === SUCHFUNKTION ===
-        function setupSearch() {
-            const searchInput = document.getElementById('searchInput');
-            searchInput.addEventListener('input', (e) => {
-                currentFilter = e.target.value.toLowerCase();
-                renderElements();
-            });
-        }
-
-        // === ELEMENTE RENDERN ===
-        function renderElements() {
-            const list = document.getElementById('elementsList');
-            list.innerHTML = '';
-
-            const filteredElements = Array.from(discoveredElements).filter(elementName => 
-                elementName.toLowerCase().includes(currentFilter)
-            );
-
-            for (const elementName of filteredElements) {
-                const elementDiv = document.createElement('div');
-                elementDiv.className = 'element-item';
-                elementDiv.draggable = true;
-                elementDiv.dataset.element = elementName;
-                
-                // Neue Elemente markieren
-                if (firstTimeElements.has(elementName)) {
-                    elementDiv.classList.add('new');
-                    // Nach 3 Sekunden entfernen
-                    setTimeout(() => {
-                        firstTimeElements.delete(elementName);
-                        elementDiv.classList.remove('new');
-                    }, 3000);
-                }
-                
-                const data = elementData[elementName];
-                if (!data) {
-                    console.warn(`Element-Daten für "${elementName}" nicht gefunden`);
-                    continue;
-                }
-                
-                elementDiv.innerHTML = `
-                    <div class="element-icon">
-                        <img src="assets/sprites/${data.sprite}" alt="${elementName}" onerror="this.style.background='var(--accent-blue)'">
-                    </div>
-                    <div class="element-name">${elementName}</div>
-                `;
-                
-                list.appendChild(elementDiv);
-            }
-
-            // Leere Nachricht anzeigen
-            if (filteredElements.length === 0) {
-                list.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 20px;">Keine Elemente gefunden</div>';
-            }
-        }
-
-        // === DRAG & DROP SYSTEM ===
-        function setupDragAndDrop() {
-            const dropZone = document.getElementById('dropZone');
-            const craftingArea = document.getElementById('craftingArea');
-
-            // Drag Events für Elemente
-            document.addEventListener('dragstart', (e) => {
-                if (e.target.closest('.element-item')) {
-                    const element = e.target.closest('.element-item');
-                    draggedElement = element.dataset.element;
-                    
-                    // Ghost Image nur Sprite
-                    const ghost = createDragGhost(draggedElement);
-                    e.dataTransfer.setDragImage(ghost, 25, 25);
-                }
-            });
-
-            document.addEventListener('dragend', (e) => {
-                draggedElement = null;
-                // Ghost entfernen
-                const ghost = document.querySelector('.drag-ghost');
-                if (ghost) ghost.remove();
-            });
-
-            // Drop Zone Events
-            dropZone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                dropZone.classList.add('dragover');
-            });
-
-            dropZone.addEventListener('dragleave', () => {
-                dropZone.classList.remove('dragover');
-            });
-
-            dropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                dropZone.classList.remove('dragover');
-                
-                if (draggedElement) {
-                    const rect = craftingArea.getBoundingClientRect();
-                    const x = e.clientX - rect.left - 30;
-                    const y = e.clientY - rect.top - 30;
-                    
-                    placeElement(draggedElement, x, y);
-                }
-            });
-
-            // Auch außerhalb der Drop Zone erlauben
-            craftingArea.addEventListener('dragover', (e) => {
-                e.preventDefault();
-            });
-
-            craftingArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                
-                if (draggedElement) {
-                    const rect = craftingArea.getBoundingClientRect();
-                    const x = e.clientX - rect.left - 30;
-                    const y = e.clientY - rect.top - 30;
-                    
-                    placeElement(draggedElement, x, y);
-                }
-            });
-        }
-
-        // Drag Ghost erstellen
-        function createDragGhost(elementName) {
-            const ghost = document.createElement('div');
-            ghost.className = 'drag-ghost';
-            
-            const data = elementData[elementName];
-            if (data) {
-                ghost.innerHTML = `<img src="assets/sprites/${data.sprite}" style="width: 40px; height: 40px; object-fit: contain;" onerror="this.style.background='var(--accent-blue)'">`;
-            }
-            
-            ghost.style.position = 'absolute';
-            ghost.style.top = '-1000px';
-            document.body.appendChild(ghost);
-            
-            return ghost;
-        }
-
-        // === TOUCH SUPPORT ===
-        function setupTouchSupport() {
-            const elementsList = document.getElementById('elementsList');
-            const craftingArea = document.getElementById('craftingArea');
-
-            let touchData = {
-                isDragging: false,
-                element: null,
-                startX: 0,
-                startY: 0,
-                offsetX: 0,
-                offsetY: 0,
-                ghost: null
-            };
-
-            // Touch-Events für Elemente in der Sidebar
-            elementsList.addEventListener('touchstart', (e) => {
-                const element = e.target.closest('.element-item');
-                if (element) {
-                    e.preventDefault();
-                    const touch = e.touches[0];
-                    
-                    touchData.isDragging = true;
-                    touchData.element = element;
-                    touchData.startX = touch.clientX;
-                    touchData.startY = touch.clientY;
-                    
-                    // Touch Ghost erstellen
-                    touchData.ghost = createTouchGhost(element.dataset.element, touch.clientX, touch.clientY);
-                    
-                    element.style.opacity = '0.5';
-                }
-            }, {passive: false});
-
-            elementsList.addEventListener('touchmove', (e) => {
-                if (touchData.isDragging && touchData.element) {
-                    e.preventDefault();
-                    const touch = e.touches[0];
-                    
-                    // Ghost bewegen
-                    if (touchData.ghost) {
-                        touchData.ghost.style.left = (touch.clientX - 25) + 'px';
-                        touchData.ghost.style.top = (touch.clientY - 25) + 'px';
-                    }
-                    
-                    // Visual Feedback für Drop Zone
-                    const craftingRect = craftingArea.getBoundingClientRect();
-                    if (touch.clientX >= craftingRect.left && touch.clientX <= craftingRect.right &&
-                        touch.clientY >= craftingRect.top && touch.clientY <= craftingRect.bottom) {
-                        document.getElementById('dropZone').classList.add('dragover');
-                    } else {
-                        document.getElementById('dropZone').classList.remove('dragover');
-                    }
-                }
-            }, {passive: false});
-
-            elementsList.addEventListener('touchend', (e) => {
-                if (touchData.isDragging && touchData.element) {
-                    e.preventDefault();
-                    const touch = e.changedTouches[0];
-                    const elementName = touchData.element.dataset.element;
-                    
-                    // Reset Element
-                    touchData.element.style.opacity = '1';
-                    document.getElementById('dropZone').classList.remove('dragover');
-                    
-                    // Ghost entfernen
-                    if (touchData.ghost) {
-                        touchData.ghost.remove();
-                        touchData.ghost = null;
-                    }
-                    
-                    // Check if dropped in crafting area
-                    const craftingRect = craftingArea.getBoundingClientRect();
-                    if (touch.clientX >= craftingRect.left && touch.clientX <= craftingRect.right &&
-                        touch.clientY >= craftingRect.top && touch.clientY <= craftingRect.bottom) {
-                        
-                        const x = touch.clientX - craftingRect.left - 30;
-                        const y = touch.clientY - craftingRect.top - 30;
-                        
-                        placeElement(elementName, x, y);
-                    }
-                    
-                    // Reset touch data
-                    touchData.isDragging = false;
-                    touchData.element = null;
-                }
-            }, {passive: false});
-
-            // Touch für platzierte Elemente
-            craftingArea.addEventListener('touchstart', (e) => {
-                const element = e.target.closest('.placed-element');
-                if (element) {
-                    e.preventDefault();
-                    const touch = e.touches[0];
-                    const rect = element.getBoundingClientRect();
-                    
-                    touchData.isDragging = true;
-                    touchData.element = element;
-                    touchData.startX = touch.clientX;
-                    touchData.startY = touch.clientY;
-                    touchData.offsetX = touch.clientX - rect.left;
-                    touchData.offsetY = touch.clientY - rect.top;
-                    
-                    element.style.zIndex = '1000';
-                }
-            }, {passive: false});
-
-            craftingArea.addEventListener('touchmove', (e) => {
-                if (touchData.isDragging && touchData.element && touchData.element.classList.contains('placed-element')) {
-                    e.preventDefault();
-                    const touch = e.touches[0];
-                    const craftingRect = craftingArea.getBoundingClientRect();
-                    
-                    const x = touch.clientX - craftingRect.left - touchData.offsetX;
-                    const y = touch.clientY - craftingRect.top - touchData.offsetY;
-                    
-                    // Grenzen respektieren
-                    const maxX = craftingArea.clientWidth - 60;
-                    const maxY = craftingArea.clientHeight - 60;
-                    
-                    const newX = Math.max(0, Math.min(x, maxX));
-                    const newY = Math.max(0, Math.min(y, maxY));
-                    
-                    touchData.element.style.left = newX + 'px';
-                    touchData.element.style.top = newY + 'px';
-                    
-                    // Update placedElements data
-                    const placedData = placedElements.find(pe => pe.element === touchData.element);
-                    if (placedData) {
-                        placedData.x = newX;
-                        placedData.y = newY;
-                    }
-                }
-            }, {passive: false});
-
-            craftingArea.addEventListener('touchend', (e) => {
-                if (touchData.isDragging && touchData.element) {
-                    e.preventDefault();
-                    touchData.element.style.zIndex = '100';
-                    
-                    // Check for collisions after touch end
-                    setTimeout(() => checkCollisions(), 100);
-                    
-                    touchData.isDragging = false;
-                    touchData.element = null;
-                }
-            }, {passive: false});
-        }
-
-        // Touch Ghost erstellen
-        function createTouchGhost(elementName, x, y) {
-            const ghost = document.createElement('div');
-            ghost.className = 'drag-ghost';
-            ghost.style.left = (x - 25) + 'px';
-            ghost.style.top = (y - 25) + 'px';
-            
-            const data = elementData[elementName];
-            if (data) {
-                ghost.innerHTML = `<img src="assets/sprites/${data.sprite}" style="width: 40px; height: 40px; object-fit: contain;" onerror="this.style.background='var(--accent-blue)'">`;
-            }
-            
-            document.body.appendChild(ghost);
-            return ghost;
-        }
-
-        // === ELEMENT PLATZIEREN ===
-        function placeElement(elementName, x, y) {
-            const craftingArea = document.getElementById('craftingArea');
-            const data = elementData[elementName];
-            if (!data) {
-                console.warn(`Element-Daten für "${elementName}" nicht gefunden`);
-                return;
-            }
-            
-            const elementDiv = document.createElement('div');
-            elementDiv.className = 'placed-element';
-            elementDiv.dataset.element = elementName;
-            elementDiv.style.left = Math.max(0, Math.min(x, craftingArea.clientWidth - 60)) + 'px';
-            elementDiv.style.top = Math.max(0, Math.min(y, craftingArea.clientHeight - 60)) + 'px';
-            
-            elementDiv.innerHTML = `
-                <div class="placed-element-icon">
-                    <img src="assets/sprites/${data.sprite}" alt="${elementName}" onerror="this.style.background='var(--accent-blue)'">
-                </div>
-            `;
-            
-            craftingArea.appendChild(elementDiv);
-            
-            const placedData = {
-                element: elementDiv,
-                name: elementName,
-                x: parseFloat(elementDiv.style.left),
-                y: parseFloat(elementDiv.style.top)
-            };
-            
-            placedElements.push(placedData);
-            makePlacedElementDraggable(elementDiv, placedData);
-            
-            // Sofort Kollision prüfen
-            setTimeout(() => checkCollisions(), 100);
-        }
-
-        // === PLATZIERTE ELEMENTE DRAGGABLE MACHEN (Desktop) ===
-        function makePlacedElementDraggable(element, placedData) {
-            let isDragging = false;
-            let startX, startY, elementX, elementY;
-
-            element.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                startX = e.clientX;
-                startY = e.clientY;
-                elementX = placedData.x;
-                elementY = placedData.y;
-                element.style.zIndex = '1000';
-                e.preventDefault();
-            });
-
-            document.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-                
-                const deltaX = e.clientX - startX;
-                const deltaY = e.clientY - startY;
-                const newX = elementX + deltaX;
-                const newY = elementY + deltaY;
-                
-                // Grenzen respektieren
-                const craftingArea = document.getElementById('craftingArea');
-                const maxX = craftingArea.clientWidth - 60;
-                const maxY = craftingArea.clientHeight - 60;
-                
-                placedData.x = Math.max(0, Math.min(newX, maxX));
-                placedData.y = Math.max(0, Math.min(newY, maxY));
-                
-                element.style.left = placedData.x + 'px';
-                element.style.top = placedData.y + 'px';
-            });
-
-            document.addEventListener('mouseup', () => {
-                if (isDragging) {
-                    isDragging = false;
-                    element.style.zIndex = '100';
-                    checkCollisions();
-                }
-            });
-        }
-
-        // === KOLLISIONSPRÜFUNG ===
-        function checkCollisions() {
-            for (let i = 0; i < placedElements.length; i++) {
-                for (let j = i + 1; j < placedElements.length; j++) {
-                    const el1 = placedElements[i];
-                    const el2 = placedElements[j];
-                    
-                    const distance = Math.sqrt(
-                        Math.pow(el1.x - el2.x, 2) + Math.pow(el1.y - el2.y, 2)
-                    );
-                    
-                    if (distance < 50) { // Kollision!
-                        combineElements(el1, el2);
-                        return;
-                    }
-                }
-            }
-        }
-
-        // === ELEMENTE KOMBINIEREN ===
-        function combineElements(el1, el2) {
-            const combo1 = `${el1.name}+${el2.name}`;
-            const combo2 = `${el2.name}+${el1.name}`;
-            
-            const result = craftingLogic[combo1] || craftingLogic[combo2];
-            
-            if (result) {
-                console.log(`🧪 Kombination: ${combo1} = ${result}`);
-                
-                // Zur Zeitleiste hinzufügen
-                addToTimeline(el1.name, el2.name, result);
-                
-                // Effekt anzeigen
-                showCombinationEffect((el1.x + el2.x) / 2 + 30, (el1.y + el2.y) / 2 + 30);
-                
-                // Elemente entfernen
-                el1.element.remove();
-                el2.element.remove();
-                placedElements = placedElements.filter(pe => pe !== el1 && pe !== el2);
-                
-                // Neues Element nach kurzer Verzögerung
-                setTimeout(() => {
-                    const isFirstTime = !discoveredElements.has(result);
-                    
-                    if (isFirstTime) {
-                        showNewElementPopup(result);
-                        firstTimeElements.add(result);
-                    }
-                    
-                    unlockElement(result);
-                    updateAchievements();
-                }, 500);
-            } else {
-                console.log(`❌ Keine Kombination für: ${combo1}`);
-            }
-        }
-
-        // === ZEITLEISTE ===
-        function addToTimeline(element1, element2, result) {
-            const timelineItem = {
-                element1,
-                element2,
-                result,
-                timestamp: new Date()
-            };
-            
-            craftingHistory.unshift(timelineItem);
-            
-            // Maximal 50 Einträge behalten
-            if (craftingHistory.length > 50) {
-                craftingHistory.pop();
-            }
-            
-            updateTimeline();
-        }
-
-        function updateTimeline() {
-            const timeline = document.getElementById('timelineContent');
-            
-            if (craftingHistory.length === 0) {
-                timeline.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 40px;">Noch keine Crafting-Aktivitäten</div>';
-                return;
-            }
-            
-            let html = '';
-            for (const item of craftingHistory) {
-                const time = item.timestamp.toLocaleTimeString();
-                html += `
-                    <div class="timeline-item">
-                        <div class="timeline-icon">🧪</div>
-                        <div class="timeline-content">
-                            <div class="timeline-text">
-                                <strong>${item.element1}</strong> + <strong>${item.element2}</strong> → <strong style="color: var(--accent-green);">${item.result}</strong>
-                            </div>
-                            <div class="timeline-time">${time}</div>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            timeline.innerHTML = html;
-        }
-
-        // === ACHIEVEMENTS VOLLSTÄNDIG ===
-        function updateAchievements() {
-            // Erstes Experiment
-            if (craftingHistory.length > 0 && !achievements.find(a => a.id === 'first_combination').unlocked) {
-                unlockAchievement('first_combination');
-            }
-            
-            // Entdecker Achievements
-            const discovered = discoveredElements.size;
-            const discover5 = achievements.find(a => a.id === 'discover_5');
-            const discover10 = achievements.find(a => a.id === 'discover_10');
-            
-            discover5.progress = Math.min(discovered, 5);
-            discover10.progress = Math.min(discovered, 10);
-            
-            if (discovered >= 5 && !discover5.unlocked) {
-                unlockAchievement('discover_5');
-            }
-            
-            if (discovered >= 10 && !discover10.unlocked) {
-                unlockAchievement('discover_10');
-            }
-            
-            // Feuer Achievement
-            if (discoveredElements.has('Feuer') && !achievements.find(a => a.id === 'fire_creator').unlocked) {
-                unlockAchievement('fire_creator');
-            }
-        }
-
-        // === SPIEL BEIM LADEN STARTEN ===
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('🎮 DOM geladen, starte Spiel...');
-            initializeGame();
-        });
-
-        // Fallback für ältere Browser
-        window.addEventListener('load', () => {
-            // Nur starten wenn noch nicht gestartet
-            if (document.getElementById('loadingScreen').style.display !== 'none') {
-                console.log('🎮 Window geladen, starte Spiel als Fallback...');
-                initializeGame();
-            }
-        });
-
-        // Orientierung überwachen
-        window.addEventListener('resize', () => {
-            // Portrait Mode prüfen
-            if (window.innerWidth <= 768 && window.innerHeight > window.innerWidth) {
-                document.querySelector('.portrait-blocker').style.display = 'flex';
-            } else {
-                document.querySelector('.portrait-blocker').style.display = 'none';
-            }
-        });
-    </script>
+    <script src="game.js"></script>
 </body>
 </html>
