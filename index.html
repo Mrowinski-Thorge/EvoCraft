@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="website/website.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Neue Schriftarten für modernes Design -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" href="website/assets/icons/logo.png">
     
@@ -27,8 +26,6 @@
     <link rel="apple-touch-icon" sizes="144x144" href="website/assets/icons/logo.png">
     <link rel="apple-touch-icon" sizes="152x152" href="website/assets/icons/logo.png">
     <link rel="apple-touch-icon" sizes="180x180" href="website/assets/icons/logo.png">
-    
-    <!-- ZUSÄTZLICHE iPad UNTERSTÜTZUNG -->
     <link rel="apple-touch-icon" sizes="1024x1024" href="website/assets/icons/logo.png">
     <link rel="apple-touch-icon" sizes="167x167" href="website/assets/icons/logo.png">
     <link rel="apple-touch-icon" sizes="1024x768" href="website/assets/icons/logo.png">
@@ -44,13 +41,13 @@
                 </div>
                 <span class="logo-text"></span>
             </div>
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="#home" class="nav-link active">Start</a></li>
                 <li><a href="game/game.html" class="nav-link">Spiel</a></li>
                 <li><a href="#faq" class="nav-link">FAQ</a></li>
                 <li><a href="#contact" class="nav-link">Kontakt</a></li>
             </ul>
-            <div class="nav-toggle">
+            <div class="nav-toggle" id="navToggle">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -61,20 +58,18 @@
     <!-- Hero Section -->
     <main>
         <section class="hero" id="home">
-            <!-- Hero Background Image -->
             <img src="website/assets/images/Hero.png" alt="EvoCraft Hero Background" class="hero-background-image">
             <div class="hero-content">
                 <h1 class="hero-title">
                     <span class="title-line">Baue deine Welt</span>
                     <span class="title-line">Gestalte das Klima</span>
                 </h1>
-                
                 <p class="hero-subtitle">
                     Erschaffe deine eigene evolutionäre Realität durch die Macht des wissenschaftlichen Craftings. 
                     Kombiniere Elemente, entwickle Technologien und führe die Menschheit durch alle Zeitalter der Evolution.
                 </p>
                 <button class="cta-button" onclick="window.location.href='game/game.html'">
-                    <span class="button-text">Jetzt spielen</span>
+                    <span class="button-text">Spiel starten</span>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="arrow-icon">
                         <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
@@ -85,20 +80,35 @@
         <!-- Features Section -->
         <section class="features">
             <div class="container">
-                <h2 class="section-title animate-on-scroll">🎮 Entdecke EvoCraft</h2>
+                <h2 class="section-title animate-on-scroll">Entdecke EvoCraft</h2>
                 <div class="features-grid">
                     <div class="feature-card animate-on-scroll" data-animation="slideInLeft">
-                        <div class="feature-icon">🧪</div>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" fill="currentColor"/>
+                                <path d="M12 22L13.09 15.74L22 15L13.09 14.26L12 8L10.91 14.26L2 15L10.91 15.74L12 22Z" fill="currentColor" opacity="0.6"/>
+                            </svg>
+                        </div>
                         <h3>Wissenschaftliches Crafting</h3>
                         <p>Kombiniere Grundelemente durch intuitive Drag & Drop Mechaniken. Entdecke über 500 einzigartige wissenschaftliche Kombinationen und schaffe neue Objekte durch echte chemische Reaktionen.</p>
                     </div>
                     <div class="feature-card animate-on-scroll" data-animation="scaleIn">
-                        <div class="feature-icon">🌍</div>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" fill="currentColor"/>
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="white"/>
+                            </svg>
+                        </div>
                         <h3>Evolutionäre Entwicklung</h3>
                         <p>Von der Urzeit bis zur Singularität - erlebe die gesamte Evolution der Menschheit mit wissenschaftlicher Präzision. Jede Entdeckung bringt dich näher zur nächsten Epoche.</p>
                     </div>
                     <div class="feature-card animate-on-scroll" data-animation="slideInRight">
-                        <div class="feature-icon">🏆</div>
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2L15.09 8.26L22 9L15.09 9.74L12 16L8.91 9.74L2 9L8.91 8.26L12 2Z" fill="currentColor"/>
+                                <circle cx="12" cy="19" r="3" fill="currentColor"/>
+                            </svg>
+                        </div>
                         <h3>Progressives Achievement System</h3>
                         <p>Verfolge deine Entdeckungen in Echtzeit, schalte neue Epochen frei und sammle wissenschaftliche Achievements auf deiner Reise durch Raum und Zeit.</p>
                     </div>
@@ -109,7 +119,7 @@
         <!-- How it Works -->
         <section class="how-it-works">
             <div class="container">
-                <h2 class="section-title animate-on-scroll">⚡ Wie EvoCraft funktioniert</h2>
+                <h2 class="section-title animate-on-scroll">Wie EvoCraft funktioniert</h2>
                 <div class="steps">
                     <div class="step animate-on-scroll" data-animation="slideInLeft">
                         <div class="step-number">1</div>
@@ -130,26 +140,70 @@
             </div>
         </section>
 
-        <!-- FAQ Section -->
+        <!-- FAQ Section - Aufklappbar -->
         <section class="faq" id="faq">
             <div class="container">
-                <h2 class="section-title animate-on-scroll">💡 Häufige Fragen</h2>
+                <h2 class="section-title animate-on-scroll">Häufige Fragen</h2>
                 <div class="faq-grid">
                     <div class="faq-item animate-on-scroll" data-animation="slideInLeft">
-                        <h3>🔬 Wie funktioniert das Crafting-System?</h3>
-                        <p>Das Crafting basiert auf echten wissenschaftlichen Prinzipien. Ziehe Elemente in die Kombinationsfelder und beobachte realistische chemische Reaktionen. Jede Kombination folgt den Gesetzen der Physik und Chemie.</p>
+                        <button class="faq-question">
+                            Wie funktioniert das Crafting-System?
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Das Crafting basiert auf echten wissenschaftlichen Prinzipien. Ziehe Elemente in die Kombinationsfelder und beobachte realistische chemische Reaktionen. Jede Kombination folgt den Gesetzen der Physik und Chemie. Du startest mit den vier Grundelementen und entdeckst schrittweise komplexere Verbindungen und Technologien.
+                            </div>
+                        </div>
                     </div>
                     <div class="faq-item animate-on-scroll" data-animation="slideInRight">
-                        <h3>🎯 Wie viele Items kann ich entdecken?</h3>
-                        <p>Über 500 wissenschaftlich fundierte Items warten auf deine Entdeckung - von einfachen Molekülen bis zu komplexen Quantentechnologien. Jedes Item ist historisch und wissenschaftlich korrekt implementiert.</p>
+                        <button class="faq-question">
+                            Wie viele Items kann ich entdecken?
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Über 500 wissenschaftlich fundierte Items warten auf deine Entdeckung - von einfachen Molekülen bis zu komplexen Quantentechnologien. Jedes Item ist historisch und wissenschaftlich korrekt implementiert. Die Entdeckungen reichen von prähistorischen Werkzeugen bis zu futuristischen Technologien.
+                            </div>
+                        </div>
                     </div>
                     <div class="faq-item animate-on-scroll" data-animation="slideInLeft">
-                        <h3>💾 Wird mein Fortschritt gespeichert?</h3>
-                        <p>Ja! Deine gesamte evolutionäre Entwicklung wird automatisch in deinem Browser gespeichert. Du kannst auch manuell Sicherungspunkte erstellen und zwischen Geräten synchronisieren.</p>
+                        <button class="faq-question">
+                            Wird mein Fortschritt gespeichert?
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Ja! Deine gesamte evolutionäre Entwicklung wird automatisch in deinem Browser gespeichert. Du kannst auch manuell Sicherungspunkte erstellen und zwischen Geräten synchronisieren. Alle deine Entdeckungen, freigeschalteten Epochen und Achievements bleiben dauerhaft erhalten.
+                            </div>
+                        </div>
                     </div>
                     <div class="faq-item animate-on-scroll" data-animation="slideInRight">
-                        <h3>🧬 Ist das Spiel wissenschaftlich korrekt?</h3>
-                        <p>Absolut! EvoCraft wurde in Zusammenarbeit mit Wissenschaftlern entwickelt. Alle Kombinationen und Entwicklungen basieren auf realen wissenschaftlichen Erkenntnissen und historischen Evolutionsschritten.</p>
+                        <button class="faq-question">
+                            Ist das Spiel wissenschaftlich korrekt?
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Absolut! EvoCraft wurde in Zusammenarbeit mit Wissenschaftlern entwickelt. Alle Kombinationen und Entwicklungen basieren auf realen wissenschaftlichen Erkenntnissen und historischen Evolutionsschritten. Das Spiel vermittelt echtes Wissen über Chemie, Physik und die Geschichte der menschlichen Zivilisation.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faq-item animate-on-scroll" data-animation="slideInLeft">
+                        <button class="faq-question">
+                            Kann ich das Spiel offline spielen?
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Ja, nach dem ersten Laden funktioniert EvoCraft vollständig offline. Alle Spielmechaniken, Kombinationen und Speicherfunktionen sind lokal verfügbar. Du benötigst nur eine Internetverbindung für Updates und das Synchronisieren zwischen Geräten.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faq-item animate-on-scroll" data-animation="slideInRight">
+                        <button class="faq-question">
+                            Gibt es Tipps für Anfänger?
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                Beginne systematisch mit den Grundelementen und experimentiere ausgiebig. Viele Kombinationen sind intuitiv - denke an reale chemische Reaktionen. Nutze das Hilfesystem im Spiel und scheue dich nicht, ungewöhnliche Kombinationen auszuprobieren. Jeder Fehlversuch bringt dich dem nächsten Durchbruch näher!
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -158,18 +212,27 @@
         <!-- Contact Section -->
         <section class="contact contact-section" id="contact">
             <div class="container">
-                <h2 class="section-title animate-on-scroll">🚀 Werde Teil der Community</h2>
+                <h2 class="section-title animate-on-scroll">Werde Teil der Community</h2>
                 <div class="contact-content">
                     <p class="animate-on-scroll">Hast du Fragen, Vorschläge oder Feedback zur Evolution? Schließe dich unserer wissenschaftlichen Community an!</p>
                     <div class="contact-links">
                         <a href="https://github.com/Mrowinski-Thorge/EvoCraft" class="contact-link animate-on-scroll" data-animation="slideInLeft">
-                            🧬 GitHub Projekt
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            GitHub Projekt
                         </a>
                         <a href="https://github.com/Mrowinski-Thorge/EvoCraft/issues" class="contact-link animate-on-scroll" data-animation="scaleIn">
-                            🐛 Bug melden
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                            </svg>
+                            Bug melden
                         </a>
                         <a href="mailto:EvoCrafty@proton.me" class="contact-link animate-on-scroll" data-animation="slideInRight">
-                            📧 E-Mail senden
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                            </svg>
+                            E-Mail senden
                         </a>
                     </div>
                 </div>
@@ -187,19 +250,19 @@
                 </div>
                 <div class="footer-links">
                     <div class="footer-group">
-                        <h4>🎮 Spiel</h4>
+                        <h4>Spiel</h4>
                         <a href="game/game.html">Jetzt spielen</a>
                         <a href="#faq">Spielhilfe</a>
                         <a href="#home">Features</a>
                     </div>
                     <div class="footer-group">
-                        <h4>🔬 Projekt</h4>
+                        <h4>Projekt</h4>
                         <a href="https://github.com/Mrowinski-Thorge/EvoCraft" target="_blank">GitHub Repository</a>
                         <a href="#contact">Community</a>
                         <a href="https://github.com/Mrowinski-Thorge/EvoCraft/releases" target="_blank">Updates</a>
                     </div>
                     <div class="footer-group">
-                        <h4>📋 Rechtliches</h4>
+                        <h4>Rechtliches</h4>
                         <a href="website/sites/privacy.html">Datenschutz</a>
                         <a href="website/sites/imprint.html">Impressum</a>
                         <a href="https://github.com/Mrowinski-Thorge/EvoCraft/blob/main/LICENSE" target="_blank">Lizenz</a>
