@@ -121,7 +121,7 @@ body {
 }
 
 .logo-text-img {
-    height: 50px;  /* Gleiche Höhe wie Logo */
+    height: 70px;  /* Viel größer - Sie können dies auf 80px oder 90px ändern */
     width: auto;
 }
 
@@ -276,9 +276,10 @@ body {
 
 .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(4rem, 10vw, 7rem);  /* Größer */
+    font-size: clamp(3.5rem, 8vw, 5.5rem);  /* Kleiner gemacht */
     font-weight: 700;
     margin-bottom: 25px;
+    margin-top: 20px;  /* Nach unten verschoben */
     line-height: 1.1;
     background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-gold) 50%, var(--text-primary) 100%);
     background-size: 200% 200%;
@@ -639,9 +640,9 @@ section {
 .preview-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    gap: 60px;  /* Kleiner Gap */
     align-items: center;
-    text-align: center;  /* Mittiger */
+    padding: 0 40px;  /* Innen-Padding für Zentrierung */
 }
 
 .preview-text {
@@ -711,7 +712,8 @@ section {
 
 .preview-img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;  /* Füllt den kompletten Rahmen aus */
     border-radius: 10px;
 }
 
@@ -1127,4 +1129,63 @@ section {
     .logo-text-img {
         height: 40px;
     }
+}
+/* Impressum & Datenschutz Seiten */
+.back-button {
+    position: fixed;
+    top: 30px;
+    left: 50px;  /* Weiter nach rechts */
+    background: linear-gradient(135deg, var(--primary-gold), var(--primary-gold-dark));
+    color: var(--bg-dark);
+    border: 2px solid transparent;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+    z-index: 100;
+}
+
+.back-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg), var(--shadow-gold);
+    border-color: var(--text-gold);
+}
+
+.legal-container {
+    max-width: 800px;
+    margin: 100px auto 50px;
+    padding: 0 20px;
+    background: var(--bg-card);
+    border-radius: 20px;
+    padding: 40px;
+    border: 2px solid var(--border-color);
+}
+
+.legal-title {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    color: var(--primary-gold);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.legal-content {
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+.legal-content h2 {
+    color: var(--text-primary);
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.legal-content p {
+    margin-bottom: 15px;
 }
