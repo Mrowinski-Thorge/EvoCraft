@@ -121,7 +121,7 @@ body {
 }
 
 .logo-text-img {
-    height: 70px;  /* Viel größer - Sie können dies auf 80px oder 90px ändern */
+    height: 100px;  /* Viel größer - Sie können dies auf 80px oder 90px ändern */
     width: auto;
 }
 
@@ -279,7 +279,7 @@ body {
     font-size: clamp(3.5rem, 8vw, 5.5rem);  /* Kleiner gemacht */
     font-weight: 700;
     margin-bottom: 25px;
-    margin-top: 20px;  /* Nach unten verschoben */
+    margin-top: 30px;  /* Nach unten verschoben */
     line-height: 1.1;
     background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-gold) 50%, var(--text-primary) 100%);
     background-size: 200% 200%;
