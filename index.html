@@ -5,7 +5,7 @@
      crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EvoCraft - Crafte deine evolutionäre Realität</title>
+    <title>EvoCraft - Erschaffe deine evolutionäre Realität</title>
     <link rel="stylesheet" href="website/website.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,19 +19,6 @@
     <link rel="apple-touch-icon" href="website/assets/icons/logo.png">
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loading-content">
-            <div class="loading-logo">
-                <img src="website/assets/icons/logo.png" alt="EvoCraft Logo" class="loading-logo-img">
-            </div>
-            <div class="loading-bar">
-                <div class="loading-progress"></div>
-            </div>
-            <div class="loading-text">Lade evolutionäre Realität...</div>
-        </div>
-    </div>
-
     <!-- Header -->
     <header class="header" id="header">
         <nav class="nav">
@@ -43,7 +30,7 @@
                 <ul class="nav-menu" id="navMenu">
                     <li><a href="#home" class="nav-link active" data-text="Start">Start</a></li>
                     <li><a href="game/game.html" class="nav-link play-link" data-text="Spielen">
-                        <span class="play-icon">▶</span> Spielen
+                        Spielen
                     </a></li>
                     <li><a href="#features" class="nav-link" data-text="Features">Features</a></li>
                     <li><a href="#faq" class="nav-link" data-text="FAQ">FAQ</a></li>
@@ -76,17 +63,6 @@
                     Von den ersten Molekülen bis zur technologischen Singularität - 
                     kombiniere über 500 Elemente und schreibe die Geschichte der Evolution neu.
                 </p>
-                <div class="hero-buttons">
-                    <button class="btn-primary" onclick="window.location.href='game/game.html'">
-                        <span class="btn-icon">🎮</span>
-                        <span class="btn-text">Jetzt spielen</span>
-                        <span class="btn-shine"></span>
-                    </button>
-                    <button class="btn-secondary" onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})">
-                        <span class="btn-icon">📖</span>
-                        <span class="btn-text">Mehr erfahren</span>
-                    </button>
-                </div>
                 <div class="hero-stats">
                     <div class="stat-item">
                         <span class="stat-number">500+</span>
@@ -103,10 +79,16 @@
                         <span class="stat-label">Möglichkeiten</span>
                     </div>
                 </div>
-            </div>
-            <div class="hero-scroll">
-                <div class="scroll-indicator">
-                    <span class="scroll-arrow"></span>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="window.location.href='game/game.html'">
+                        <span class="btn-icon">🎮</span>
+                        <span class="btn-text">Jetzt spielen</span>
+                        <span class="btn-shine"></span>
+                    </button>
+                    <button class="btn-secondary" onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})">
+                        <span class="btn-icon">📖</span>
+                        <span class="btn-text">Mehr erfahren</span>
+                    </button>
                 </div>
             </div>
         </section>
@@ -174,7 +156,7 @@
                 </div>
                 
                 <div class="steps-container">
-                    <div class="step-card" data-aos="fade-right">
+                    <div class="step-card" data-aos="slide-in-left">
                         <div class="step-number">01</div>
                         <div class="step-content">
                             <h3 class="step-title">Wähle Elemente</h3>
@@ -187,7 +169,7 @@
                     
                     <div class="step-connector"></div>
                     
-                    <div class="step-card" data-aos="fade-up">
+                    <div class="step-card" data-aos="slide-in-left" data-aos-delay="200">
                         <div class="step-number">02</div>
                         <div class="step-content">
                             <h3 class="step-title">Kombiniere</h3>
@@ -200,7 +182,7 @@
                     
                     <div class="step-connector"></div>
                     
-                    <div class="step-card" data-aos="fade-left">
+                    <div class="step-card" data-aos="slide-in-left" data-aos-delay="400">
                         <div class="step-number">03</div>
                         <div class="step-content">
                             <h3 class="step-title">Erschaffe</h3>
