@@ -1,4 +1,4 @@
-// // EvoCraft Website JavaScript - Professional Game Style
+// EvoCraft Website JavaScript - Professional Game Style
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all components
@@ -56,8 +56,11 @@ function initNavigation() {
     
     // Active link based on scroll
     const sections = document.querySelectorAll('section[id]');
+    let isScrolling = false;
     
     window.addEventListener('scroll', () => {
+        if (isScrolling) return;
+        
         const scrollY = window.pageYOffset;
         
         sections.forEach(section => {
@@ -74,6 +77,21 @@ function initNavigation() {
                 });
             }
         });
+    });
+    
+    // Verhindere doppelte Markierung beim Klick
+    navLinks.forEach(link => {
+        if (link.getAttribute('href').startsWith('#')) {
+            link.addEventListener('click', () => {
+                isScrolling = true;
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                setTimeout(() => {
+                    isScrolling = false;
+                }, 1000);
+            });
+        }
     });
 }
 
