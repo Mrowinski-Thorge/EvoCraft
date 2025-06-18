@@ -1,8 +1,7 @@
-// EvoCraft Website JavaScript - Professional Game Style
+// // EvoCraft Website JavaScript - Professional Game Style
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all components
-    initLoadingScreen();
     initNavigation();
     initParticles();
     initScrollEffects();
@@ -10,18 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initAnimations();
     initSmoothScroll();
 });
-
-// Loading Screen
-function initLoadingScreen() {
-    const loadingScreen = document.getElementById('loadingScreen');
-    
-    // Simulate loading
-    setTimeout(() => {
-        loadingScreen.classList.add('hide');
-        // Start hero animations after loading
-        startHeroAnimations();
-    }, 2000);
-}
 
 // Navigation
 function initNavigation() {
@@ -95,7 +82,7 @@ function initParticles() {
     const particlesContainer = document.getElementById('particles');
     if (!particlesContainer) return;
     
-    const particleCount = 50;
+    const particleCount = 30;
     
     for (let i = 0; i < particleCount; i++) {
         createParticle(particlesContainer);
@@ -150,40 +137,24 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Scroll Effects
+// Scroll Effects - Früher triggern
 function initScrollEffects() {
     const observerOptions = {
-        threshold: 0.1,
+        threshold: 0.2,  // Bei 20% sichtbar
         rootMargin: '0px 0px -50px 0px'
     };
     
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-                
-                // Add animation class if specified
-                const animation = entry.target.dataset.aos;
-                if (animation) {
-                    entry.target.classList.add('aos-animate');
-                }
+                entry.target.classList.add('aos-animate');
             }
         });
     }, observerOptions);
     
     // Observe all elements with data-aos attribute
     document.querySelectorAll('[data-aos]').forEach(element => {
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(30px)';
-        element.style.transition = 'all 0.6s ease-out';
         observer.observe(element);
-    });
-    
-    // Special animations for specific elements
-    const fadeUpElements = document.querySelectorAll('[data-aos="fade-up"]');
-    fadeUpElements.forEach((element, index) => {
-        element.style.transitionDelay = `${index * 0.1}s`;
     });
 }
 
@@ -217,26 +188,6 @@ function initFAQ() {
             }
         });
     });
-}
-
-// Hero Animations
-function startHeroAnimations() {
-    // Animate hero content
-    const heroContent = document.querySelector('.hero-content');
-    if (heroContent) {
-        heroContent.style.opacity = '1';
-    }
-    
-    // Scroll indicator animation
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    if (scrollIndicator) {
-        scrollIndicator.addEventListener('click', () => {
-            const featuresSection = document.getElementById('features');
-            if (featuresSection) {
-                featuresSection.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    }
 }
 
 // Additional Animations
@@ -362,22 +313,6 @@ const optimizedScroll = debounce(() => {
 }, 10);
 
 window.addEventListener('scroll', optimizedScroll);
-
-// Preload critical images
-function preloadImages() {
-    const images = [
-        'website/assets/images/Hero.png',
-        'website/assets/icons/logo.png',
-        'website/assets/icons/lettering.png'
-    ];
-    
-    images.forEach(src => {
-        const img = new Image();
-        img.src = src;
-    });
-}
-
-preloadImages();
 
 // Easter egg - Console message
 console.log('%c🧬 EvoCraft - Die Evolution beginnt hier!', 
