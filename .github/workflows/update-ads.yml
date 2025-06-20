@@ -21,6 +21,10 @@ jobs:
           git config --global user.email "bot@ezoic.com"
           git add ads.txt
           git commit -m "🔁 Auto-Update ads.txt"
+          git remote set-url origin https://EzoicBot:${{ secrets.PAT_TOKEN }}@github.com/Mrowinski-Thorge/EvoCraft.git
           git push
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          env:
+          GIT_ASKPASS: echo
+          GIT_USERNAME: "EzoicBot"
+          GIT_PASSWORD: ${{ secrets.PAT_TOKEN }}
+
