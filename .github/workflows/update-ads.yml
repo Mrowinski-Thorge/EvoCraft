@@ -1,4 +1,4 @@
-name: Update ads.txt täglich
+name: Update ads.txt Täglich
 
 on:
   schedule:
