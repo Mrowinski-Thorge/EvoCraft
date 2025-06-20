@@ -1,0 +1,26 @@
+name: Update ads.txt täglich
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Täglich um 2 Uhr UTC
+  workflow_dispatch:
+
+jobs:
+  update-ads:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔁 Repository klonen
+        uses: actions/checkout@v3
+
+      - name: 🌐 Neue ads.txt herunterladen
+        run: curl -L https://srv.adstxtmanager.com/19390/evocrafty.com -o ads.txt
+
+      - name: 📤 Änderungen committen & pushen
+        run: |
+          git config --global user.name "EzoicBot"
+          git config --global user.email "bot@ezoic.com"
+          git add ads.txt
+          git commit -m "🔁 Auto-Update ads.txt"
+          git push
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
