@@ -90,7 +90,7 @@ body {
 }
 
 .nav {
-    padding: 15px 0;
+    padding: 8px 0;  /* Reduziert von 15px auf 8px */
 }
 
 .nav-container {
@@ -115,14 +115,34 @@ body {
 }
 
 .logo-img {
-    width: 50px;
-    height: 50px;
+    width: 40px;  /* Reduziert von 50px */
+    height: 40px;
     filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
 }
 
 .logo-text-img {
-    height: 100px;  /* Viel größer - Sie können dies auf 80px oder 90px ändern */
+    height: 80px;  /* Reduziert von 100px */
     width: auto;
+}
+
+/* Logo Container für Legal Pages */
+.logo-container {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    width: 40px;
+    height: 40px;
+    background: url('../assets/icons/logo.png') center/contain no-repeat;
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+}
+
+.logo-text {
+    display: none;  /* Text-Logo auf Legal Pages versteckt */
 }
 
 .nav-menu {
@@ -140,6 +160,11 @@ body {
     font-size: 16px;
     transition: var(--transition-normal);
     padding: 8px 0;
+}
+
+/* Zurück-Link auf Legal Pages */
+.nav-menu .nav-link {
+    margin-left: 40px;  /* Weiter nach rechts */
 }
 
 .nav-link::before {
@@ -258,7 +283,7 @@ body {
     text-align: center;
     max-width: 900px;
     padding: 0 20px;
-    margin-top: -100px;  /* Weiter nach oben */
+    margin-top: 50px;  /* Von -100px auf 50px geändert - verschiebt alles nach unten */
 }
 
 .hero-badge {
@@ -703,25 +728,26 @@ section {
     background: var(--bg-card);
     border: 3px solid var(--border-color);
     border-radius: 20px;
-    padding: 20px;
+    padding: 0;  /* Von 20px auf 0 reduziert */
     box-shadow: var(--shadow-xl);
     overflow: hidden;
-    margin: 0 auto;  /* Zentriert */
-    max-width: 500px;
+    margin: 0 auto;
+    max-width: 600px;  /* Von 500px auf 600px erhöht */
+    height: 400px;  /* Feste Höhe hinzugefügt */
 }
 
 .preview-img {
     width: 100%;
     height: 100%;
     object-fit: cover;  /* Füllt den kompletten Rahmen aus */
-    border-radius: 10px;
+    border-radius: 0;  /* Von 10px auf 0 */
 }
 
 .preview-overlay {
     position: absolute;
-    inset: 20px;
+    inset: 0;  /* Von 20px auf 0 geändert */
     background: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
+    border-radius: 20px;  /* An den Frame-Border-Radius angepasst */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1024,6 +1050,10 @@ section {
 
 /* Responsive Design */
 @media (max-width: 1024px) {
+    .hero-content {
+        margin-top: 20px;  /* Weniger Verschiebung auf Tablets */
+    }
+    
     .steps-container {
         flex-direction: column;
         gap: 30px;
@@ -1041,6 +1071,18 @@ section {
     .preview-frame {
         max-width: 600px;
         margin: 0 auto;
+        height: 350px;  /* Etwas kleiner auf Tablets */
+    }
+    
+    /* Legal Pages - iPad */
+    .logo-container,
+    .logo {
+        width: 50px;  /* Größer auf iPad */
+        height: 50px;
+    }
+    
+    .nav-menu .nav-link {
+        font-size: 18px;  /* Größerer Text auf iPad */
     }
 }
 
@@ -1123,13 +1165,35 @@ section {
     }
     
     .hero-content {
-        margin-top: -50px;
+        margin-top: 10px;  /* Noch weniger Verschiebung auf Mobile */
+    }
+    
+    .logo-img {
+        width: 35px;  /* Noch kleiner auf Mobile */
+        height: 35px;
     }
     
     .logo-text-img {
-        height: 40px;
+        height: 60px;  /* Angepasst von 40px */
+    }
+    
+    .preview-frame {
+        height: 250px;  /* Kleinere Höhe auf Mobile */
+    }
+    
+    /* Legal Pages - Mobile */
+    .logo-container,
+    .logo {
+        width: 60px;  /* Viel größer auf Mobile */
+        height: 60px;
+    }
+    
+    .nav-menu .nav-link {
+        font-size: 20px;  /* Viel größerer Text auf Mobile */
+        font-weight: 600;
     }
 }
+
 /* Impressum & Datenschutz Seiten */
 .back-button {
     position: fixed;
