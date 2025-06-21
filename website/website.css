@@ -90,7 +90,7 @@ body {
 }
 
 .nav {
-    padding: 5px 0;  /* Noch schmaler - von 8px auf 5px */
+    padding: 2px 0;  /* Noch schmaler - von 8px auf 5px */
 }
 
 .nav-container {
@@ -100,6 +100,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    height: 60px;  /* Feste Höhe setzen *
 }
 
 .nav-logo {
