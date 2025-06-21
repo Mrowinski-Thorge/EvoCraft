@@ -90,7 +90,7 @@ body {
 }
 
 .nav {
-    padding: 8px 0;  /* Reduziert von 15px auf 8px */
+    padding: 5px 0;  /* Noch schmaler - von 8px auf 5px */
 }
 
 .nav-container {
@@ -105,7 +105,7 @@ body {
 .nav-logo {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;  /* Kleiner Gap für kompakteres Design */
     cursor: pointer;
     transition: var(--transition-normal);
 }
@@ -115,28 +115,28 @@ body {
 }
 
 .logo-img {
-    width: 40px;  /* Reduziert von 50px */
-    height: 40px;
+    width: 50px;  /* 10px größer - von 40px auf 50px */
+    height: 50px;
     filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
 }
 
 .logo-text-img {
-    height: 80px;  /* Reduziert von 100px */
+    height: 105px;  /* 25px größer - von 80px auf 105px */
     width: auto;
 }
 
 /* Logo Container für Legal Pages */
 .logo-container {
-    width: 40px;
-    height: 40px;
+    width: 50px;  /* Gleiche Größe wie Hauptlogo */
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .logo {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     background: url('../assets/icons/logo.png') center/contain no-repeat;
     filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
 }
@@ -241,7 +241,7 @@ body {
 /* Hero Section */
 .hero {
     position: relative;
-    min-height: 100vh;
+    min-height: 90vh;  /* Etwas kleiner für bessere Proportionen */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -283,7 +283,7 @@ body {
     text-align: center;
     max-width: 900px;
     padding: 0 20px;
-    margin-top: 50px;  /* Von -100px auf 50px geändert - verschiebt alles nach unten */
+    margin-top: -30px;  /* Viel weiter oben positioniert für den Look wie in den Bildern */
 }
 
 .hero-badge {
@@ -295,7 +295,7 @@ body {
     border-radius: 50px;
     font-size: 14px;
     font-weight: 500;
-    margin-bottom: 20px;
+    margin-bottom: 15px;  /* Etwas weniger Abstand */
     backdrop-filter: blur(10px);
 }
 
@@ -303,8 +303,8 @@ body {
     font-family: var(--font-display);
     font-size: clamp(3.5rem, 8vw, 5.5rem);  /* Kleiner gemacht */
     font-weight: 700;
-    margin-bottom: 25px;
-    margin-top: 30px;  /* Nach unten verschoben */
+    margin-bottom: 20px;  /* Weniger Abstand nach unten */
+    margin-top: 20px;  /* Weniger Abstand nach oben */
     line-height: 1.1;
     background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-gold) 50%, var(--text-primary) 100%);
     background-size: 200% 200%;
@@ -320,7 +320,7 @@ body {
 .hero-subtitle {
     font-size: clamp(1.3rem, 2.5vw, 1.6rem);  /* Größer */
     color: var(--text-primary);
-    margin-bottom: 40px;
+    margin-bottom: 35px;  /* Weniger Abstand */
     line-height: 1.6;
     max-width: 700px;
     margin-left: auto;
@@ -334,7 +334,7 @@ body {
     justify-content: center;
     gap: 40px;
     flex-wrap: wrap;
-    margin-bottom: 50px;
+    margin-bottom: 40px;  /* Weniger Abstand */
     opacity: 1;
     animation: fadeInUp 0.8s ease-out;
 }
@@ -1051,7 +1051,7 @@ section {
 /* Responsive Design */
 @media (max-width: 1024px) {
     .hero-content {
-        margin-top: 20px;  /* Weniger Verschiebung auf Tablets */
+        margin-top: -25px;  /* Auch auf Tablets weiter oben */
     }
     
     .steps-container {
@@ -1077,8 +1077,8 @@ section {
     /* Legal Pages - iPad */
     .logo-container,
     .logo {
-        width: 50px;  /* Größer auf iPad */
-        height: 50px;
+        width: 60px;  /* Etwas größer auf iPad */
+        height: 60px;
     }
     
     .nav-menu .nav-link {
@@ -1108,6 +1108,10 @@ section {
     
     .nav-toggle {
         display: flex;
+    }
+    
+    .nav {
+        padding: 5px 0;  /* Schmaler auch auf Tablets */
     }
     
     .hero-title {
@@ -1165,16 +1169,20 @@ section {
     }
     
     .hero-content {
-        margin-top: 10px;  /* Noch weniger Verschiebung auf Mobile */
+        margin-top: -20px;  /* Auch auf Mobile weiter oben */
     }
     
     .logo-img {
-        width: 35px;  /* Noch kleiner auf Mobile */
-        height: 35px;
+        width: 85px;  /* 50px größer - von 35px auf 85px */
+        height: 85px;
     }
     
     .logo-text-img {
-        height: 60px;  /* Angepasst von 40px */
+        height: 95px;  /* 35px größer - von 60px auf 95px */
+    }
+    
+    .nav {
+        padding: 4px 0;  /* Schmaler auch auf Mobile */
     }
     
     .preview-frame {
@@ -1184,8 +1192,8 @@ section {
     /* Legal Pages - Mobile */
     .logo-container,
     .logo {
-        width: 60px;  /* Viel größer auf Mobile */
-        height: 60px;
+        width: 85px;  /* Gleiche Größe wie Hauptlogo auf Mobile */
+        height: 85px;
     }
     
     .nav-menu .nav-link {
@@ -1194,7 +1202,20 @@ section {
     }
 }
 
-/* Impressum & Datenschutz Seiten */
+@media (max-width: 380px) {
+    .logo-img {
+        width: 70px;  /* Etwas kleiner auf sehr kleinen Bildschirmen */
+        height: 70px;
+    }
+    
+    .logo-text-img {
+        height: 85px;  /* Etwas kleiner auf sehr kleinen Bildschirmen */
+    }
+    
+    .hero-content {
+        margin-top: -15px;  /* Noch kompakter auf sehr kleinen Bildschirmen */
+    }
+}
 .back-button {
     position: fixed;
     top: 30px;
